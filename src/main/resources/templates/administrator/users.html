@@ -36,13 +36,16 @@
                                                 <a href="" class="btn">Xuất PDF </a>
                                             </div>
                                             <div class="element_button_NewUser">
-                                                <a href="" class="btn">Thêm </a>
+                                                <a th:href="@{users/create}" class="btn">Thêm </a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="table_order">
                                         <div class="title">
                                             <h3>Danh sách người dùng</h3>
+                                        </div>
+                                        <div th:if="${message != null}" class=" alert alert-success text-center">
+                                           [[${message}]]
                                         </div>
                                         <div>
                                             <table class="table table-responsive table-hover table-striped table-bordered table_content" >
@@ -61,6 +64,7 @@
                                                 <tbody>
                                                     <tr th:each="user : ${listUsers}">
                                                         <td th:text="${user.id}"></td>
+                                                        <td></td>
                                                         <td th:text="${user.email}"></td>
                                                         <td th:text="${user.firstName}"></td>
                                                         <td th:text="${user.lastName}"></td>
@@ -83,6 +87,6 @@
         </div>
     </section>
     <div th:replace="~{administrator/common :: footer}"></div>
-    <div th:replace="~{administrator/common :: js}"></div>
+    <span th:replace="~{administrator/common :: js}"></span>
 </body>
 </html>

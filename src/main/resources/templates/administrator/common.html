@@ -21,6 +21,7 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 </head>
 <body>
+
 <div th:fragment="header">
     <div class="header fixed-top">
         <div class="container-fluid ">
@@ -83,7 +84,7 @@
     </div>
 </div>
 
-<div th:fragment="js">
+<span th:fragment="js">
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap core JS-->
@@ -94,7 +95,7 @@
 
     <!-- Core theme JS-->
     <script th:src="@{/js/administrator/style.js}"></script>
-</div>
+</span>
 
 <div th:fragment="footer" class="text-center">
     <p>QT Sneaker Panel - Copyright &copy; QT Sneaker Panel</p>

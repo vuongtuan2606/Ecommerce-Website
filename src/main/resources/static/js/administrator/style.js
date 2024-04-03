@@ -30,3 +30,7 @@ function CloseModal(i) {
 	modal.style.display = "none";
 }
 
+function redirectToAdminUsers() {
+    var url = "/admin/users";
+    window.location.href = url;
+}
