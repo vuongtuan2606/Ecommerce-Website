@@ -11,6 +11,11 @@ public interface UserService {
     List<Role> findRoleAll();
     void save(User user);
 
+
     void encodePassword(User user);
+
+    boolean isEmailUnique(Integer id,String email);
+
+    User findById(Integer id) throws UserNotFoundException;
 
 }

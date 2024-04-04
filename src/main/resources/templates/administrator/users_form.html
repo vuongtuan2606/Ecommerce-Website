@@ -11,7 +11,7 @@
                     <div class="col-xxl-12 col-xl-12 col-md-12  ">
                         <div class="home_content ">
                             <div class="title">
-                                <p>Quản lý người dùng | Thêm mới</p>
+                                <p>Quản lý người dùng | [[${pageTitle}]]</p>
                             </div>
                             <div class="date_time">
                                 <p id="current-date"></p> <p id="current-time"></p>
@@ -19,9 +19,14 @@
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <div class="col-xxl-6 col-xl-6 col-md-6">
+                        <div class="col-xxl-12 col-xl-12 col-md-12">
                             <div class="user-from-box-shadow">
-                                <form th:action="@{/admin/users/save}" method="post" th:object="${newUser}">
+                                <!-- th:object="${user} <-> entity User-->
+                                <form th:action="@{/admin/users/save}" method="post"
+                                      th:object="${user}"
+                                      onsubmit="return checkEmailUnique(this);">
+                                    <input type="hidden" th:field="*{id}">
+
                                     <div class="form_user clearfix">
                                         <h4 class="form_user_title">NHẬP THÔNG TIN</h4>
                                         <fieldset class="form-group ">
@@ -38,12 +43,16 @@
                                         </fieldset>
                                         <fieldset class="form-group ">
                                             <label>Password<span class="required">*</span></label>
-                                            <input  type="password"  class="form-control " th:field="*{password}" required minlength="8" maxlength="20" >
+                                            <input  type="password"  class="form-control" th:field="*{password}"
+                                                    th:if="${user.id == null}"  required minlength="8" maxlength="20" >
+                                            <input placeholder="bỏ qua nếu bạn không muốn thay đổi password" type="password"  class="form-control" th:field="*{password}"
+                                                   th:if="${user.id != null}"   minlength="8" maxlength="20" >
                                         </fieldset>
                                         <fieldset class="form-group ">
                                             <label>Role<span class="required">*</span></label>
                                             <br>
                                             <th:block th:each="role : ${listRoles}" >
+                                                <!-- private Set<Role> roles = new HashSet<Role>()-->
                                                 <input type="checkbox" th:field="*{roles}"
                                                     th:text="${role.name}"
                                                     th:value="${role.id}"
@@ -62,6 +71,23 @@
                                         </div>
                                     </div>
                                 </form>
+                               <!--  Modal -->
+                                <div class="modal" id="errorModal" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" style="font-weight: 600">Thông báo</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" >
+                                                <p style="text-align: center" id="modalBody"></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -71,6 +97,38 @@
     </section>
     <div th:replace="~{administrator/common :: footer}"></div>
     <span th:replace="~{administrator/common :: js}"></span>
+    <script type="text/javascript">
+        function checkEmailUnique(form) {
+            var url = "[[@{/users/check_email}]]";
+            var userId =  $("#id").val();
+            var userEmail = $("#email").val();
+            var csrfValue = $("input[name='_csrf']").val();
+            var params = {id:userId, email: userEmail, _csrf: csrfValue };
+
+            $.post(url, params, function(response) {
+                if (response == "OK") {
+                    form.submit();
+                } else if (response == "Duplicated") {
+
+                    $("#modalBody").text("Email đã tồn tại: " + userEmail);
+
+                    var myModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+                    myModal.show();
+                }
+                else {
+                    $("#modalBody").text("Không phản hồi từ máy chủ");
+
+                    var myModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+                    myModal.show();
+                }
+            });
+            return false;
+        }
+    </script>
+
+
 
 </body>
 </html>

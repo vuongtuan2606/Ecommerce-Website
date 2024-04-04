@@ -62,16 +62,26 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr th:each="user : ${listUsers}">
+                                                    <tr th:each="user : ${user}">
                                                         <td th:text="${user.id}"></td>
-                                                        <td></td>
+                                                        <td><i class="bi bi-person-bounding-box" style="color: darkgrey"></i></td>
                                                         <td th:text="${user.email}"></td>
                                                         <td th:text="${user.firstName}"></td>
                                                         <td th:text="${user.lastName}"></td>
                                                         <td th:text="${user.roles}"></td>
-                                                        <td th:text="${user.enabled}"></td>
                                                         <td>
-                                                            Edit &nbsp; Delete
+                                                            <a th:if="${user.enabled == true}">
+                                                                <i class="bi bi-check-circle-fill" style="color: green"></i>
+                                                            </a>
+                                                            <a th:if="${user.enabled == false}">
+                                                                <i class="bi bi-check-circle-fill" style="color: darkgrey"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a class="bi bi-pencil-square" style="color: mediumblue;font-size: 20px"
+                                                               th:href="@{'/admin/users/edit/' + ${user.id}}" >
+                                                            </a>
+                                                            <i class="bi bi-trash" style="color: darkgrey"></i>
                                                         </td>
                                                     </tr>
                                                 </tbody>

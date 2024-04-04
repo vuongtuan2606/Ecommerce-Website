@@ -33,8 +33,7 @@ public class User {
         this.lastName = lastName;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+    @ManyToMany()
     @JoinTable(name = "tbl_user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
