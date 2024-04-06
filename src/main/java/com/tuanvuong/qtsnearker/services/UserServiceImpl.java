@@ -4,7 +4,7 @@ import com.tuanvuong.qtsnearker.dao.RoleRepository;
 import com.tuanvuong.qtsnearker.dao.UserRepository;
 import com.tuanvuong.qtsnearker.entity.Role;
 import com.tuanvuong.qtsnearker.entity.User;
-import jakarta.persistence.EntityManager;
+import com.tuanvuong.qtsnearker.services.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,14 +12,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepo;
-
 
     @Autowired
     private RoleRepository roleRepo;
@@ -36,7 +35,6 @@ public class UserServiceImpl implements UserService {
     public List<Role> findRoleAll() {
         return (List<Role>) roleRepo.findAll();
     }
-
 
 
     @Override
@@ -91,7 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
         // Kiểm tra xem đây có phải là việc cập nhật người dùng không
         boolean isUpdatingUser = (user.getId() != null);
 
@@ -111,6 +109,22 @@ public class UserServiceImpl implements UserService {
             encodePassword(user);
         }
         // Lưu hoặc cập nhật đối tượng người dùng vào cơ sở dữ liệu
-        userRepo.save(user);
+        return userRepo.save(user);
+    }
+
+    @Override
+    public void delete(Integer id) throws UserNotFoundException {
+        Long countById = userRepo.countById(id);
+
+        if(countById == null || countById == 0){
+            throw  new UserNotFoundException("Không tìm thấy người dùng có id: "+id);
+        }
+        // Xóa người dùng có id đã cho khỏi db
+        userRepo.deleteById(id);
+    }
+
+    @Override
+    public void updateUserEnableStatus(Integer id, boolean enabled) {
+            userRepo.updateEnabledStatus(id, enabled);
     }
 }

@@ -1,24 +1,28 @@
 package com.tuanvuong.qtsnearker.controller.administrator;
 
-import com.tuanvuong.qtsnearker.entity.Role;
 import com.tuanvuong.qtsnearker.entity.User;
-import com.tuanvuong.qtsnearker.services.UserNotFoundException;
+import com.tuanvuong.qtsnearker.entity.Role;
+import com.tuanvuong.qtsnearker.services.exceptions.UserNotFoundException;
 import com.tuanvuong.qtsnearker.services.UserService;
+import com.tuanvuong.qtsnearker.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import org.springframework.util.StringUtils;
+import java.io.IOException;
 import java.util.List;
 
- @Controller
+
+@Controller
 @RequestMapping("/admin")
 public class AdminUserController {
 
     @Autowired
     private UserService userService;
-
 
     @GetMapping("/users")
     public String listAll(Model theModel){
@@ -27,7 +31,7 @@ public class AdminUserController {
 
         theModel.addAttribute("user",user);
 
-        return "administrator/users";
+        return "administrator/user";
     }
     @GetMapping("/users/create")
     public String newUser(Model model){
@@ -44,17 +48,49 @@ public class AdminUserController {
 
         model.addAttribute("pageTitle","Thêm mới");
 
-        return "administrator/users_form";
+        return "administrator/user_form";
     }
 
+    /*
+    * getOriginalFilename() lấy tên gốc của tệp.
+    * StringUtils.cleanPath() Làm sạch tên của tệp được tải lên.
+    * */
     @PostMapping("/users/save")
-    public String saveUser(User user, RedirectAttributes redirectAttributes){
-        userService.save(user);
+    public String saveUser(User user,
+                           RedirectAttributes redirectAttributes,
+                           @RequestParam("image") MultipartFile multipartFile) throws IOException {
+
+        if(!multipartFile.isEmpty()){
+
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+            user.setPhotos(fileName);
+
+            User savedUser = userService.save(user);
+
+            // đường dẫn thư mục ->  tạo thư mục "user-photos"
+            String uploadDir ="user-photos/" +savedUser.getId();
+
+            // xóa ảnh cũ
+            FileUploadUtil.cleanDir(uploadDir);
+
+            // lưu tệp vào mục chỉ định
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        }
+        else {
+            if(user.getPhotos().isEmpty()) {
+
+                user.setPhotos(null);
+
+                userService.save(user);
+            }
+        }
+
         redirectAttributes.addFlashAttribute("message","The user has been saved successfully");
+
         return "redirect:/admin/users";
 
     }
-
 
     /* redirectAttributes.addFlashAttribute("key", "value")
     * khi truyền thông điệp hoặc dữ liệu từ một request tới một redirect request
@@ -79,12 +115,42 @@ public class AdminUserController {
              model.addAttribute("pageTitle","Cập nhật (ID: "+id+")");
          }
          catch (UserNotFoundException ex){
+
              redirectAttributes.addFlashAttribute("message",ex.getMessage());
          }
 
-         return "administrator/users_form";
+         return "administrator/user_form";
      }
 
+     @GetMapping ("/users/delete/{id}")
+     public String deleteUser(@PathVariable(name = "id") Integer id,
+                            Model model,
+                            RedirectAttributes redirectAttributes )  {
+         try{
+             userService.delete(id);
 
+             redirectAttributes.addFlashAttribute("message", "The user ID:"+id+" has been deleted successfully" );
+         }
+         catch (UserNotFoundException ex){
 
+             redirectAttributes.addFlashAttribute("message",ex.getMessage());
+         }
+         return "redirect:/admin/users";
+     }
+
+     @GetMapping("/users/{id}/enabled/{status}")
+     public String updateUserEnabledStatus(@PathVariable("id") Integer id,
+                                           @PathVariable("status") boolean enabled,
+                                           RedirectAttributes redirectAttributes){
+
+         userService.updateUserEnableStatus(id, enabled);
+
+         String status = enabled ? "enabled" : "disabled";
+
+         String message = "The user ID:" +id +" has been " + status;
+
+         redirectAttributes.addFlashAttribute("message",message);
+
+         return "redirect:/admin/users";
+     }
 }

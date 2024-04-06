@@ -1,6 +1,8 @@
 package com.tuanvuong.qtsnearker.entity;
 
 import jakarta.persistence.*;
+
+import java.security.PublicKey;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -22,7 +24,7 @@ public class User {
     private  String lastName;
     @Column(length = 64)
     private  String photos;
-    private boolean enabled;
+    private boolean enabled ;
 
     public User(){}
 
@@ -113,5 +115,18 @@ public class User {
         this.roles = roles;
     }
 
+
+
+    /* @Transient
+    * chỉ định rằng trường hoặc phương thức
+    * không nên được ánh xạ vào cơ sở dữ liệu thông qua JPA
+     * */
+    @Transient
+    public String getPhotosImagePath(){
+        // sủ dụng ảnh mặc định/
+        if(id == null || photos == null) return "/img/default-avatar.jpg";
+
+        return "/user-photos/" + this.id + "/" +this.photos;
+    }
 
 }

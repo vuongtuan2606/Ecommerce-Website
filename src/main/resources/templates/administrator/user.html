@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{administrator/common :: html_head}"></head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+<!-- Navbar-->
+<header th:replace="~{administrator/common :: header}"></header>
+<!-- Sidebar menu-->
+<div th:replace="~{administrator/common :: menu_admin}"></div>
+
+  <main class="app-content">
+    <!--  Breadcrumb  -->
+    <div class="app-title">
+      <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item active"><a href="#"><b>Danh sách người dùng</b></a></li>
+      </ul>
+      <div class="date_time">
+        <p id="current-date"></p> <p id="current-time"></p>
+      </div>
+    </div>
+    <!-- row   -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <div class="tile-body">
+            <!-- button-->
+            <div class="row element-button">
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" th:href="@{users/create}" title="Thêm"><i class="fas fa-plus"></i>
+                  Tạo mới nhân viên</a>
+              </div>
+              <div class="col-sm-2">
+                <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i>
+                  Xuất Excel</a>
+              </div>
+              <div class="col-sm-2">
+                <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" onclick="myFunction(this)"><i
+                    class="fas fa-file-pdf"></i>
+                  Xuất PDF</a>
+              </div>
+            </div>
+            <div th:if="${message != null}" class=" alert alert-success text-center">
+              [[${message}]]
+            </div>
+            <!-- table -->
+            <table class="table table-hover table-striped table-bordered js-copytextarea  " style="border: 2px solid #dee2e6">
+              <thead >
+                <tr>
+                  <th>ID</th>
+                  <th>Photos</th>
+                  <th>Email</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Roles</th>
+                  <th>Enables</th>
+                  <th>Other</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="user : ${user}">
+                  <td th:text="${user.id}"></td>
+                  <td>
+                    <span th:if="${user.photos == null}" class="bi bi-person-bounding-box" style="color: darkgrey;font-size: 50px"></span>
+                    <img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" style="width: 100px; height:auto;" >
+                  </td>
+                  <td th:text="${user.email}"></td>
+                  <td th:text="${user.firstName}"></td>
+                  <td th:text="${user.lastName}"></td>
+                  <td th:text="${user.roles}"></td>
+                  <td>
+                    <a th:if="${user.enabled == true}" class="bi bi-check-circle-fill"  style="color: green"
+                       th:href="@{'/admin/users/'+${user.id} +'/enabled/false'}">
+                    </a>
+                    <a th:if="${user.enabled == false}" class="bi bi-check-circle-fill" style="color: darkgrey"
+                       th:href="@{'/admin/users/'+${user.id} +'/enabled/true'}">
+                    </a>
+                  </td>
+                  <td class="table-td-center">
+                    <button th:href="@{'/admin/users/delete/' + ${user.id}}"  class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                      onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
+                    </button>
+                    <a class="bi bi-pencil-square" style="color: mediumblue;font-size: 20px"
+                       th:href="@{'/admin/users/edit/' + ${user.id}}" >
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+ <!-- script -->
+  <span th:replace="~{administrator/common :: js}"></span>
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+      $(".trash").on("click", function (event) {
+        event.preventDefault(); // Prevent the default behavior of the button click
+        var deleteUrl = $(this).attr("href"); // Get the URL to delete from the button's href attribute
+        swal({
+          title: "Cảnh báo",
+          text: "Bạn có chắc chắn là muốn xóa nhân viên này?",
+          buttons: ["Hủy bỏ", "Đồng ý"],
+        }).then(function (willDelete) {
+          if (willDelete) {
+            // If user confirms, redirect to the delete URL
+            window.location.href = deleteUrl;
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
