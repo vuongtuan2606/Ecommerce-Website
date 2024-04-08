@@ -1,116 +1,143 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{administrator/common :: html_head}"></head>
 
-<body onload="time()" class="app sidebar-mini rtl">
-<!-- Navbar-->
-<header th:replace="~{administrator/common :: header}"></header>
-<!-- Sidebar menu-->
-<div th:replace="~{administrator/common :: menu_admin}"></div>
+<body>
 
-  <main class="app-content">
-    <!--  Breadcrumb  -->
-    <div class="app-title">
-      <ul class="app-breadcrumb breadcrumb side">
-        <li class="breadcrumb-item active"><a href="#"><b>Danh sách người dùng</b></a></li>
-      </ul>
-      <div class="date_time">
-        <p id="current-date"></p> <p id="current-time"></p>
-      </div>
-    </div>
-    <!-- row   -->
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tile">
-          <div class="tile-body">
-            <!-- button-->
-            <div class="row element-button">
-              <div class="col-sm-2">
-                <a class="btn btn-add btn-sm" th:href="@{users/create}" title="Thêm"><i class="fas fa-plus"></i>
-                  Tạo mới nhân viên</a>
-              </div>
-              <div class="col-sm-2">
-                <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i>
-                  Xuất Excel</a>
-              </div>
-              <div class="col-sm-2">
-                <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" onclick="myFunction(this)"><i
-                    class="fas fa-file-pdf"></i>
-                  Xuất PDF</a>
-              </div>
+  <!-- ======= Header ======= -->
+  <header th:replace="~{administrator/common :: header}" ></header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside th:replace="~{administrator/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Quản lý khách hàng</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+          <li class="breadcrumb-item active"><a th:href="@{/admin/users}">[[${pageTitle}]]</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section admin-user">
+      <div class="row">
+        <!-- columns element-button -->
+        <div class="col-lg-12 ol-sm-12 element-button ">
+          <div class="row">
+            <div class="col-xl-12 ">
+              <a class="btn btn-success " th:href="@{users/create}" title="Thêm"><i class="bi bi-file-earmark-person"></i>
+                Tạo mới
+              </a>
+              <a class="btn btn-primary " href="" title="In"><i class="bi bi-file-earmark-excel"></i>
+                Xuất Excel
+              </a>
+              <a class="btn btn-secondary "><i class="bi bi-file-pdf"></i>
+                Xuất PDF
+              </a>
             </div>
-            <div th:if="${message != null}" class=" alert alert-success text-center">
-              [[${message}]]
-            </div>
-            <!-- table -->
-            <table class="table table-hover table-striped table-bordered js-copytextarea  " style="border: 2px solid #dee2e6">
-              <thead >
-                <tr>
-                  <th>ID</th>
-                  <th>Photos</th>
-                  <th>Email</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Roles</th>
-                  <th>Enables</th>
-                  <th>Other</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="user : ${user}">
-                  <td th:text="${user.id}"></td>
-                  <td>
-                    <span th:if="${user.photos == null}" class="bi bi-person-bounding-box" style="color: darkgrey;font-size: 50px"></span>
-                    <img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" style="width: 100px; height:auto;" >
-                  </td>
-                  <td th:text="${user.email}"></td>
-                  <td th:text="${user.firstName}"></td>
-                  <td th:text="${user.lastName}"></td>
-                  <td th:text="${user.roles}"></td>
-                  <td>
-                    <a th:if="${user.enabled == true}" class="bi bi-check-circle-fill"  style="color: green"
-                       th:href="@{'/admin/users/'+${user.id} +'/enabled/false'}">
-                    </a>
-                    <a th:if="${user.enabled == false}" class="bi bi-check-circle-fill" style="color: darkgrey"
-                       th:href="@{'/admin/users/'+${user.id} +'/enabled/true'}">
-                    </a>
-                  </td>
-                  <td class="table-td-center">
-                    <button th:href="@{'/admin/users/delete/' + ${user.id}}"  class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                      onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                    </button>
-                    <a class="bi bi-pencil-square" style="color: mediumblue;font-size: 20px"
-                       th:href="@{'/admin/users/edit/' + ${user.id}}" >
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
-        </div>
-      </div>
-    </div>
-  </main>
- <!-- script -->
-  <span th:replace="~{administrator/common :: js}"></span>
-  <script type="text/javascript">
+        </div><!-- End columns element-button -->
 
-    $(document).ready(function () {
-      $(".trash").on("click", function (event) {
-        event.preventDefault(); // Prevent the default behavior of the button click
-        var deleteUrl = $(this).attr("href"); // Get the URL to delete from the button's href attribute
-        swal({
-          title: "Cảnh báo",
-          text: "Bạn có chắc chắn là muốn xóa nhân viên này?",
-          buttons: ["Hủy bỏ", "Đồng ý"],
-        }).then(function (willDelete) {
-          if (willDelete) {
-            // If user confirms, redirect to the delete URL
-            window.location.href = deleteUrl;
-          }
-        });
+        <div th:if="${message != null}" class=" alert alert-success text-center">
+          [[${message}]]
+        </div>
+        <!-- columns table -->
+        <div class="col-lg-12 col-sm-12">
+          <table class="table table-hover table-responsive ">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Photos</th>
+                <th scope="col">Email</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Enables</th>
+                <th scope="col">Other</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr  th:each="user : ${user}">
+                <td scope="row" th:text="${user.id}"></td>
+                <td>
+                  <span th:if="${user.photos == null}" class="bi bi-card-image" style="color: darkgrey;font-size: 50px"></span>
+                  <img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" style="width: 100px; height:auto;" >
+                </td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.roles}"></td>
+                <td>
+                  <a th:if="${user.enabled == true}" class="bi bi-check-circle-fill"  style="color: green"
+                     th:href="@{'/admin/users/'+${user.id} +'/enabled/false'}">
+                  </a>
+                  <a th:if="${user.enabled == false}" class="bi bi-check-circle-fill" style="color: darkgrey"
+                     th:href="@{'/admin/users/'+${user.id} +'/enabled/true'}">
+                  </a>
+                </td>
+                <td class="table-td-center">
+                  <a class="bi bi-trash link-delete" data-bs-toggle="modal" data-bs-target="#confirmModal" style="color: #5c636a;font-size: 20px"
+                     th:href="@{'/admin/users/delete/' + ${user.id}}"
+                     th:userId="${user.id}"
+                     title="delete this user">
+                  </a>
+                  <a class="bi bi-pencil-square" style="color: #003c81;font-size: 20px"
+                     th:href="@{'/admin/users/edit/' + ${user.id}}"
+                     title="edit this user">
+                  </a>
+                </td>
+               </tr>
+            </tbody>
+          </table>
+          <!-- Modal -->
+          <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <span id="confirmText"></span>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
+                    <a href="" class="btn btn-success" id="confirmDelete">Xác Nhận</a>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Basic Modal-->
+        </div><!-- End columns table-->
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer th:replace="~{administrator/common :: footer}" ></footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+   <!-- ======= JS ======= -->
+  <span th:replace="~{administrator/common :: js}"></span>
+
+  <script type="text/javascript">
+    $(document).ready(function (){
+      $(".link-delete").on("click", function (e){
+        e.preventDefault();
+        var link = $(this);
+        var userId = link.attr("userId");
+        $("#confirmDelete").attr("href", link.attr("href"));
+        $("#confirmText").text("Bạn có muốn xóa người dùng có id: " + userId + " không");
       });
     });
   </script>
+
 </body>
+
 </html>

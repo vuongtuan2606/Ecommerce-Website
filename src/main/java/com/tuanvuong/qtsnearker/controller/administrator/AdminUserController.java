@@ -31,6 +31,8 @@ public class AdminUserController {
 
         theModel.addAttribute("user",user);
 
+        theModel.addAttribute("pageTitle","Danh sách người dùng");
+
         return "administrator/user";
     }
     @GetMapping("/users/create")
@@ -78,12 +80,8 @@ public class AdminUserController {
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
         else {
-            if(user.getPhotos().isEmpty()) {
-
-                user.setPhotos(null);
-
-                userService.save(user);
-            }
+            if(user.getPhotos().isEmpty()) user.setPhotos(null);
+            userService.save(user);
         }
 
         redirectAttributes.addFlashAttribute("message","The user has been saved successfully");

@@ -1,112 +1,130 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{administrator/common :: html_head}"></head>
-<body onload="time()" class="app sidebar-mini rtl">
-<!-- Navbar-->
-<header th:replace="~{administrator/common :: header}"></header>
-<!-- Sidebar menu-->
-<div th:replace="~{administrator/common :: menu_admin}"></div>
-  <main class="app-content">
-    <!--  Breadcrumb  -->
-    <div class="app-title">
-      <ul class="app-breadcrumb breadcrumb side">
-        <li class="breadcrumb-item active"><a href="#"><b>Danh sách người dùng | [[${pageTitle}]] </b></a></li>
-      </ul>
-      <div class="date_time">
-        <p id="current-date"></p> <p id="current-time"></p>
-      </div>
-    </div>
-    <!-- row   -->
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tile">
-          <div class="tile-body">
-            <div class="row justify-content-center">
-              <div class="col-xxl-12 col-xl-12 col-md-12">
-                <div class="user-from-box-shadow">
-                  <!-- Form  -->
-                  <form th:action="@{/admin/users/save}" method="post"
-                        enctype="multipart/form-data"
-                        th:object="${user}"
-                        onsubmit="return checkEmailUnique(this);">
-                    <input type="hidden" th:field="*{id}">
-                    <div class="form_user clearfix">
-                      <h4 class="form_user_title">NHẬP THÔNG TIN</h4>
-                      <fieldset class="form-group ">
-                        <label>Email<span class="required">*</span></label>
-                        <input  type="email"  class="form-control " th:field="*{email}" required minlength="8" maxlength="128" >
-                      </fieldset>
-                      <fieldset class="form-group ">
-                        <label>First Name<span class="required">*</span></label>
-                        <input  type="text"  class="form-control " th:field="*{firstName}" required minlength="2" maxlength="45" >
-                      </fieldset>
-                      <fieldset class="form-group ">
-                        <label>Last Name<span class="required">*</span></label>
-                        <input  type="text"  class="form-control " th:field="*{lastName}" required minlength="2" maxlength="45" >
-                      </fieldset>
-                      <fieldset class="form-group ">
-                        <label>Password<span class="required">*</span></label>
-                        <input  type="password"  class="form-control" th:field="*{password}"
-                                th:if="${user.id == null}"  required minlength="8" maxlength="20" >
-                        <input placeholder="bỏ qua nếu bạn không muốn thay đổi password" type="password"  class="form-control" th:field="*{password}"
-                               th:if="${user.id != null}"   minlength="8" maxlength="20" >
-                      </fieldset>
-                      <fieldset class="form-group ">
-                        <label>Role<span class="required">*</span></label>
-                        <br>
-                        <th:block th:each="role : ${listRoles}" >
-                          <!-- private Set<Role> roles = new HashSet<Role>()-->
-                          <input type="checkbox" th:field="*{roles}"
-                                 th:text="${role.name}"
-                                 th:value="${role.id}"
-                          />
-                          : <small th:text="${role.description}"></small>
-                          <br>
-                        </th:block>
-                      </fieldset>
-                      <fieldset class="form-group ">
-                        <label>Enable<span class="required">*</span></label>
-                        <input type="checkbox"  style="margin-left: 5px" th:field="*{enabled}"/>
-                      </fieldset>
-                      <fieldset class="form-group ">
-                        <label>Photos<span class="required">*</span></label>
-                        <input type="hidden" th:field="*{photos}">
-                        <input type="file" name="image" class="form-control mb-2" style="margin-left: 5px; " id="fileImage" accept="image/png, image/jpeg" />
-                        <img id="thumbnail" class="img-fluid" alt="photos preview" style="width: 150px; height: auto;" th:src="@{${user.photosImagePath}}">
-                      </fieldset>
-                      <div class="btn_submit">
-                        <button class="btn btn-primary btn-style "  onclick="redirectToAdminUsers()" id="buttonCancel" type="button" >Hủy</button>
-                        <button class="btn btn-success btn-style " type="submit" value="submit">Gửi thông tin</button>
-                      </div>
-                    </div>
-                  </form>
-                  <!--  Modal -->
-                  <div class="modal" id="errorModal" tabindex="-1">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" style="font-weight: 600">Thông báo</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <p style="text-align: center" id="modalBody"></p>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                      </div>
-                    </div>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header th:replace="~{administrator/common :: header}" ></header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside th:replace="~{administrator/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Quản lý khách hàng</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+          <li class="breadcrumb-item active"><a th:href="@{/admin/users}">Danh sách người dùng</a> / [[${pageTitle}]]</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section admin-user">
+      <div class="row">
+        <!-- columns form -->
+        <div class="col-lg-12 col-sm-12">
+          <!-- Vertical Form -->
+          <form class="row g-3" th:action="@{/admin/users/save}" method="post"
+                enctype="multipart/form-data"
+                th:object="${user}"
+                onsubmit="return checkEmailUnique(this);">
+
+            <input type="hidden" th:field="*{id}">
+            <div class="col-12">
+              <label  class="form-label">Email</label>
+              <input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128" >
+            </div>
+            <div class="col-12">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-control" th:field="*{firstName}" required minlength="2" maxlength="45" >
+            </div>
+            <div class="col-12">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-control" th:field="*{lastName}" required minlength="2" maxlength="45" >
+            </div>
+            <div class="col-12">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" th:field="*{password}"
+                     th:if="${user.id == null}"  required minlength="8" maxlength="20">
+              <input type="password" class="form-control" th:field="*{password}" placeholder="bỏ qua nếu bạn không muốn thay đổi password"
+                     th:if="${user.id != null}"  minlength="8" maxlength="20" >
+            </div>
+            <div class="col-12">
+              <label class="col-form-label">Role</label>
+              <th:block th:each="role : ${listRoles}" >
+                <div class="col-sm-10">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           th:field="*{roles}"
+                           th:text="${role.name}"
+                           th:value="${role.id}">:
+                    <small th:text="${role.description}"></small>
+                  </div>
+                </div>
+              </th:block>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Enable</label>
+              <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{enabled}"  >
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <label class="form-label">Photos</label>
+              <input type="hidden" th:field="*{photos}">
+              <input type="file"
+                     class="form-control mb-4"
+                     name="image"
+                     id="fileImage"
+                     style="margin-left: 5px; "
+                     accept="image/png, image/jpeg">
+              <img   id="thumbnail"
+                     class="img-fluid"
+                     th:src="@{${user.photosImagePath}}"
+                     alt="photos preview"
+                     style="width: 150px; height: auto;" >
+            </div>
+            <div class="text-center">
+              <button class="btn btn-primary btn-style "  type="reset">Reset</button>
+              <button class="btn btn-success btn-style " type="submit" value="submit">Submit</button>
+            </div>
+          </form><!-- Vertical Form -->
+
+          <!-- Modal -->
+          <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <span id="modalBody"></span>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </div><!-- End Basic Modal-->
+        </div><!-- End columns table-->
+
       </div>
-    </div>
-  </main>
-  <!-- script-->
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer th:replace="~{administrator/common :: footer}" ></footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+   <!-- ======= JS ======= -->
   <span th:replace="~{administrator/common :: js}"></span>
+
   <script type="text/javascript">
 
     $(document).ready(function (){
@@ -121,9 +139,9 @@
           this.setCustomValidity("");
           showImageThumbnail(this);
         }
-
       })
     });
+
     function showImageThumbnail(fileInput){
       var file = fileInput.files[0];
       var reader = new FileReader();
@@ -131,10 +149,6 @@
         $("#thumbnail").attr("src", e.target.result);
       }
       reader.readAsDataURL(file);
-    }
-    function redirectToAdminUsers() {
-      var url = "/admin/users";
-      window.location.href = url;
     }
 
     function checkEmailUnique(form) {
@@ -157,6 +171,8 @@
       });
       return false;
     }
-</script>
+  </script>
+
 </body>
+
 </html>
