@@ -3,12 +3,18 @@ package com.tuanvuong.qtsnearker.services;
 import com.tuanvuong.qtsnearker.entity.Role;
 import com.tuanvuong.qtsnearker.entity.User;
 import com.tuanvuong.qtsnearker.services.exceptions.UserNotFoundException;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService  {
+    // số phần tử trên 1 trang
+    int USERS_PER_PAGE = 4;
+
     List<User> findUserAll();
+    Page <User> listByPage(int pageNum, String sortField, String sortDir,String keyword);
     List<Role> findRoleAll();
+
     User save(User user);
 
     void delete(Integer id) throws UserNotFoundException;

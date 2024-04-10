@@ -2,10 +2,13 @@ package com.tuanvuong.qtsnearker.controller.administrator;
 
 import com.tuanvuong.qtsnearker.entity.User;
 import com.tuanvuong.qtsnearker.entity.Role;
+import com.tuanvuong.qtsnearker.services.UserServiceImpl;
 import com.tuanvuong.qtsnearker.services.exceptions.UserNotFoundException;
 import com.tuanvuong.qtsnearker.services.UserService;
 import com.tuanvuong.qtsnearker.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,16 +28,62 @@ public class AdminUserController {
     private UserService userService;
 
     @GetMapping("/users")
-    public String listAll(Model theModel){
+    public String listFirstPage(Model model){
+        return listByPage( "firstName", "asc", null,1, model);
 
-        List<User> user = userService.findUserAll();
+    }
 
-        theModel.addAttribute("user",user);
+    @GetMapping("/users/page/{pageNum}")
+    public String listByPage(@Param("sortField") String sortField,
+                             @Param("sortDir") String sortDir,
+                             @Param("keyword") String keyword,
+                             @PathVariable(name = "pageNum") int pageNum,
+                             Model model){
 
-        theModel.addAttribute("pageTitle","Danh sách người dùng");
+        System.out.println("sort field:" +sortField);
+        System.out.println("sort dir:" +sortDir);
+        System.out.println("keyword:" +keyword);
+
+        Page<User> page = userService.listByPage(pageNum,sortField,sortDir,keyword);
+
+        List<User> listUsers = page.getContent();
+
+        long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE + 1;
+
+        long endCount = startCount + UserService.USERS_PER_PAGE-1;
+
+        if(endCount > page.getTotalElements()){
+            endCount = page.getTotalElements();
+        }
+
+        // đảo ngược giá trị
+        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+
+        model.addAttribute("currentPage", pageNum);
+
+        model.addAttribute("totalPagas", page.getTotalPages());
+
+        model.addAttribute("startCount", startCount);
+
+        model.addAttribute("endCount", endCount);
+
+        model.addAttribute("totalItem", page.getTotalElements());
+
+        model.addAttribute("listUser", listUsers);
+
+        model.addAttribute("sortField", sortField);
+
+        model.addAttribute("sortDir", sortDir);
+
+        model.addAttribute("reverseSortDir", reverseSortDir);
+
+        model.addAttribute("keyword", keyword);
+
 
         return "administrator/user";
     }
+
+
     @GetMapping("/users/create")
     public String newUser(Model model){
 
@@ -86,8 +135,16 @@ public class AdminUserController {
 
         redirectAttributes.addFlashAttribute("message","The user has been saved successfully");
 
-        return "redirect:/admin/users";
+        return getRedirectURLtoAffectedUser(user);
 
+    }
+
+    private String getRedirectURLtoAffectedUser(User user) {
+        // split("@")
+        // tách  phần đầu của địa chỉ email
+        String firstPartOfEmail = user.getEmail().split("@")[0];
+
+        return "redirect:/admin/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;
     }
 
     /* redirectAttributes.addFlashAttribute("key", "value")
