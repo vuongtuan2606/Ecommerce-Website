@@ -42,8 +42,8 @@
 
               <div class="button-container">
                 <a class="btn btn-success" th:href="@{/admin/users/create}" title="Thêm"><i class="bi bi-file-earmark-person"></i> Tạo mới </a>
-                <a class="btn btn-primary" href="" title="In"><i class="bi bi-file-earmark-excel"></i> Xuất Excel </a>
-                <a class="btn btn-secondary"><i class="bi bi-file-pdf"></i> Xuất PDF </a>
+                <a class="btn btn-primary"th:href="@{/admin/users/export/excel}"  title="In"><i class="bi bi-file-earmark-excel"></i> Xuất Excel </a>
+                <a class="btn btn-secondary" th:href="@{/admin/users/export/pdf}"><i class="bi bi-file-pdf"></i> Xuất PDF </a>
               </div>
 
             </div>

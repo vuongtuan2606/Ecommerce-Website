@@ -6,6 +6,9 @@ import com.tuanvuong.qtsnearker.services.UserServiceImpl;
 import com.tuanvuong.qtsnearker.services.exceptions.UserNotFoundException;
 import com.tuanvuong.qtsnearker.services.UserService;
 import com.tuanvuong.qtsnearker.util.FileUploadUtil;
+import com.tuanvuong.qtsnearker.util.UserExcelExporter;
+import com.tuanvuong.qtsnearker.util.UserPdfExporter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -208,4 +211,33 @@ public class AdminUserController {
 
          return "redirect:/admin/users";
      }
+
+     /*
+     * xuất file excel
+     * */
+     @GetMapping("/users/export/excel")
+     public void exportToExcel(HttpServletResponse response) throws IOException{
+
+         List<User> listUsers = userService.findUserAll();
+
+         UserExcelExporter exporter = new UserExcelExporter();
+
+         exporter.export(listUsers, response);
+
+     }
+
+     /*
+     * xuất file pdf
+     * */
+    @GetMapping("/users/export/pdf")
+    public void exportToPdf(HttpServletResponse response) throws IOException{
+
+        List<User> listUsers = userService.findUserAll();
+
+        UserPdfExporter exporter = new UserPdfExporter();
+
+        exporter.export(listUsers, response);
+
+    }
+
 }
