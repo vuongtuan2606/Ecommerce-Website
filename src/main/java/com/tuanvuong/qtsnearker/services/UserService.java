@@ -14,8 +14,10 @@ public interface UserService  {
     List<User> findUserAll();
     Page <User> listByPage(int pageNum, String sortField, String sortDir,String keyword);
     List<Role> findRoleAll();
-
+    User getByEmail(String email);
     User save(User user);
+
+    User updateAccount(User userInform);
 
     void delete(Integer id) throws UserNotFoundException;
 

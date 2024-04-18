@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class AdminHomeController {
-    @Autowired
-    private UserService userService;
     @GetMapping("/home")
     public String HomeAdmin(){
         return "administrator/index";
     }
+
+
 
 }

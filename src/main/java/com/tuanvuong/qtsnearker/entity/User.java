@@ -2,9 +2,7 @@ package com.tuanvuong.qtsnearker.entity;
 
 import jakarta.persistence.*;
 
-import java.security.PublicKey;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -35,13 +33,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tbl_user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles = new HashSet<Role>();
-
-
 
     public void addRoles(Role role ) {
         role.getUsers().add(this);
@@ -124,7 +120,7 @@ public class User {
     @Transient
     public String getPhotosImagePath(){
         // sủ dụng ảnh mặc định/
-        if(id == null || photos == null) return "/img/default-avatar.jpg";
+        if(id == null || photos == null) return "/user-photos/avatar-default.jpg";
 
         return "/user-photos/" + this.id + "/" +this.photos;
     }

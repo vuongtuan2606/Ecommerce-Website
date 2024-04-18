@@ -58,6 +58,11 @@ public class UserServiceImpl implements UserService {
         return (List<Role>) roleRepo.findAll();
     }
 
+    @Override
+    public User getByEmail(String email) {
+        return userRepo.getUserByEmail(email);
+    }
+
 
     @Override
     public void encodePassword(User user) {
@@ -133,6 +138,27 @@ public class UserServiceImpl implements UserService {
         // Lưu hoặc cập nhật đối tượng người dùng vào cơ sở dữ liệu
         return userRepo.save(user);
     }
+
+    @Override
+    public User updateAccount(User userInform) {
+        User userInDB = userRepo.findById(userInform.getId()).get();
+
+        if(!userInform.getPassword().isEmpty()){
+            userInDB.setPassword(userInform.getPassword());
+            encodePassword(userInDB);
+        }
+
+        if(userInform.getPhotos() != null){
+            userInDB.setPhotos(userInform.getPhotos());
+        }
+
+        userInDB.setFirstName(userInform.getFirstName());
+        userInDB.setLastName(userInform.getLastName());
+
+        return userRepo.save(userInDB);
+
+    }
+
 
     @Override
     public void delete(Integer id) throws UserNotFoundException {
