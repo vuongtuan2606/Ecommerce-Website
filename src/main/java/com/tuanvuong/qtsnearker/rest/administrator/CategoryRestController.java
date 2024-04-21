@@ -1,4 +1,4 @@
-package com.tuanvuong.qtsnearker.rest.administrator.category;
+package com.tuanvuong.qtsnearker.rest.administrator;
 
 import com.tuanvuong.qtsnearker.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;

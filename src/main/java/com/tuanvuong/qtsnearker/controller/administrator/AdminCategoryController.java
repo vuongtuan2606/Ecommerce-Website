@@ -25,23 +25,15 @@ public class AdminCategoryController {
     @Autowired
     private  CategoryService categoryService;
 
-
-
     @GetMapping("/categories")
-    public String listFirstPage(@Param("sortDir") String sortDir,
-                                @Param("keyword") String keyword,
-                                Model model) {
-        return listByPage(sortDir, null, 1,model);
+    public String listFirstPage(Model model) {
+        return listByPage("asc", null, 1,model);
     }
     @GetMapping("/categories/page/{pageNum}")
     public String listByPage(@Param("sortDir") String sortDir,
                              @Param("keyword") String keyword,
                              @PathVariable(name = "pageNum") int pageNum,
                              Model model){
-
-        if (sortDir == null || sortDir.isEmpty()){
-            sortDir ="asc";
-        }
 
         CategoryPageInfo pageInfo = new CategoryPageInfo();
 

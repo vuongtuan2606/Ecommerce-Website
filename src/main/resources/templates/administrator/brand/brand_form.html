@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{administrator/common/common :: html_head}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{administrator/common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{administrator/common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Quản lý thương hiệu</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/categories}">Danh sách thương hiệu</a> / [[${pageTitle}]]</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section admin-user">
+        <div class="row">
+            <!-- columns form -->
+            <div class="col-lg-12 col-sm-12">
+                <!-- Vertical Form -->
+                <form class="row g-3" th:action="@{/admin/brand/save}" method="post"
+                      enctype="multipart/form-data"
+                      th:object="${brand}"
+                      onsubmit="return checkUnique(this);">
+
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="col-12">
+                        <label class="form-label">Brand Name</label>
+                        <input type="text" class="form-control" th:field="*{name}" required minlength="3" maxlength="128" >
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Select one or more categories</label>
+                        <select th:field="*{categories}" class="form-control" multiple required>
+                            <option th:each="temp : ${listCategory}" th:value="${temp.id}" th:text="${temp.name}" />
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="col-sm-4 col-form-label">Chosen categories:</label>
+                        <div class="col-sm-8">
+                            <div id="chosenCategories"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12">
+                        <label class="form-label">Brand Logo</label>
+                        <div class="" >
+                            <input type="file"
+                                   class="form-control visually-hidden"
+                                   name="fileImage"
+                                   id="fileImage"
+                                   accept="image/png, image/jpeg"
+                                   onchange="previewImage(this)">
+                            <img id="thumbnail"
+                                 class="img-fluid"
+                                 alt="Image preview"
+                                 th:src="@{${brand.logoPath}}"
+                                 style="width: 150px; height: auto;">
+                            <button type="button" class="btn btn-info" onclick="document.getElementById('fileImage').click();">
+                                <i class="bi bi-folder"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-style "  type="reset">Reset</button>
+                        <button class="btn btn-success btn-style " type="submit" value="submit">Submit</button>
+                    </div>
+                </form><!-- Vertical Form -->
+
+                <!-- Modal -->
+                <div class="modal fade" id="errorModalDuplicate" tabindex="-1" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Thông báo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <span id="errorBodyDuplicate"></span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Basic Modal-->
+            </div><!-- End columns table-->
+
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer th:replace="~{administrator/common/common :: footer}" ></footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- ======= JS ======= -->
+<span th:replace="~{administrator/common/common :: js}"></span>
+
+<script type="text/javascript">
+
+    moduleURL = "[[@{/admin/brand}]]";
+
+    function previewImage(input) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#thumbnail')
+                .attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+
+
+    $(document).ready(function () {
+        // th:field="*{categories}"
+        dropdownCategories = $("#categories");
+        divChosenCategories = $("#chosenCategories");
+
+        dropdownCategories.change(function () {
+            divChosenCategories.empty();
+            showChosenCategories();
+        });
+
+        showChosenCategories();
+    });
+
+    function showChosenCategories() {
+        dropdownCategories.children("option:selected").each(function () {
+            selectedCategory = $(this);
+            catId = selectedCategory.val();
+            catName = selectedCategory.text().replace(/-/g, "");
+
+            // Tạo nút xóa cho mỗi mục đã chọn và gắn sự kiện click
+            var closeButton = $("<button type='button' class='btn-close' aria-label='Close' style='color:#868cbf;border: 1px solid #868cbf;border-radius: 100%; margin-left: 5px '></button>");
+            closeButton.click(function() {
+                // Xóa mục đã chọn khi nút xóa được click
+                selectedCategory.prop('selected', false);
+                closeButton.parent().remove(); // Xóa nút xóa và mục đã chọn khỏi danh sách
+            });
+
+            // Tạo phần tử span chứa mục đã chọn và nút xóa
+            var categoryElement = $("<span class='badge badge-secondary m-1' style='font-size: 13px; color: #012970;border: 1px solid #868cbf; background-color: #e4edff;'></span>");
+            categoryElement.text(catName);
+            categoryElement.append(closeButton);
+
+            // Thêm phần tử chứa mục đã chọn và nút xóa vào div chosenCategories
+            divChosenCategories.append(categoryElement);
+        });
+    }
+
+    function checkUnique(form) {
+        var url = "[[@{/brand/check_unique}]]";
+        var brandId = $("#id").val();
+        var brandName = $("#name").val();
+
+        var csrfValue = $("input[name='_csrf']").val();
+        var params = {id: brandId, name: brandName, _csrf: csrfValue};
+
+        $.post(url, params, function (response) {
+
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicate") {
+
+                $("#errorBodyDuplicate").text("Có một danh mục khác có cùng tên " + brandName);
+                $('#errorModalDuplicate').modal('show');
+
+            } else {
+                $("#errorBodyDuplicate").text("Phản hồi không xác định từ máy chủ");
+            }
+
+        }).fail(function () {
+            alert("loi")
+            // $("#modalBody").text("Không thể kết nối đến máy chủ");
+        });
+
+        return false;
+    }
+
+    $(document).ready(function (){
+        $("#fileImage").change(function (){
+            fileSize = this.files[0].size;
+            //alert("file size:" +fileSize);
+            if(fileSize > 102400){
+                this.setCustomValidity("You must choose an image less than 100kb");
+                this.reportValidity()
+            }
+            else {
+                this.setCustomValidity("");
+                showImageThumbnail(this);
+            }
+        })
+    });
+
+    function showImageThumbnail(fileInput){
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+        reader.onload = function (e){
+            $("#thumbnail").attr("src", e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
+
+</script>
+
+</body>
+
+</html>

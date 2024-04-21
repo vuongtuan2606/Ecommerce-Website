@@ -1,32 +1,29 @@
 package com.tuanvuong.qtsnearker.util;
 
-import com.tuanvuong.qtsnearker.entity.Category;
-import com.tuanvuong.qtsnearker.entity.User;
-import com.tuanvuong.qtsnearker.services.CategoryService;
-import com.tuanvuong.qtsnearker.services.Impl.CategoryServiceImpl;
+import com.tuanvuong.qtsnearker.entity.Brand;
+
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.List;
 
-public class CategoryExcelExporter extends AbstractExporter {
+public class BrandExcelExporter extends AbstractExporter {
     private  XSSFWorkbook workbook;
     private  XSSFSheet sheet;
 
-    public CategoryExcelExporter(){
+    public BrandExcelExporter(){
         workbook = new XSSFWorkbook();
     }
 
-    public void export(List<Category> listCategory , HttpServletResponse response) throws IOException{
-       super.setResponseHeader(response, "application/octet-stream",".xlsx" , "Category_");
+    public void export(List<Brand> listBrand , HttpServletResponse response) throws IOException{
+       super.setResponseHeader(response, "application/octet-stream",".xlsx" , "Brand_");
 
         writeHeaderLine();
 
-        writeDataLines(listCategory);
+        writeDataLines(listBrand);
 
         ServletOutputStream outputStream = response.getOutputStream();
 
@@ -55,7 +52,7 @@ public class CategoryExcelExporter extends AbstractExporter {
         cell.getCellStyle();
     }
     private void writeHeaderLine() {
-        sheet = workbook.createSheet("Category");
+        sheet = workbook.createSheet("Brand");
 
         XSSFRow row = sheet.createRow(0);
 
@@ -70,11 +67,11 @@ public class CategoryExcelExporter extends AbstractExporter {
         cellStyle.setFont(font);
 
         createCell(row, 0, " Id", cellStyle);
-        createCell(row, 1, "Category name", cellStyle);
-
+        createCell(row, 1, "Brand name", cellStyle);
+        createCell(row, 2, "Categories", cellStyle);
     }
 
-    private  void writeDataLines(List<Category> listCategory){
+    private  void writeDataLines(List<Brand> listBrand){
         int rowIndex = 1;
 
         XSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -85,17 +82,15 @@ public class CategoryExcelExporter extends AbstractExporter {
 
         cellStyle.setFont(font);
 
-        for (Category cat : listCategory){
+        for (Brand brand : listBrand){
 
             XSSFRow row = sheet.createRow(rowIndex++);
 
             int columnIndex = 0;
 
-            createCell(row,columnIndex++, cat.getId(), cellStyle);
-            createCell(row,columnIndex++, cat.getName(), cellStyle);
-
-
-
+            createCell(row,columnIndex++, brand.getId(), cellStyle);
+            createCell(row,columnIndex++, brand.getName(), cellStyle);
+            createCell(row,columnIndex++, brand.getCategories().toString(), cellStyle);
         }
     }
 

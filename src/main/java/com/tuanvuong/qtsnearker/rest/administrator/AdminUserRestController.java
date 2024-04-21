@@ -1,4 +1,4 @@
-package com.tuanvuong.qtsnearker.rest.administrator.user;
+package com.tuanvuong.qtsnearker.rest.administrator;
 
 import com.tuanvuong.qtsnearker.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
