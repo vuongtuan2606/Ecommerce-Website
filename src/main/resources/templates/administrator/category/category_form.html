@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{administrator/common/common :: html_head}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{administrator/common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{administrator/common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Quản lý danh mục</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/categories}">Danh sách danh mục</a> / [[${pageTitle}]]</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section admin-user">
+        <div class="row">
+            <!-- columns form -->
+            <div class="col-lg-12 col-sm-12">
+                <!-- Vertical Form -->
+                <form class="row g-3" th:action="@{/admin/categories/save}" method="post"
+                      enctype="multipart/form-data"
+                      th:object="${category}"
+                      onsubmit="return checkUnique(this);">
+
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="col-12">
+                        <label class="form-label">Category Name</label>
+                        <input type="text" class="form-control" th:field="*{name}" required minlength="3" maxlength="128" >
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Alias</label>
+                        <input type="text" class="form-control" th:field="*{alias}" required minlength="3" maxlength="64" >
+                    </div>
+
+                    <div class="col-12">
+                      <label class="form-label">Parent Category</label>
+                        <select th:field="*{parent}" class="form-control">
+
+                            <option value="0">[No Parent]</option>
+
+                            <option th:each="temp : ${listCategories}" th:value="${temp.id}" th:text="${temp.name}" />
+
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Enable</label>
+                        <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{enabled}"  >
+                    </div>
+
+                    <div class="col-md-12 col-sm-12">
+                        <label class="form-label">Image</label>
+                        <input type="hidden" th:field="*{image}">
+                        <input type="file"
+                               class="form-control mb-4"
+                               name="fileImage"
+                               id="fileImage"
+                               style="margin-left: 5px; "
+                               accept="image/png, image/jpeg">
+                        <img   id="thumbnail"
+                               class="img-fluid"
+                               alt="Image preview"
+                               th:src="@{${category.imagePath}}"
+                               style="width: 150px; height: auto;" >
+                    </div>
+
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-style "  type="reset">Reset</button>
+                        <button class="btn btn-success btn-style " type="submit" value="submit">Submit</button>
+                    </div>
+                </form><!-- Vertical Form -->
+
+                <!-- Modal -->
+                <div class="modal fade" id="errorModalDuplicate" tabindex="-1" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Thông báo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <span id="errorBodyDuplicate"></span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Basic Modal-->
+            </div><!-- End columns table-->
+
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer th:replace="~{administrator/common/common :: footer}" ></footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- ======= JS ======= -->
+<span th:replace="~{administrator/common/common :: js}"></span>
+
+<script type="text/javascript">
+
+    moduleURL = "[[@{/admin/categories}]]";
+
+    function checkUnique(form) {
+        var url = "[[@{/categories/check_unique}]]";
+        var cateId = $("#id").val();
+        var cateName = $("#name").val();
+        var cateAlias = $("#alias").val();
+        var csrfValue = $("input[name='_csrf']").val();
+
+
+        var params = {id: cateId, name: cateName, alias: cateAlias, _csrf: csrfValue};
+
+        $.post(url, params, function (response) {
+
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "DuplicateName") {
+
+                $("#errorBodyDuplicate").text("Có một danh mục khác có cùng tên " + cateName);
+                $('#errorModalDuplicate').modal('show');
+
+            } else if (response == "DuplicateAlias") {
+
+                $("#errorBodyDuplicate").text("Có một danh mục khác có cùng bí danh " + cateAlias);
+                $('#errorModalDuplicate').modal('show');
+
+            } else {
+                $("#errorBodyDuplicate").text("Phản hồi không xác định từ máy chủ");
+            }
+
+        }).fail(function () {
+            alert("loi")
+            // $("#modalBody").text("Không thể kết nối đến máy chủ");
+        });
+
+        return false;
+    }
+
+    $(document).ready(function (){
+        $("#fileImage").change(function (){
+            fileSize = this.files[0].size;
+            //alert("file size:" +fileSize);
+            if(fileSize > 102400){
+                this.setCustomValidity("You must choose an image less than 100kb");
+                this.reportValidity()
+            }
+            else {
+                this.setCustomValidity("");
+                showImageThumbnail(this);
+            }
+        })
+    });
+
+    function showImageThumbnail(fileInput){
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+        reader.onload = function (e){
+            $("#thumbnail").attr("src", e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
+
+</script>
+
+</body>
+
+</html>

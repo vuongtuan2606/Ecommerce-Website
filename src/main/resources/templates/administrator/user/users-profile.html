@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{administrator/common/common :: html_head}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{administrator/common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{administrator/common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div th:if="${message != null}" class=" alert alert-success text-center">
+      [[${message}]]
+    </div>
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              <img th:src="${#authentication.principal.Photo}" alt="Profile" class="rounded-circle">
+              <h2  sec:authentication="principal.FullName"></h2>
+              <h3  sec:authentication="principal.authorities"></h3>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                </li>
+
+
+              </ul>
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                  <h5 class="card-title">Profile Details</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8">[[${user.email}]]</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">First Name</div>
+                    <div class="col-lg-9 col-md-8">[[${user.firstName}]]</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Last Name</div>
+                    <div class="col-lg-9 col-md-8">[[${user.lastName}]]</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Roles</div>
+                    <div class="col-lg-9 col-md-8">[[${user.roles}]]</div>
+                  </div>
+
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                  <!-- account Form -->
+                  <form  th:action="@{/admin/account/update}" method="post"
+                         enctype="multipart/form-data"
+                         th:object="${user}"
+                         onsubmit="return checkEmailUnique(this);">
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="row mb-3">
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input th:field="*{email}" type="email" class="form-control" style="background-color: #c9c9c966" readonly="readonly" >
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="fisrtName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input th:field="*{firstName}"  type="text" class="form-control"  required minlength="2" maxlength="45">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input th:field="*{lastName}"  type="text" class="form-control" required minlength="2" maxlength="45" >
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input th:field="*{password}" type="password" class="form-control"
+                               minlength="8" maxlength="20"
+                               placeholder="bỏ qua nếu bạn không muốn thay đổi mật khẩu"
+                               oninput="checkkPasswordMath(document.getElementById('password'))"/>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Re-enter Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input  type="password" class="form-control"
+                                id="password"
+                                minlength="8" maxlength="20"
+                                oninput="checkkPasswordMath(this)"/>
+                     </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Assigned Roles</label>
+                      <div class="col-md-8 col-lg-9">
+                        <span class="form-control"  style="border: 0px; padding: 0.375rem;"><b>[[${user.roles}]]</b></span>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input type="hidden" th:field="*{photos}">
+                        <img th:src="@{${user.photosImagePath}}" alt="Profile" id="thumbnail">
+                        <div class="pt-2">
+                          <input type="file"
+                                 name="image"
+                                 class="btn btn-primary btn-sm d-none"
+                                 id="fileImage"
+                                 style="margin-left: 5px;"
+                                 accept="image/png, image/jpeg">
+                          <label for="fileImage" class="btn btn-primary btn-sm" style="color: white">
+                            <i class="bi bi-upload"></i> Update
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+
+                  </form>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Thông báo</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <span id="modalBody"></span>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!-- End Basic Modal-->
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer th:replace="~{administrator/common/common :: footer}" ></footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- ======= JS ======= -->
+  <span th:replace="~{administrator/common/common :: js}"></span>
+  <script type="text/javascript">
+
+    $(document).ready(function (){
+      $("#fileImage").change(function (){
+        fileSize = this.files[0].size;
+        //alert("file size:" +fileSize);
+        if(fileSize > 1048576){
+          $("#modalBody").text("Bạn cần chọn ảnh nhỏ hơn 1MB");
+          $('#errorModal').modal('show');
+        }
+        else {
+          showImageThumbnail(this);
+        }
+      })
+    });
+
+    function showImageThumbnail(fileInput){
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+      reader.onload = function (e){
+        $("#thumbnail").attr("src", e.target.result);
+      }
+      reader.readAsDataURL(file);
+    }
+
+    function checkkPasswordMath(confirmPassword){
+      if(confirmPassword.value != $("#password").val()){
+        confirmPassword.setCustomValidity("Mật khẩu không trùng khớp")
+      }
+      else {
+        confirmPassword.setCustomValidity("");
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>

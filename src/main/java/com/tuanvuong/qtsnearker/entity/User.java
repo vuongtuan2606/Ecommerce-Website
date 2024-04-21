@@ -7,11 +7,8 @@ import java.util.Set;
 
 @Entity
 @Table(name="tbl_users")
-public class User {
+public class User extends IdBasedEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer id;
     @Column(length = 128, nullable = false, unique = true)
     private  String email;
     @Column(length = 64, nullable = false)
@@ -120,7 +117,7 @@ public class User {
     @Transient
     public String getPhotosImagePath(){
         // sủ dụng ảnh mặc định/
-        if(id == null || photos == null) return "/user-photos/avatar-default.jpg";
+        if(id == null || photos == null) return "/images/avatar-default.jpg";
 
         return "/user-photos/" + this.id + "/" +this.photos;
     }

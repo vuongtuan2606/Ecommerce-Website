@@ -41,7 +41,7 @@ public class AdminAccountController  {
 
         model.addAttribute("user", user);
 
-        return "administrator/users-profile";
+        return "administrator/user/users-profile";
     }
 
     @PostMapping("/admin/account/update")
@@ -59,7 +59,7 @@ public class AdminAccountController  {
             User savedUser = userService.updateAccount(user);
 
             // đường dẫn thư mục ->  tạo thư mục "user-photos"
-            String uploadDir ="user-photos/" +savedUser.getId();
+            String uploadDir = "static/user-photos/" +savedUser.getId();
 
             // xóa ảnh cũ
             FileUploadUtil.cleanDir(uploadDir);

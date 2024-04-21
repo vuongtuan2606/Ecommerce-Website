@@ -9,21 +9,23 @@ import java.nio.file.Paths;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Tên thư mục chứa ảnh
-        String dirName ="user-photos";
 
-        // Tạo path đại diện cho đường dẫn thư mục
-        Path userPhotosdir = Paths.get(dirName);
+        @Override
+        public void addResourceHandlers(ResourceHandlerRegistry registry) {
+            exposeDirectory("static/user-photos", registry);
+            exposeDirectory("static/images", registry);
+            exposeDirectory("static/category-images", registry);
 
-        // Lấy đường dẫn của thư mục user-photos lưu vào biến userPhotosPath
-        String userPhotosPath = userPhotosdir.toFile().getAbsolutePath();
+        }
 
-        // Đăng ký một resource handler cho các yêu cầu với URL pattern bắt đầu bằng /user-photos/.
-        // Khi có yêu cầu với URL tương ứng, Spring sẽ xử lý nó bằng cách tìm kiếm tệp trong thư mục user-photos.
-        registry.addResourceHandler("/"+dirName+"/**")
-                // xác định vị trí tệp
-                .addResourceLocations("file:/"+userPhotosPath +"/");
-    }
+        private void exposeDirectory(String pathPattern, ResourceHandlerRegistry registry) {
+            Path path = Paths.get(pathPattern);
+
+            String absolutePath = path.toFile().getAbsolutePath();
+
+            String logicalPath = pathPattern.replace("../", "") + "/**";
+
+            registry.addResourceHandler(logicalPath)
+                    .addResourceLocations("file:/" + absolutePath + "/");
+        }
 }

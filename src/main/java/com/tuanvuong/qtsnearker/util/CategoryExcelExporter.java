@@ -1,28 +1,32 @@
 package com.tuanvuong.qtsnearker.util;
 
+import com.tuanvuong.qtsnearker.entity.Category;
 import com.tuanvuong.qtsnearker.entity.User;
+import com.tuanvuong.qtsnearker.services.CategoryService;
+import com.tuanvuong.qtsnearker.services.Impl.CategoryServiceImpl;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.List;
 
-public class UserExcelExporter extends AbstractExporter {
+public class CategoryExcelExporter extends AbstractExporter {
     private  XSSFWorkbook workbook;
     private  XSSFSheet sheet;
 
-    public UserExcelExporter(){
+    public CategoryExcelExporter(){
         workbook = new XSSFWorkbook();
     }
 
-    public void export(List<User> listUsers , HttpServletResponse response) throws IOException{
-       super.setResponseHeader(response, "application/octet-stream",".xlsx", "users_" );
+    public void export(List<Category> listCategory , HttpServletResponse response) throws IOException{
+       super.setResponseHeader(response, "application/octet-stream",".xlsx" , "Category_");
 
         writeHeaderLine();
 
-        writeDataLines(listUsers);
+        writeDataLines(listCategory);
 
         ServletOutputStream outputStream = response.getOutputStream();
 
@@ -51,7 +55,7 @@ public class UserExcelExporter extends AbstractExporter {
         cell.getCellStyle();
     }
     private void writeHeaderLine() {
-        sheet = workbook.createSheet("Users");
+        sheet = workbook.createSheet("Category");
 
         XSSFRow row = sheet.createRow(0);
 
@@ -65,15 +69,12 @@ public class UserExcelExporter extends AbstractExporter {
 
         cellStyle.setFont(font);
 
-        createCell(row, 0, "User Id", cellStyle);
-        createCell(row, 1, "E-mail", cellStyle);
-        createCell(row, 2, "First Name", cellStyle);
-        createCell(row, 3, "Last Name", cellStyle);
-        createCell(row, 4, "Roles", cellStyle);
-        createCell(row, 5, "Enabled", cellStyle);
+        createCell(row, 0, " Id", cellStyle);
+        createCell(row, 1, "Category name", cellStyle);
+        createCell(row, 2, "Category alias", cellStyle);
     }
 
-    private  void writeDataLines(List<User> listUsers){
+    private  void writeDataLines(List<Category> listCategory){
         int rowIndex = 1;
 
         XSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -84,18 +85,17 @@ public class UserExcelExporter extends AbstractExporter {
 
         cellStyle.setFont(font);
 
-        for (User user : listUsers){
+        for (Category cat : listCategory){
 
             XSSFRow row = sheet.createRow(rowIndex++);
 
             int columnIndex = 0;
 
-            createCell(row,columnIndex++, user.getId(), cellStyle);
-            createCell(row,columnIndex++, user.getEmail(), cellStyle);
-            createCell(row,columnIndex++, user.getFirstName(), cellStyle);
-            createCell(row,columnIndex++, user.getLastName(), cellStyle);
-            createCell(row,columnIndex++, user.getRoles().toString(), cellStyle);
-            createCell(row,columnIndex++, user.isEnabled(), cellStyle);
+            createCell(row,columnIndex++, cat.getId(), cellStyle);
+            createCell(row,columnIndex++, cat.getName(), cellStyle);
+            createCell(row,columnIndex++, cat.getAlias(), cellStyle);
+
+
         }
     }
 

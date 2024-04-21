@@ -2,7 +2,6 @@ package com.tuanvuong.qtsnearker.controller.administrator;
 
 import com.tuanvuong.qtsnearker.entity.User;
 import com.tuanvuong.qtsnearker.entity.Role;
-import com.tuanvuong.qtsnearker.services.UserServiceImpl;
 import com.tuanvuong.qtsnearker.services.exceptions.UserNotFoundException;
 import com.tuanvuong.qtsnearker.services.UserService;
 import com.tuanvuong.qtsnearker.util.FileUploadUtil;
@@ -64,7 +63,7 @@ public class AdminUserController {
 
         model.addAttribute("currentPage", pageNum);
 
-        model.addAttribute("totalPagas", page.getTotalPages());
+        model.addAttribute("totalPages", page.getTotalPages());
 
         model.addAttribute("startCount", startCount);
 
@@ -82,8 +81,12 @@ public class AdminUserController {
 
         model.addAttribute("keyword", keyword);
 
+        model.addAttribute("moduleURL", "/admin/users");
 
-        return "administrator/user";
+        model.addAttribute("pageTitle","Danh sách khách hàng");
+
+
+        return "administrator/user/user";
     }
 
 
@@ -102,7 +105,7 @@ public class AdminUserController {
 
         model.addAttribute("pageTitle","Thêm mới");
 
-        return "administrator/user_form";
+        return "administrator/user/user_form";
     }
 
     /*
@@ -123,7 +126,7 @@ public class AdminUserController {
             User savedUser = userService.save(user);
 
             // đường dẫn thư mục ->  tạo thư mục "user-photos"
-            String uploadDir ="user-photos/" +savedUser.getId();
+            String uploadDir = "src/main/resources/static/user-photos/" +savedUser.getId();
 
             // xóa ảnh cũ
             FileUploadUtil.cleanDir(uploadDir);
@@ -177,7 +180,7 @@ public class AdminUserController {
              redirectAttributes.addFlashAttribute("message",ex.getMessage());
          }
 
-         return "administrator/user_form";
+         return "administrator/user/user_form";
      }
 
      @GetMapping ("/users/delete/{id}")

@@ -44,7 +44,7 @@ public class SecurityConfig  {
 
     @Bean
     WebSecurityCustomizer configureWebSecurity() throws Exception{
-        return (web) -> web.ignoring().requestMatchers("/administrator/image/**","/administrator/css/**","/administrator/js/**","/administrator/vendor/**","/administrator/webjars/**");
+        return (web) -> web.ignoring().requestMatchers("/administrator/css/**","/administrator/js/**","/administrator/vendor/**","/administrator/webjars/**");
     }
     @Bean
     UserDetailsService userDetailsServices(){
