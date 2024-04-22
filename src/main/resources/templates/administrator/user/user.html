@@ -32,7 +32,6 @@
 
               <div class="search-bar" th:replace="~{administrator/common/fragments :: search_form('/admin/users')}">
               </div>
-
               <!-- End search bar-->
 
               <div class="button-container">
@@ -51,98 +50,101 @@
 
         <!-- columns table -->
         <div class="col-lg-12 col-sm-12">
-          <div class="table-wrapper">
-            <table class="table table-hover table-responsive ">
-              <thead>
-                <tr>
-                  <th th:replace="~{administrator/common/fragments :: column_link('id', 'User ID')}"></th>
+          <div class="card">
+            <div class="card-body">
+              <div class="table-wrapper">
+                <table class="table table-hover table-responsive ">
+                  <thead>
+                  <tr>
+                    <th th:replace="~{administrator/common/fragments :: column_link('id', 'User ID')}"></th>
 
-                  <th scope="col">Photos</th>
+                    <th scope="col">Photos</th>
 
-                  <th th:replace="~{administrator/common/fragments :: column_link('email', ' Email')}"></th>
+                    <th th:replace="~{administrator/common/fragments :: column_link('email', ' Email')}"></th>
 
-                  <th th:replace="~{administrator/common/fragments :: column_link('firstName', ' First Name')}"></th>
+                    <th th:replace="~{administrator/common/fragments :: column_link('firstName', ' First Name')}"></th>
 
-                  <th th:replace="~{administrator/common/fragments :: column_link('lastName', ' Last Name')}"></th>
+                    <th th:replace="~{administrator/common/fragments :: column_link('lastName', ' Last Name')}"></th>
 
-                  <th scope="col">Roles</th>
+                    <th scope="col">Roles</th>
 
-                  <th th:replace="~{administrator/common/fragments :: column_link('enabled', ' Enabled')}"></th>
+                    <th th:replace="~{administrator/common/fragments :: column_link('enabled', ' Enabled')}"></th>
 
-                  <th scope="col">Other</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr  th:each="user : ${listUser}">
+                    <th scope="col">Other</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr  th:each="user : ${listUser}">
 
-                  <td scope="row" th:text="${user.id}"></td>
+                    <td scope="row" th:text="${user.id}"></td>
 
-                  <td th:replace="~{administrator/common/fragments ::user_photos}"></td>
+                    <td th:replace="~{administrator/common/fragments ::user_photos}"></td>
 
-                  <td th:text="${user.email}"></td>
+                    <td th:text="${user.email}"></td>
 
-                  <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.firstName}"></td>
 
-                  <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.lastName}"></td>
 
-                  <td th:text="${user.roles}"></td>
+                    <td th:text="${user.roles}"></td>
 
-                  <td th:replace="~{administrator/common/fragments :: status(${user.enabled},  '/admin/users/' + ${user.id})}" ></td>
+                    <td th:replace="~{administrator/common/fragments :: status(${user.enabled},  '/admin/users/' + ${user.id})}" ></td>
 
-                  <td class="table-td-center">
-                    <a th:replace="~{administrator/common/fragments :: delete(${user.id}, '/admin/users/delete/' + ${user.id})}" ></a>
+                    <td class="table-td-center">
+                      <a th:replace="~{administrator/common/fragments :: delete(${user.id}, '/admin/users/delete/' + ${user.id})}" ></a>
 
-                    <a th:replace="~{administrator/common/fragments :: edit('/admin/users/edit/' + ${user.id}) }"></a>
-                  </td>
+                      <a th:replace="~{administrator/common/fragments :: edit('/admin/users/edit/' + ${user.id}) }"></a>
+                    </td>
 
-              </tr>
-              </tbody>
-            </table>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="text-center m-1" th:if="${totalItem > 0}">
+                <span>Tìm thấy  [[${startCount}]] to [[${endCount}]] of [[${totalItem}]]</span>
+              </div>
+
+              <div class="text-center m-1" th:unless="${totalItem > 0}">
+                <span >Không tìm thấy người dùng</span>
+              </div>
+
+              <div th:if="${totalPages > 1}">
+                <!-- Pagination with icons -->
+                <nav aria-label="Page navigation ">
+                  <ul class="pagination justify-content-end" >
+
+                    <li th:class="${currentPage > 1  ? 'page-item' : 'page-item disabled'}">
+                      <a class="page-link" th:href="@{'/admin/users/page/'+ ${currentPage -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+
+                    <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                        th:each="i : ${#numbers.sequence(1, totalPages)}">
+                      <a class="page-link" th:href="@{'/admin/users/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
+                    </li>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}" >
+                      <a class="page-link" th:href="@{'/admin/users/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                      <a class="page-link" th:href="@{'/admin/users/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
+                        Last
+                      </a>
+                    </li>
+
+                  </ul>
+                </nav><!-- End Pagination with icons -->
+              </div>
+
+              <!-- Modal -->
+              <div th:replace="~{administrator/common/fragments_modal :: modal_dialog}"></div>
+            </div>
           </div>
-
-
-          <div class="text-center m-1" th:if="${totalItem > 0}">
-            <span>Tìm thấy  [[${startCount}]] to [[${endCount}]] of [[${totalItem}]]</span>
-          </div>
-
-          <div class="text-center m-1" th:unless="${totalItem > 0}">
-            <span >Không tìm thấy người dùng</span>
-          </div>
-
-          <div th:if="${totalPages > 1}">
-            <!-- Pagination with icons -->
-            <nav aria-label="Page navigation ">
-              <ul class="pagination justify-content-end" >
-
-                <li th:class="${currentPage > 1  ? 'page-item' : 'page-item disabled'}">
-                  <a class="page-link" th:href="@{'/admin/users/page/'+ ${currentPage -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-
-                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
-                    th:each="i : ${#numbers.sequence(1, totalPages)}">
-                  <a class="page-link" th:href="@{'/admin/users/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
-                </li>
-
-                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}" >
-                  <a class="page-link" th:href="@{'/admin/users/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-
-                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                  <a class="page-link" th:href="@{'/admin/users/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
-                    Last
-                  </a>
-                </li>
-
-              </ul>
-            </nav><!-- End Pagination with icons -->
-          </div>
-          <!-- Modal -->
-          <div th:replace="~{administrator/common/fragments_modal :: modal_dialog}"></div>
-
         </div><!-- End columns table-->
       </div>
     </section>
@@ -161,40 +163,6 @@
 
     moduleURL = "[[@{/admin/users}]]";
 
-    $(document).ready(function (){
-
-      $(".link-delete").on("click", function (e){
-
-        e.preventDefault();
-
-        var link = $(this);
-
-        var entityId = link.attr("entityId");
-
-        $("#confirmDelete").attr("href", link.attr("href"));
-
-        $("#confirmText").text("Bạn có muốn xóa người dùng có id: " + entityId + " không");
-
-      });
-    });
-
-    document.addEventListener("DOMContentLoaded", function() {
-
-      const form = document.querySelector('.search-form');
-
-      form.addEventListener('submit', function(event) {
-
-        const keywordInput = document.querySelector('input[name="keyword"]');
-
-        if (keywordInput.value.trim() === '') {
-
-          // Nếu trường keyword rỗng, chuyển hướng đến trang list user
-          window.location.href = '/admin/users';
-
-          event.preventDefault();
-        }
-      });
-    });
 
   </script>
 

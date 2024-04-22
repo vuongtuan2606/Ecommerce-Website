@@ -27,91 +27,78 @@
       <div class="row">
         <!-- columns form -->
         <div class="col-lg-12 col-sm-12">
-          <!-- Vertical Form -->
-          <form class="row g-3" th:action="@{/admin/users/save}" method="post"
-                enctype="multipart/form-data"
-                th:object="${user}"
-                onsubmit="return checkEmailUnique(this);">
+          <div class="card">
+            <div class="card-body">
+              <!-- Vertical Form -->
+              <form class="row g-3" th:action="@{/admin/users/save}" method="post"
+                    enctype="multipart/form-data"
+                    th:object="${user}"
+                    onsubmit="return checkEmailUnique(this);">
 
-            <input type="hidden" th:field="*{id}">
-            <div class="col-12">
-              <label  class="form-label">Email</label>
-              <input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128" >
-            </div>
-            <div class="col-12">
-              <label class="form-label">First Name</label>
-              <input type="text" class="form-control" th:field="*{firstName}" required minlength="2" maxlength="45" >
-            </div>
-            <div class="col-12">
-              <label class="form-label">Last Name</label>
-              <input type="text" class="form-control" th:field="*{lastName}" required minlength="2" maxlength="45" >
-            </div>
-            <div class="col-12">
-              <label class="form-label">Password</label>
-              <input type="password" class="form-control" th:field="*{password}"
-                     th:if="${user.id == null}"  required minlength="8" maxlength="20">
-              <input type="password" class="form-control" th:field="*{password}" placeholder="bỏ qua nếu bạn không muốn thay đổi password"
-                     th:if="${user.id != null}"  minlength="8" maxlength="20" >
-            </div>
-            <div class="col-12">
-              <label class="col-form-label">Role</label>
-              <th:block th:each="role : ${listRoles}" >
-                <div class="col-sm-10">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           th:field="*{roles}"
-                           th:text="${role.name}"
-                           th:value="${role.id}">:
-                    <small th:text="${role.description}"></small>
-                  </div>
+                <input type="hidden" th:field="*{id}">
+                <div class="col-12">
+                  <label  class="form-label">Email</label>
+                  <input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128" >
                 </div>
-              </th:block>
-            </div>
-            <div class="col-12">
-              <label class="form-label">Enable</label>
-              <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{enabled}"  >
-            </div>
-            <div class="col-md-6 col-sm-12">
-              <label class="form-label">Photos</label>
-              <input type="hidden" th:field="*{photos}">
-              <input type="file"
-                     class="form-control mb-4"
-                     name="image"
-                     id="fileImage"
-                     style="margin-left: 5px; "
-                     accept="image/png, image/jpeg">
-              <img   id="thumbnail"
-                     class="img-fluid"
-                     th:src="@{${user.photosImagePath}}"
-                     alt="photos preview"
-                     style="width: 150px; height: auto;" >
-            </div>
-            <div class="text-center">
-              <button class="btn btn-primary btn-style "  type="reset">Reset</button>
-              <button class="btn btn-success btn-style " type="submit" value="submit">Submit</button>
-            </div>
-          </form><!-- Vertical Form -->
+                <div class="col-12">
+                  <label class="form-label">First Name</label>
+                  <input type="text" class="form-control" th:field="*{firstName}" required minlength="2" maxlength="45" >
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Last Name</label>
+                  <input type="text" class="form-control" th:field="*{lastName}" required minlength="2" maxlength="45" >
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Password</label>
+                  <input type="password" class="form-control" th:field="*{password}"
+                         th:if="${user.id == null}"  required minlength="8" maxlength="20">
+                  <input type="password" class="form-control" th:field="*{password}" placeholder="bỏ qua nếu bạn không muốn thay đổi password"
+                         th:if="${user.id != null}"  minlength="8" maxlength="20" >
+                </div>
+                <div class="col-12">
+                  <label class="col-form-label">Role</label>
+                  <th:block th:each="role : ${listRoles}" >
+                    <div class="col-sm-10">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               th:field="*{roles}"
+                               th:text="${role.name}"
+                               th:value="${role.id}">:
+                        <small th:text="${role.description}"></small>
+                      </div>
+                    </div>
+                  </th:block>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Enable</label>
+                  <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{enabled}"  >
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <label class="form-label">Photos</label>
+                  <input type="hidden" th:field="*{photos}">
+                  <input type="file"
+                         class="form-control mb-4"
+                         name="fileImage"
+                         id="fileImage"
+                         style="margin-left: 5px; "
+                         accept="image/png, image/jpeg">
+                  <img   id="thumbnail"
+                         class="img-fluid"
+                         th:src="@{${user.photosImagePath}}"
+                         alt="photos preview"
+                         style="width: 150px; height: auto;" >
+                </div>
+                <div class="text-center">
+                  <button class="btn btn-primary btn-style "  type="reset">Reset</button>
+                  <button class="btn btn-success btn-style " type="submit" value="submit">Submit</button>
+                </div>
+              </form><!-- Vertical Form -->
 
-          <!-- Modal -->
-          <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true" style="display: none;">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Thông báo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <span id="modalBody"></span>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                  </div>
-                </div>
-              </div>
-            </div><!-- End Basic Modal-->
+              <!-- Modal -->
+              <div th:replace="~{administrator/common/fragments_modal :: modal_error}"></div>
+          </div>
         </div><!-- End columns table-->
-
       </div>
     </section>
 
@@ -142,15 +129,6 @@
       })
     });
 
-    function showImageThumbnail(fileInput){
-      var file = fileInput.files[0];
-      var reader = new FileReader();
-      reader.onload = function (e){
-        $("#thumbnail").attr("src", e.target.result);
-      }
-      reader.readAsDataURL(file);
-    }
-
     function checkEmailUnique(form) {
       var url = "[[@{/users/check_email}]]";
       var userId =  $("#id").val();
@@ -162,10 +140,10 @@
         if (response == "OK") {
           form.submit();
         } else if (response == "Duplicated") {
-          $("#modalBody").text("Email này đã tồn tại: " + userEmail);
+          $("#errorBody").text("Email này đã tồn tại: " + userEmail);
           $('#errorModal').modal('show');
         } else {
-          $("#modalBody").text("Không phản hồi từ máy chủ");
+          $("#errorBody").text("Không phản hồi từ máy chủ");
           $('#errorModal').modal('show');
         }
       });

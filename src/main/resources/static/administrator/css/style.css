@@ -37,7 +37,10 @@ h5,
 h6 {
   font-family: "Nunito", sans-serif;
 }
-
+label{
+  font-size: 15px;
+  font-weight: 600;
+}
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
@@ -247,7 +250,7 @@ h6 {
 }
 
 .card-body {
-  padding: 0 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
 }
 
 .card-img-overlay {
@@ -485,6 +488,7 @@ h6 {
 }
 .element_container {
   justify-content: space-between;
+  padding: 0px 25px;
 }
 
 .element_container .search-form {
@@ -494,6 +498,9 @@ h6 {
 @media (max-width: 767px) {
   .element_container .search-bar{
       padding: 10px 1px;
+  }
+  .element_container .search-form {
+    padding: 15px 1px;
   }
 }
 

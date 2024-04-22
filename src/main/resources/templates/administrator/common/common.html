@@ -10,6 +10,10 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
 
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -273,6 +277,25 @@
             </ul>
         </li><!-- End User Nav -->
 
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#brand-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                <i class="bi bi-tags-fill"></i><span>Quản lý thương hiệu</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="brand-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a th:href="@{/admin/brand}">
+                        <i class="bi bi-circle"></i><span>Danh sách thương hiệu</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/brand/create}">
+                        <i class="bi bi-circle"></i><span>Thêm thương hiệu</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End brand Nav -->
+
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#categories-nav" data-bs-toggle="collapse" href="javascript:void(0)">
                 <i class="bi  bi-journal-text"></i><span>Quản lý danh mục</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -292,22 +315,22 @@
         </li><!-- End category Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#brand-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                <i class="bi bi-tags-fill"></i><span>Quản lý thương hiệu</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link collapsed" data-bs-target="#product-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                <i class="bi bi-grid-fill"></i><span>Quản lý sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="brand-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="product-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a th:href="@{/admin/brand}">
-                        <i class="bi bi-circle"></i><span>Danh sách thương hiệu</span>
+                    <a th:href="@{/admin/product}">
+                        <i class="bi bi-circle"></i><span>Danh sách sản phẩm</span>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/admin/brand/create}">
-                        <i class="bi bi-circle"></i><span>Thêm thương hiệu</span>
+                    <a th:href="@{/admin/product/create}">
+                        <i class="bi bi-circle"></i><span>Thêm sản phẩm</span>
                     </a>
                 </li>
             </ul>
-        </li><!-- End brand Nav -->
+        </li><!-- End product Nav -->
 
         <li class="nav-heading">Pages</li>
 
@@ -359,6 +382,8 @@
 
 <!-- ======= Js ======= -->
 <span th:fragment="js" >
+     <!--jquery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Vendor JS Files -->
     <script th:src="@{/administrator/vendor/apexcharts/apexcharts.min.js}"></script>
     <script th:src="@{/administrator/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -368,10 +393,11 @@
     <script th:src="@{/administrator/vendor/simple-datatables/simple-datatables.js}"></script>
     <script th:src="@{/administrator/vendor/tinymce/tinymce.min.js}"></script>
     <script th:src="@{/administrator/vendor/php-email-form/validate.js}"></script>
-    <!--jquery-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Template Main JS File -->
     <script th:src="@{/administrator/js/main.js}"></script>
+
+    <script th:src="@{/administrator/js/common_form.js}"></script>
+
     <script type="text/javascript">
         $(document).ready(function (){
             $("#logoutLink").on("click", function (e){

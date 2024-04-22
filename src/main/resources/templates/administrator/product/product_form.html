@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{administrator/common/common :: html_head}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{administrator/common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{administrator/common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Quản lý sản phẩm</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/admin/product}">Home</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/product}">Danh sách sản phẩm</a> / [[${pageTitle}]]</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section admin-user">
+        <div class="row">
+            <!-- columns form -->
+            <div class="col-lg-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Vertical Form -->
+                        <form class="row g-3" th:action="@{/admin/product/save}" method="post"
+                              enctype="multipart/form-data"
+                              th:object="${product}"
+                              onsubmit="return checkUnique(this);">
+
+                            <input type="hidden" th:field="*{id}">
+                            <div >
+                                <!-- Bordered Tabs -->
+                                <ul class="nav nav-tabs nav-tabs-bordered">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#Overview">Tổng quan</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#Description">Miêu tả</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#Images">Hình ảnh</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#Details">Chi tiết</a>
+                                    </li>
+
+
+                                </ul>
+                                <div class="tab-content pt-2">
+
+                                    <div class="tab-pane fade show active pt-3  " id="Overview">
+                                        <div th:replace="~{administrator/product/product_overview :: content }"></div>
+                                    </div>
+
+                                    <div class="tab-pane fade  pt-3" id="Description">
+                                        <div th:replace="~{administrator/product/product_description :: content }"></div>
+                                    </div>
+
+                                    <div class="tab-pane fade pt-3" id="Images"></div>
+
+                                    <div class="tab-pane fade pt-3" id="Details"></div>
+
+
+                                </div><!-- End Bordered Tabs -->
+                            </div>
+                        </form><!-- Vertical Form -->
+
+                        <!-- Modal -->
+                        <div th:replace="~{administrator/common/fragments_modal :: modal_error}"></div>
+
+                    </div>
+                </div>
+            </div><!-- End columns table-->
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer th:replace="~{administrator/common/common :: footer}" ></footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- ======= JS ======= -->
+<span th:replace="~{administrator/common/common :: js}"></span>
+<script type="text/javascript">
+    moduleURL = "[[@{/admin/product}]]";
+    brandModuleURL = "[[@{/brand}]]";
+
+    function checkUnique(form) {
+        var url = "[[@{/product/check_unique}]]";
+        var productId = $("#id").val();
+        var productName = $("#name").val();
+
+        var csrfValue = $("input[name='_csrf']").val();
+        var params = {id: productId, name: productName, _csrf: csrfValue};
+
+        $.post(url, params, function (response) {
+
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicate") {
+
+                $("#errorBody").text("Có một sản phẩm khác có cùng tên " + productName);
+                $('#errorModal').modal('show');
+
+            } else {
+                $("#errorBody").text("Phản hồi không xác định từ máy chủ");
+            }
+
+        }).fail(function () {
+            $("#errorBody").text("Không thể kết nối đến máy chủ");
+        });
+
+        return false;
+    }
+</script>
+<script th:src="@{/administrator/js/product_form_overview.js}"></script>
+
+
+
+</body>
+
+</html>
