@@ -2,7 +2,7 @@ package com.tuanvuong.qtsnearker.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Table(name = "tbl_products")
@@ -38,7 +38,7 @@ public class Product extends IdBasedEntity {
     @Column(name = "discount_percent")
     private float discountPercent;
 
-    @Column(name = "main_image")
+    @Column(name = "main_image", nullable = false)
     private String mainImage;
 
     @ManyToOne
@@ -48,6 +48,21 @@ public class Product extends IdBasedEntity {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    // orphanRemoval = true tự động xóa product_image khỏi db khi không còn liên kết với product nào nữa
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProductImage> images = new HashSet<>();
+
+    public void addExtraImages(String imageName){
+        this.images.add(new ProductImage(imageName, this));
+    }
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductDetail> details = new ArrayList<>();
+
+    public void addDetail(String detailName, String value){
+        this.details.add(new ProductDetail(detailName,value, this));
+    }
 
     public Product() {}
 
@@ -161,6 +176,22 @@ public class Product extends IdBasedEntity {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public Set<ProductImage> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ProductImage> images) {
+        this.images = images;
+    }
+
+    public List<ProductDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<ProductDetail> details) {
+        this.details = details;
     }
 
     @Transient

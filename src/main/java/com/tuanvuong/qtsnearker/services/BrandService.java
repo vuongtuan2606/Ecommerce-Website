@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface BrandService {
-    int BRAND_PER_PAGE = 2;
+    int BRAND_PER_PAGE = 5;
     List<Brand> listAll();
 
     Page<Brand> listByPage(int pageNum, String sortDir, String keyword );

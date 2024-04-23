@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="content"   >
+
+        <div class="row p-3" id="divProductImages">
+
+           <div class="col-md-4 col-sm-12 border p-3   ">
+               <div>
+                   <label class="form-label">Ảnh Chính:  [[${product.mainImage}]]</label>
+                   <input type="hidden" th:field="*{mainImage}" />
+               </div>
+
+               <div class="m-2">
+                   <input type="file"  class="form-control"  accept="image/png, image/jpeg"
+                          name="fileImage" id="fileImage"
+                          th:required="${product.mainImage == null}"  >
+               </div>
+
+               <div>
+                   <img alt="Main image preview"   class="img-fluid"   style="width: 250px; height: auto; padding: 10px 0px;"
+                        id="thumbnail"
+                        th:src="@{${product.mainImagePath}}"  >
+               </div>
+           </div>
+
+            <th:block th:each="productImages, status : ${product.images}">
+
+                <div class="col-md-4 col-sm-12 border p-3 " th:id=" 'divExtraImage' + ${status.index}">
+                    <div th:id="'extraImageHeader' + ${status.index}">
+                        <label class="form-label">
+                            Ảnh phụ #:[[${status.index +1}]]: [[${productImages.name}]]
+                        </label>
+                        <a  title="Remove this image"
+                            class="btn btn-secondary bi bi-trash float-right"
+                            name="linkRemoveExtraImage"></a>
+                    </div>
+
+                    <div class="m-2">
+                        <input type="file" name="extraImage" class="form-control " accept="image/png, image/jpeg"  >
+                    </div>
+
+                    <div>
+                        <img th:alt=" 'Extra image'  + ${status.index + 1} + 'preview' " class="img-fluid"   style="width: 250px; height: auto; padding: 10px 0px;"
+                             th:id="'extraThumbnail' + ${status.index} "
+                             th:src="@{${productImages.imagePath}}"  >
+
+                        <input type="hidden" name="imageIDs" th:id="'imageIDs' + ${status.index}"/>
+                        <input type="hidden" name="imageName" th:id="'imageName' + ${status.index}"/>
+                    </div>
+                </div>
+
+            </th:block>
+
+
+                <div class="col-md-4 col-sm-12 border p-3  "  th:id=" 'divExtraImage' + ${numberOfExistingExtraImages}">
+                    <div th:id=" 'extraImageHeader' +${numberOfExistingExtraImages}">
+                        <label class="form-label">Ảnh phụ # [[${numberOfExistingExtraImages + 1}]] :</label>
+                    </div>
+
+                    <div class="m-2">
+                        <input type="file" name="extraImage" class="form-control " accept="image/png, image/jpeg"  >
+                    </div>
+
+                    <div>
+                        <img th:alt=" 'Extra image #' +${numberOfExistingExtraImages}+' preview' " class="img-fluid"   style="width: 250px; height: auto; padding: 10px 0px;"
+                             th:id=" 'extraThumbnail' +${numberOfExistingExtraImages}"
+                             th:src=" @{/images/image-thumbnail.png}" >
+                    </div>
+                </div>
+       </div>
+
+
+
+    </div>
+</body>
+</html>

@@ -64,18 +64,24 @@
 
                             <div class="col-md-12 col-sm-12">
                                 <label class="form-label">Image</label>
-                                <input type="hidden" th:field="*{image}">
-                                <input type="file"
-                                       class="form-control mb-4"
-                                       name="fileImage"
-                                       id="fileImage"
-                                       style="margin-left: 5px; "
-                                       accept="image/png, image/jpeg">
-                                <img   id="thumbnail"
-                                       class="img-fluid"
-                                       alt="Image preview"
-                                       th:src="@{${category.imagePath}}"
-                                       style="width: 150px; height: auto;" >
+                                <div class="row" >
+                                    <div class="col-12">
+                                        <input type="hidden" th:field="*{image}">
+                                        <input type="file"
+                                               class="form-control "
+                                               name="fileImage"
+                                               id="fileImage"
+                                               accept="image/png, image/jpeg"
+                                        >
+                                        <img id="thumbnail"
+                                             class="img-fluid"
+                                             alt="Image preview"
+                                             th:src="@{${category.imagePath}}"
+                                             style="width: 250px; height: auto;padding: 15px 0px;">
+                                    </div>
+
+                                </div>
+
                             </div>
 
                             <div class="text-center">
@@ -143,14 +149,9 @@
 
         return false;
     }
-
-
-
-
-
-
 </script>
 
+<script th:src="@{/administrator/js/common_form.js}"></script>
 </body>
 
 </html>

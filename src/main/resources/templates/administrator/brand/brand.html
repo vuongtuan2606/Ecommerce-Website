@@ -5,163 +5,164 @@
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header th:replace="~{administrator/common/common :: header}" ></header><!-- End Header -->
+<!-- ======= Header ======= -->
+<header th:replace="~{administrator/common/common :: header}" ></header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <aside th:replace="~{administrator/common/common :: sidebar}" ></aside><!-- End Sidebar-->
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{administrator/common/common :: sidebar}" ></aside><!-- End Sidebar-->
 
-  <main id="main" class="main">
+<main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Quản lý thương thiệu</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
-          <li class="breadcrumb-item active"><a th:href="@{/admin/brand}">[[${pageTitle}]]</a></li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+  <div class="pagetitle">
+    <h1>Quản lý thương thiệu</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+        <li class="breadcrumb-item active"><a th:href="@{/admin/brand}">[[${pageTitle}]]</a></li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
 
-    <section class="section admin-user">
-      <div class="row">
-        <!-- columns element-button -->
-        <div class="col-lg-12 ol-sm-12 element-button ">
-          <div class="row">
-            <div class="col-xl-12 element_container ">
+  <section class="section admin-user">
+    <div class="row">
+      <!-- columns element-button -->
+      <div class="col-lg-12 ol-sm-12 element-button ">
+        <div class="row">
+          <div class="col-xl-12 element_container ">
 
-              <div class="search-bar" th:replace="~{administrator/common/fragments :: search_form('/admin/brand')}">
-              </div>
-              <!-- End search bar-->
-
-              <div class="button-container">
-                <a class="btn btn-success" th:href="@{/admin/brand/create}" title="Thêm"><i class="bi bi-file-earmark-person"></i> Tạo mới </a>
-                <a class="btn btn-primary" th:href="@{/admin/brand/export/excel}"  title="In"><i class="bi bi-file-earmark-excel"></i> Xuất Excel </a>
-              </div>
-
+            <div class="search-bar" th:replace="~{administrator/common/fragments :: search_form('/admin/brand')}">
             </div>
-          </div>
-        </div><!-- End columns element-button -->
+            <!-- End search bar-->
 
-        <div th:if="${message != null}" class=" alert alert-success text-center">
-          [[${message}]]
+            <div class="button-container">
+              <a class="btn btn-success" th:href="@{/admin/brand/create}" title="Thêm"><i class="bi bi-file-earmark-person"></i> Tạo mới </a>
+              <a class="btn btn-primary" th:href="@{/admin/brand/export/excel}"  title="In"><i class="bi bi-file-earmark-excel"></i> Xuất Excel </a>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- End columns element-button -->
+
+      <div th:if="${message != null}" class=" alert alert-success text-center">
+        [[${message}]]
+      </div>
+
+      <!-- columns table -->
+      <div class="col-lg-12 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table class="table table-hover table-responsive ">
+                <thead>
+                <tr>
+                  <th scope="col">Id</th>
+
+                  <th scope="col">Logo</th>
+
+                  <th th:replace="~{administrator/common/fragments :: column_link('name', ' Brand name')}"></th>
+
+                  <th scope="col">Categories</th>
+
+                  <th scope="col">Other</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  th:each="brand : ${listBrand}">
+
+                  <td scope="row" th:text="${brand.id}"></td>
+
+                  <td >
+                    <span th:if="${brand.logo == null}" class="bi bi-card-image" style="color: darkgrey;font-size: 50px"></span>
+                    <img th:if="${brand.logo != null}" th:src="@{${brand.logoPath}}" style="width: 100px; height:auto;" >
+                  </td>
+
+                  <td th:text="${brand.name}"></td>
+
+                  <td>
+                    <th:block  th:each="cat : ${brand.categories}">
+                      <span  class="badge badge-secondary"  th:text="${cat.name}" style="font-size: 13px; color: black;border: 1px solid ;background-color: darkgrey;"></span>
+                    </th:block>
+
+                  </td>
+
+                  <td class="table-td-center">
+                    <a th:replace="~{administrator/common/fragments :: delete(${brand.name}, '/admin/brand/delete/' + ${brand.id})}" ></a>
+
+                    <a th:replace="~{administrator/common/fragments :: edit('/admin/brand/edit/' + ${brand.id}) }"></a>
+                  </td>
+
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="text-center m-1" th:if="${totalItem > 0}">
+              <span>Tìm thấy  [[${startCount}]] to [[${endCount}]] of [[${totalItem}]]</span>
+            </div>
+
+            <div class="text-center m-1" th:unless="${totalItem > 0}">
+              <span >Không tìm thấy người dùng</span>
+            </div>
+
+            <div th:if="${totalPages > 1}">
+              <!-- Pagination with icons -->
+              <nav aria-label="Page navigation ">
+                <ul class="pagination justify-content-end" >
+
+                  <li th:class="${totalPages > 1  ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link" th:href="@{'/admin/brand/page/'+ ${totalPages -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+
+                  <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                      th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link" th:href="@{'/admin/brand/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
+                  </li>
+
+                  <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}" >
+                    <a class="page-link" th:href="@{'/admin/brand/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+
+                  <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link" th:href="@{'/admin/brand/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
+                      Last
+                    </a>
+                  </li>
+
+                </ul>
+              </nav><!-- End Pagination with icons -->
+            </div>
+            <!-- Modal -->
+            <div th:replace="~{administrator/common/fragments_modal :: modal_dialog}"></div>
+          </div>
         </div>
 
-        <!-- columns table -->
-        <div class="col-lg-12 col-sm-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="table-wrapper">
-                <table class="table table-hover table-responsive ">
-                  <thead>
-                  <tr>
-                    <th scope="col">Id</th>
-
-                    <th scope="col">Logo</th>
-
-                    <th th:replace="~{administrator/common/fragments :: column_link('name', ' Brand name')}"></th>
-
-                    <th scope="col">Categories</th>
-
-                    <th scope="col">Other</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr  th:each="brand : ${listBrand}">
-
-                    <td scope="row" th:text="${brand.id}"></td>
-
-                    <td >
-                      <span th:if="${brand.logo == null}" class="bi bi-card-image" style="color: darkgrey;font-size: 50px"></span>
-                      <img th:if="${brand.logo != null}" th:src="@{${brand.logoPath}}" style="width: 100px; height:auto;" >
-                    </td>
-
-                    <td th:text="${brand.name}"></td>
-
-                    <td>
-                      <th:block  th:each="cat : ${brand.categories}">
-                        <span  class="badge badge-secondary"  th:text="${cat.name}" style="font-size: 13px; color: black;border: 1px solid ;background-color: darkgrey;"></span>
-                      </th:block>
-
-                    </td>
-
-                    <td class="table-td-center">
-                      <a th:replace="~{administrator/common/fragments :: delete(${brand.name}, '/admin/brand/delete/' + ${brand.id})}" ></a>
-
-                      <a th:replace="~{administrator/common/fragments :: edit('/admin/brand/edit/' + ${brand.id}) }"></a>
-                    </td>
-
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="text-center m-1" th:if="${totalItem > 0}">
-                <span>Tìm thấy  [[${startCount}]] to [[${endCount}]] of [[${totalItem}]]</span>
-              </div>
-
-              <div class="text-center m-1" th:unless="${totalItem > 0}">
-                <span >Không tìm thấy người dùng</span>
-              </div>
-
-              <div th:if="${totalPages > 1}">
-                <!-- Pagination with icons -->
-                <nav aria-label="Page navigation ">
-                  <ul class="pagination justify-content-end" >
-
-                    <li th:class="${totalPages > 1  ? 'page-item' : 'page-item disabled'}">
-                      <a class="page-link" th:href="@{'/admin/brand/page/'+ ${totalPages -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-
-                    <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
-                        th:each="i : ${#numbers.sequence(1, totalPages)}">
-                      <a class="page-link" th:href="@{'/admin/brand/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
-                    </li>
-
-                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}" >
-                      <a class="page-link" th:href="@{'/admin/brand/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-
-                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                      <a class="page-link" th:href="@{'/admin/brand/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
-                        Last
-                      </a>
-                    </li>
-
-                  </ul>
-                </nav><!-- End Pagination with icons -->
-              </div>
-              <!-- Modal -->
-              <div th:replace="~{administrator/common/fragments_modal :: modal_dialog}"></div>
-            </div>
-          </div>
 
 
+      </div><!-- End columns table-->
+    </div>
+  </section>
 
-        </div><!-- End columns table-->
-      </div>
-    </section>
+</main><!-- End #main -->
 
-  </main><!-- End #main -->
+<!-- ======= Footer ======= -->
+<footer th:replace="~{administrator/common/common :: footer}" ></footer><!-- End Footer -->
 
-  <!-- ======= Footer ======= -->
-  <footer th:replace="~{administrator/common/common :: footer}" ></footer><!-- End Footer -->
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<!-- ======= JS ======= -->
+<span th:replace="~{administrator/common/common :: js}"></span>
 
-   <!-- ======= JS ======= -->
-  <span th:replace="~{administrator/common/common :: js}"></span>
+<script type="text/javascript">
 
-  <script type="text/javascript">
+  moduleURL = "[[@{/admin/brand}]]";
 
-    moduleURL = "[[@{/admin/brand}]]";
+</script>
 
-
-  </script>
+<script th:src="@{/administrator/js/common_form.js}"></script>
 
 </body>
 

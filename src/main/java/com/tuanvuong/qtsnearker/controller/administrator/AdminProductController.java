@@ -8,16 +8,17 @@ import com.tuanvuong.qtsnearker.services.CategoryService;
 import com.tuanvuong.qtsnearker.services.ProductService;
 import com.tuanvuong.qtsnearker.services.exceptions.CategoryNotFoundException;
 import com.tuanvuong.qtsnearker.services.exceptions.ProductNotFoundException;
+import com.tuanvuong.qtsnearker.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -61,28 +62,81 @@ public class AdminProductController {
     }
 
     @PostMapping("/product/save")
-    public String saveProduct(Product product,
-                               RedirectAttributes redirectAttributes){
+    public String saveProduct(Product product, RedirectAttributes redirectAttributes,
+                              @RequestParam("fileImage") MultipartFile mainImageMultipart,
+                              @RequestParam("extraImage") MultipartFile[] extraImageMultipart)
+            throws IOException {
+        setMainImageName(mainImageMultipart, product);
+        setExtraImageNames(extraImageMultipart, product);
 
-        productService.save(product);
-        redirectAttributes.addFlashAttribute("message","Sản phẩm đã được lưu thành công");
+        Product savedProduct = productService.save(product);
 
-        return "redirect:/admin/product";
+        saveUploadedImages(mainImageMultipart, extraImageMultipart, savedProduct);
+
+        redirectAttributes.addFlashAttribute("message", "Sản phảm đã được lưu thành công");
+
+        return "redirect:/product";
     }
+
+    private void saveUploadedImages(MultipartFile mainImageMultipart,
+                                    MultipartFile[] extraImageMultipart, Product savedProduct) throws IOException {
+        if (!mainImageMultipart.isEmpty()) {
+            String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
+            String uploadDir = "src/main/resources/static/product-images/" + savedProduct.getId();
+
+            FileUploadUtil.cleanDir(uploadDir);
+            FileUploadUtil.saveFile(uploadDir, fileName, mainImageMultipart);
+        }
+
+        if (extraImageMultipart.length > 0) {
+            String uploadDir = "src/main/resources/static/product-images/" + savedProduct.getId() + "/extras";
+
+            for (MultipartFile multipartFile : extraImageMultipart) {
+                if (multipartFile.isEmpty()) continue;
+
+                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            }
+        }
+    }
+
+    private void setExtraImageNames(MultipartFile[] extraImageMultipart, Product product) {
+        if (extraImageMultipart.length > 0) {
+            for (MultipartFile multipartFile : extraImageMultipart) {
+                if (!multipartFile.isEmpty()) {
+                    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                    product.addExtraImages(fileName);
+                }
+            }
+        }
+    }
+
+    private void setMainImageName(MultipartFile mainImageMultipart, Product product) {
+        if (!mainImageMultipart.isEmpty()) {
+            String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
+            product.setMainImage(fileName);
+        }
+    }
+
 
     @GetMapping("/product/delete/{id}")
     public String deleteProduct(@PathVariable(name = "id") Integer id,
-                                 Model model,
-                                 RedirectAttributes redirectAttributes) {
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
         try {
             productService.delete(id);
-            redirectAttributes.addFlashAttribute("message", "Sản phẩm có id: " + id + " đã được xóa thành công");
+            String productExtraImagesDir = "src/main/resources/static/product-images/" + id + "/extras";
+            String productImagesDir = "src/main/resources/static/product-images/" + id;
 
+            FileUploadUtil.removeDir(productExtraImagesDir);
+            FileUploadUtil.removeDir(productImagesDir);
+
+            redirectAttributes.addFlashAttribute("message", "Sản phẩm có id: " + id + " đã được xóa thành công");
         } catch (ProductNotFoundException ex) {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
 
-        return "redirect:/admin/product";
+        return "redirect:/product";
     }
 
     @GetMapping("/product/{id}/enabled/{status}")
@@ -99,5 +153,30 @@ public class AdminProductController {
         redirectAttributes.addFlashAttribute("message", message);
 
         return "redirect:/admin/product";
+    }
+
+    @GetMapping("/product/edit/{id}")
+    public String editProduct(@PathVariable("id") Integer id,
+                              Model model,
+                              RedirectAttributes redirectAttributes) {
+        try {
+            Product product = productService.get(id);
+            List<Brand> listBrand = brandService.listAll();
+
+            // lấy số lượng ảnh hiện có
+            Integer numberOfExistingExtraImages = product.getImages().size();
+
+            model.addAttribute("product", product);
+            model.addAttribute("listBrand", listBrand);
+            model.addAttribute("pageTitle", "Chỉnh sửa sản phẩm (ID: " + id + ")");
+            model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);
+
+            return  "administrator/product/product_form";
+
+        } catch (ProductNotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+
+            return "redirect:/product";
+        }
     }
 }

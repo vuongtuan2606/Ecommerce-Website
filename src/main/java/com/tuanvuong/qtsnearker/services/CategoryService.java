@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.SortedSet;
 
 public interface CategoryService {
-    int ROOT_CATEGORIES_PER_PAGE = 4;
+    int ROOT_CATEGORIES_PER_PAGE = 5;
 
 
     List<Category> listByPage(CategoryPageInfo pageInfo ,int pageNum, String sortDir, String keyword );

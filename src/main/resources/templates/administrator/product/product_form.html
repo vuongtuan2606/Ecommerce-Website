@@ -36,6 +36,10 @@
                               onsubmit="return checkUnique(this);">
 
                             <input type="hidden" th:field="*{id}">
+                            <input th:if="${product.category.id != null}"
+                                   type="hidden" id="categoryId"
+                                   th:value="${product.category.id}"
+                            >
                             <div >
                                 <!-- Bordered Tabs -->
                                 <ul class="nav nav-tabs nav-tabs-bordered">
@@ -68,12 +72,18 @@
                                         <div th:replace="~{administrator/product/product_description :: content }"></div>
                                     </div>
 
-                                    <div class="tab-pane fade pt-3" id="Images"></div>
+                                    <div class="tab-pane fade pt-3" id="Images">
+                                        <div th:replace="~{administrator/product/product_images :: content }"></div>
+                                    </div>
 
                                     <div class="tab-pane fade pt-3" id="Details"></div>
 
 
                                 </div><!-- End Bordered Tabs -->
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary btn-style "  type="reset">Reset</button>
+                                <button class="btn btn-success btn-style " type="submit" value="submit">Submit</button>
                             </div>
                         </form><!-- Vertical Form -->
 
@@ -95,40 +105,20 @@
 
 <!-- ======= JS ======= -->
 <span th:replace="~{administrator/common/common :: js}"></span>
+
 <script type="text/javascript">
+
     moduleURL = "[[@{/admin/product}]]";
     brandModuleURL = "[[@{/brand}]]";
+    MAX_FILE_SIZE = 502400; // 500KB
+    defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
+    checkUniqueUrl = "[[@{/product/check_unique}]]";
 
-    function checkUnique(form) {
-        var url = "[[@{/product/check_unique}]]";
-        var productId = $("#id").val();
-        var productName = $("#name").val();
-
-        var csrfValue = $("input[name='_csrf']").val();
-        var params = {id: productId, name: productName, _csrf: csrfValue};
-
-        $.post(url, params, function (response) {
-
-            if (response == "OK") {
-                form.submit();
-            } else if (response == "Duplicate") {
-
-                $("#errorBody").text("Có một sản phẩm khác có cùng tên " + productName);
-                $('#errorModal').modal('show');
-
-            } else {
-                $("#errorBody").text("Phản hồi không xác định từ máy chủ");
-            }
-
-        }).fail(function () {
-            $("#errorBody").text("Không thể kết nối đến máy chủ");
-        });
-
-        return false;
-    }
 </script>
-<script th:src="@{/administrator/js/product_form_overview.js}"></script>
+<script th:src="@{/administrator/js/common_form.js}"></script>
 
+<script th:src="@{/administrator/js/product_form_overview.js}"></script>
+<script th:src="@{/administrator/js/product_form_images.js}"></script>
 
 
 </body>

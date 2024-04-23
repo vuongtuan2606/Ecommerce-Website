@@ -1,5 +1,6 @@
 $(document).ready(function (){
 
+
     $(".link-delete").on("click", function (e){
 
         e.preventDefault();
@@ -18,19 +19,21 @@ $(document).ready(function (){
         if (!checkFileSize(this)) {
             return;
         }
-
         showImageThumbnail(this);
     });
+
 });
 
-function showImageThumbnail(fileInput){
+function showImageThumbnail(fileInput) {
     var file = fileInput.files[0];
     var reader = new FileReader();
-    reader.onload = function (e){
+    reader.onload = function(e) {
         $("#thumbnail").attr("src", e.target.result);
-    }
+    };
+
     reader.readAsDataURL(file);
 }
+
 
 function checkFileSize(fileInput) {
     fileSize = fileInput.files[0].size;

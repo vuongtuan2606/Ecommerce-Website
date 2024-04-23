@@ -33,6 +33,12 @@
 
     <link th:href="@{/administrator/vendor/simple-datatables/style.css}" rel="stylesheet">
 
+    <!-- Liên kết tới Font Awesome từ CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link th:href="@{/administrator/vendor/richtext/richtext.min.css}" rel="stylesheet">
+
+
     <!-- Template Main CSS File -->
     <link th:href="@{/administrator/css/style.css}" rel="stylesheet">
 
@@ -382,8 +388,10 @@
 
 <!-- ======= Js ======= -->
 <span th:fragment="js" >
+
      <!--jquery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- Vendor JS Files -->
     <script th:src="@{/administrator/vendor/apexcharts/apexcharts.min.js}"></script>
     <script th:src="@{/administrator/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -393,10 +401,10 @@
     <script th:src="@{/administrator/vendor/simple-datatables/simple-datatables.js}"></script>
     <script th:src="@{/administrator/vendor/tinymce/tinymce.min.js}"></script>
     <script th:src="@{/administrator/vendor/php-email-form/validate.js}"></script>
+    <script th:src="@{/administrator/vendor/richtext/jquery.richtext.min.js}"></script>
+
     <!-- Template Main JS File -->
     <script th:src="@{/administrator/js/main.js}"></script>
-
-    <script th:src="@{/administrator/js/common_form.js}"></script>
 
     <script type="text/javascript">
         $(document).ready(function (){

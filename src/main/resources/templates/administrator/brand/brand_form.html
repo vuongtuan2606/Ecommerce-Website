@@ -58,21 +58,18 @@
 
                             <div class="col-md-12 col-sm-12">
                                 <label class="form-label">Brand Logo</label>
+                                <input type="hidden" th:field="*{logo}">
                                 <div class="" >
                                     <input type="file"
-                                           class="form-control visually-hidden"
+                                           class="form-control "
                                            name="fileImage"
                                            id="fileImage"
-                                           accept="image/png, image/jpeg"
-                                           onchange="previewImage(this)">
+                                           accept="image/png, image/jpeg">
                                     <img id="thumbnail"
                                          class="img-fluid"
                                          alt="Image preview"
                                          th:src="@{${brand.logoPath}}"
-                                         style="width: 150px; height: auto;">
-                                    <button type="button" class="btn btn-info" onclick="document.getElementById('fileImage').click();">
-                                        <i class="bi bi-folder"></i>
-                                    </button>
+                                         style="width: 250px; height: auto;padding: 10px 0px;">
                                 </div>
                             </div>
                             <div class="text-center">
@@ -105,16 +102,6 @@
     moduleURL = "[[@{/admin/brand}]]";
     MAX_FILE_SIZE = 102400;
 
-    function previewImage(input) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#thumbnail')
-                .attr('src', e.target.result);
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
 
     $(document).ready(function () {
         // th:field="*{categories}"
@@ -152,7 +139,6 @@
             divChosenCategories.append(categoryElement);
         });
     }
-
     function checkUnique(form) {
         var url = "[[@{/brand/check_unique}]]";
         var brandId = $("#id").val();
@@ -175,14 +161,15 @@
             }
 
         }).fail(function () {
-             $("#errorBody").text("Không thể kết nối đến máy chủ");
+            $("#errorBody").text("Không thể kết nối đến máy chủ");
         });
 
         return false;
     }
 
-
 </script>
+
+<script th:src="@{/administrator/js/common_form.js}"></script>
 
 </body>
 
