@@ -18,7 +18,7 @@
     <h1>Profile</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
         <li class="breadcrumb-item active">Profile</li>
       </ol>
     </nav>
@@ -88,7 +88,7 @@
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                 <!-- account Form -->
-                <form  th:action="@{/admin/account/update}" method="post"
+                <form  th:action="@{/account/update}" method="post"
                        enctype="multipart/form-data"
                        th:object="${user}"
                        onsubmit="return checkEmailUnique(this);">
@@ -151,7 +151,7 @@
                              name="fileImage"
                              id="fileImage"
                              accept="image/png, image/jpeg"
-                             onchange="previewImage(this)">
+                      >
                     </div>
 
                     <div class="col-12" >
@@ -191,7 +191,7 @@
 <!-- ======= JS ======= -->
 <span th:replace="~{administrator/common/common :: js}"></span>
 <script type="text/javascript">
-  moduleURL = "[[@{/admin/account}]]";
+  moduleURL = "[[@{/account}]]";
   MAX_FILE_SIZE = 102400;
   function checkkPasswordMath(confirmPassword){
     if(confirmPassword.value != $("#password").val()){

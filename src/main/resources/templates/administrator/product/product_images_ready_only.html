@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="content"   >
+
+        <div class="row p-3" id="divProductImages">
+
+            <div class="col-md-4 col-sm-12 border p-3   ">
+                <div><label class="form-label">Ảnh Chính:  [[${product.mainImage}]]</label></div>
+                <div class="m-2">
+                    <img alt="Main image preview"   class="img-fluid"   style="width: 250px; height: auto; padding: 10px 0px;"
+                         th:src="@{${product.mainImagePath}}"  >
+                </div>
+            </div>
+
+            <th:block th:each="productImage, status : ${product.images}">
+
+                <div class="col-md-4 col-sm-12 border p-3 ">
+                    <div>
+                        <label class="form-label">
+                            Ảnh phụ #[[${status.index +1}]]: [[${productImage.name}]]
+                        </label>
+                    </div>
+
+                    <div class="m-2">
+                        <img th:alt=" 'Extra image'  + ${status.index + 1} + 'preview' " class="img-fluid"   style="width: 250px; height: auto; padding: 10px 0px;"
+                             th:src="@{${productImage.imagePath}}"  >
+                    </div>
+
+                </div>
+            </th:block>
+
+        </div>
+
+    </div>
+</body>
+</html>

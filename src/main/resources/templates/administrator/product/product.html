@@ -17,8 +17,8 @@
         <h1>Quản lý sản phẩm</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
-                <li class="breadcrumb-item active"><a th:href="@{/admin/product}">[[${pageTitle}]]</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/products}">[[${pageTitle}]]</a></li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -30,13 +30,36 @@
                 <div class="row">
                     <div class="col-xl-12 element_container ">
 
-                        <div class="search-bar" th:replace="~{administrator/common/fragments :: search_form('/admin/product')}">
+                        <div class="search-bar" >
+                            <form th:action="@{/products/page/1}" class="search-form d-flex align-items-center" id="searchForm" >
+                                <input type="hidden" name="sortField" th:value="${sortField}"/>
+                                <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+
+                                <div class="search-categorie" >
+                                    <select class="form-control" name="categoryId" id="dropdownCategory">
+                                        <option value="0">All Categories</option>
+                                        <option th:each="temp : ${listCategories}"
+                                                th:value="${temp.id}"
+                                                th:selected="(${categoryId} == ${temp.id})"
+                                                th:text="${temp.name}"
+                                        />
+
+                                    </select>
+                                </div>
+
+                                <input type="text" name="keyword" th:value="${keyword}" placeholder="Search" title="Enter search keyword" >
+                                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+
+                            </form>
                         </div>
+
+
                         <!-- End search bar-->
 
                         <div class="button-container">
-                            <a class="btn btn-success" th:href="@{/admin/product/create}" title="Thêm"><i class="bi bi-file-earmark-person"></i> Tạo mới </a>
-                            <a class="btn btn-primary" th:href="@{/admin/product/export/excel}"  title="In"><i class="bi bi-file-earmark-excel"></i> Xuất Excel </a>
+                            <a class="btn btn-success" th:href="@{/products/create}" sec:authorize="hasAnyAuthority('Admin', 'Editor')"  title="Thêm">
+                                <i class="bi bi-file-earmark-person"></i> Tạo mới
+                            </a>
                         </div>
 
                     </div>
@@ -55,17 +78,17 @@
                             <table class="table table-hover table-responsive ">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Id</th>
+                                    <th th:replace="~{administrator/common/fragments :: column_link('id', ' Id')}"></th>
 
                                     <th scope="col">Image</th>
 
                                     <th th:replace="~{administrator/common/fragments :: column_link('name', ' Product name')}"></th>
 
-                                    <th scope="col">Brand</th>
+                                    <th th:replace="~{administrator/common/fragments :: column_link('brand', ' Brand')}"></th>
 
-                                    <th scope="col">Categories</th>
+                                    <th th:replace="~{administrator/common/fragments :: column_link('category', ' Brand')}"></th>
 
-                                    <th scope="col">Enabled</th>
+                                    <th sec:authorize="hasAnyAuthority('Admin', 'Editor')" scope="col">Enabled</th>
 
                                     <th scope="col">Other</th>
                                 </tr>
@@ -77,21 +100,34 @@
 
                                     <td >
                                         <span th:if="${product.mainImage == null}" class="bi bi-card-image" style="color: darkgrey;font-size: 50px"></span>
-                                        <img th:if="${product.mainImage != null}" th:src="@{${product.getMainImagePath()}}" style="width: 100px; height:auto;" >
+                                        <img th:if="${product.mainImage != null}" th:src="@{${product.mainImagePath}}" style="width: 100px; height:auto;" >
                                     </td>
 
-                                    <td th:text="${product.name}"></td>
+                                    <td>
+                                        <a title="Chi tiết sản phẩm" th:href="@{'/products/detail/' + ${product.id}}" style="font-size: 15px; color: black">
+                                            [[${product.name}]]
+                                        </a>
+                                    </td>
 
                                     <td th:text="${product.brand.name}"></td>
 
                                     <td th:text="${product.category.name}">
 
-                                    <td th:replace="~{administrator/common/fragments :: status(${product.enabled}, '/admin/product/' + ${product.id})}" ></td>
+                                    <td sec:authorize="hasAnyAuthority('Admin', 'Editor')"
+                                        th:replace="~{administrator/common/fragments :: status(${product.enabled}, '/products/' + ${product.id})}" >
+                                    </td>
 
                                     <td class="table-td-center">
-                                        <a th:replace="~{administrator/common/fragments :: delete(${product.name}, '/admin/product/delete/' + ${product.id})}" ></a>
+                                        <a class="bi bi-file-earmark-text" th:href="@{'/products/detail/' + ${product.id}}" style="font-size: 20px; color: #2dc26b"></a>
 
-                                        <a th:replace="~{administrator/common/fragments :: edit('/admin/product/edit/' + ${product.id}) }"></a>
+                                        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                                            <a th:replace="~{administrator/common/fragments :: delete(${product.name}, '/products/delete/' + ${product.id})}" ></a>
+                                        </th:block>
+
+                                        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson')">
+                                            <a th:replace="~{administrator/common/fragments :: edit('/products/edit/' + ${product.id}) }"></a>
+                                        </th:block>
+
                                     </td>
 
                                 </tr>
@@ -113,24 +149,24 @@
                                 <ul class="pagination justify-content-end" >
 
                                     <li th:class="${totalPages > 1  ? 'page-item' : 'page-item disabled'}">
-                                        <a class="page-link" th:href="@{'/admin/product/page/'+ ${totalPages -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
+                                        <a class="page-link" th:href="@{'/products/page/'+ ${totalPages -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
 
                                     <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
                                         th:each="i : ${#numbers.sequence(1, totalPages)}">
-                                        <a class="page-link" th:href="@{'/admin/product/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
+                                        <a class="page-link" th:href="@{'/products/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
                                     </li>
 
                                     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}" >
-                                        <a class="page-link" th:href="@{'/admin/product/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
+                                        <a class="page-link" th:href="@{'products/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
 
                                     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                                        <a class="page-link" th:href="@{'/admin/product/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
+                                        <a class="page-link" th:href="@{'/products/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
                                             Last
                                         </a>
                                     </li>
@@ -140,6 +176,7 @@
                         </div>
                         <!-- Modal -->
                         <div th:replace="~{administrator/common/fragments_modal :: modal_dialog}"></div>
+
                     </div>
                 </div>
 
@@ -158,7 +195,15 @@
 <span th:replace="~{administrator/common/common :: js}"></span>
 
 <script type="text/javascript">
-    moduleURL = "[[@{/admin/product}]]";
+    moduleURL = "[[@{/products}]]";
+
+    $(document).ready(function() {
+
+        $("#dropdownCategory").on("change", function() {
+            $("#searchForm").submit();
+        });
+
+    });
 </script>
 
 <script th:src="@{/administrator/js/common_form.js}"></script>

@@ -7,13 +7,15 @@
 <body>
 
 <div th:fragment="search_form(moduleURL)">
-    <form th:action="@{${moduleURL + '/page/1'}}" class="search-form d-flex align-items-center" >
+    <form th:action="@{${moduleURL + '/page/1'}}" class="search-form d-flex align-items-center" id="searchForm" >
         <input type="hidden" name="sortField" th:value="${sortField}"/>
         <input type="hidden" name="sortDir" th:value="${sortDir}"/>
         <input type="text" name="keyword" th:value="${keyword}" placeholder="Search" title="Enter search keyword" >
         <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+
     </form>
 </div>
+
 <!-- ======= User Column ======-->
 <th scope="col" th:fragment="column_link(fieldName, columnLabel)" >
     <a  style="color: black"

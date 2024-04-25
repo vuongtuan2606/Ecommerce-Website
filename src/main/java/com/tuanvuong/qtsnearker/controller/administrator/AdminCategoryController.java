@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
 public class AdminCategoryController {
     @Autowired
     private  CategoryService categoryService;
@@ -63,7 +62,7 @@ public class AdminCategoryController {
         model.addAttribute("listCategory", listCategories);
         model.addAttribute("reverseSortDir", reverseSortDir);
 
-        model.addAttribute("moduleURL", "/admin/categories");
+        model.addAttribute("moduleURL", "/categories");
 
         model.addAttribute("pageTitle","Danh sách danh mục");
 
@@ -110,7 +109,7 @@ public class AdminCategoryController {
 
         redirectAttributes.addFlashAttribute("message","The categories has been saved successfully");
 
-        return "redirect:/admin/categories";
+        return "redirect:/categories";
 
     }
 
@@ -132,7 +131,7 @@ public class AdminCategoryController {
 
         } catch (CategoryNotFoundException ex) {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
-            return "redirect:/admin/categories";
+            return "redirect:/categories";
         }
     }
 
@@ -149,7 +148,7 @@ public class AdminCategoryController {
 
         redirectAttributes.addFlashAttribute("message", message);
 
-        return "redirect:/admin/categories";
+        return "redirect:/categories";
     }
 
     @GetMapping("/categories/delete/{id}")
@@ -164,7 +163,7 @@ public class AdminCategoryController {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
 
-        return "redirect:/admin/categories";
+        return "redirect:/categories";
     }
 
     /*

@@ -17,8 +17,8 @@
         <h1>Quản lý sản phẩm</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/admin/product}">Home</a></li>
-                <li class="breadcrumb-item active"><a th:href="@{/admin/product}">Danh sách sản phẩm</a> / [[${pageTitle}]]</li>
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/products}">Danh sách sản phẩm</a> / [[${pageTitle}]]</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -30,13 +30,14 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Vertical Form -->
-                        <form class="row g-3" th:action="@{/admin/product/save}" method="post"
+                        <form class="row g-3" th:action="@{/products/save}" method="post"
                               enctype="multipart/form-data"
                               th:object="${product}"
                               onsubmit="return checkUnique(this);">
 
                             <input type="hidden" th:field="*{id}">
-                            <input th:if="${product.category.id != null}"
+
+                            <input th:if="${product.category != null}"
                                    type="hidden" id="categoryId"
                                    th:value="${product.category.id}"
                             >
@@ -56,11 +57,6 @@
                                         <a class="nav-link" data-bs-toggle="tab" data-bs-target="#Images">Hình ảnh</a>
                                     </li>
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#Details">Chi tiết</a>
-                                    </li>
-
-
                                 </ul>
                                 <div class="tab-content pt-2">
 
@@ -69,15 +65,22 @@
                                     </div>
 
                                     <div class="tab-pane fade  pt-3" id="Description">
-                                        <div th:replace="~{administrator/product/product_description :: content }"></div>
+                                        <th:block sec:authorize="hasAuthority('Salesperson')">
+                                            <div th:replace="~{administrator/product/product_description_read_only :: content }"></div>
+                                        </th:block>
+                                        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                                            <div th:replace="~{administrator/product/product_description :: content }"></div>
+                                        </th:block>
                                     </div>
 
                                     <div class="tab-pane fade pt-3" id="Images">
-                                        <div th:replace="~{administrator/product/product_images :: content }"></div>
+                                        <th:block sec:authorize="hasAuthority('Salesperson')">
+                                            <div th:replace="~{administrator/product/product_images_ready_only.html :: content }"></div>
+                                        </th:block>
+                                        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                                            <div th:replace="~{administrator/product/product_images :: content }"></div>
+                                        </th:block>
                                     </div>
-
-                                    <div class="tab-pane fade pt-3" id="Details"></div>
-
 
                                 </div><!-- End Bordered Tabs -->
                             </div>
@@ -108,15 +111,14 @@
 
 <script type="text/javascript">
 
-    moduleURL = "[[@{/admin/product}]]";
-    brandModuleURL = "[[@{/brand}]]";
+    moduleURL = "[[@{/products}]]";
+    brandModuleURL = "[[@{/brands}]]";
     MAX_FILE_SIZE = 502400; // 500KB
     defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
-    checkUniqueUrl = "[[@{/product/check_unique}]]";
+    checkUniqueUrl = "[[@{/products/check_unique}]]";
 
 </script>
 <script th:src="@{/administrator/js/common_form.js}"></script>
-
 <script th:src="@{/administrator/js/product_form_overview.js}"></script>
 <script th:src="@{/administrator/js/product_form_images.js}"></script>
 

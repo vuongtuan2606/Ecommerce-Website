@@ -3,6 +3,7 @@ package com.tuanvuong.qtsnearker.entity;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -122,4 +123,41 @@ public class User extends IdBasedEntity {
         return "/user-photos/" + this.id + "/" +this.photos;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", photos='" + photos + '\'' +
+                ", enabled=" + enabled +
+                ", roles=" + roles +
+                '}';
+    }
+
+    /*Iterator
+
+     Sử dụng để lặp qua các phần tử của một tập hợp mà không cần biết về cấu trúc nội bộ của tập hợp đó.
+     Giao diện Iterator cho phép truy cập tuần tự đến các phần tử trong một tập hợp
+     và thực hiện các thao tác như lấy phần tử tiếp theo hoặc kiểm tra xem còn phần tử nào nữa không.
+
+     Iterator cung cấp các phương thức sau:
+
+       - boolean hasNext(): Kiểm tra xem tập hợp có phần tử tiếp theo hay không.
+       - E next(): Trả về phần tử tiếp theo trong tập hợp.
+       - (Tùy chọn) void remove(): Xóa phần tử cuối cùng được trả về bởi phương thức next() từ tập hợp.
+
+    Thường sử dụng lặp qua các phần tử của các cấu trúc dữ liệu như ArrayList, LinkedList, HashSet, và TreeMap
+    * */
+    public  boolean hasRole(String roleName){
+        Iterator<Role> iterator = roles.iterator();
+        while (iterator.hasNext()){
+            Role role = iterator.next();
+            if(role.getName().equals(roleName)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -17,8 +17,8 @@
     <h1>Quản lý khách hàng</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
-        <li class="breadcrumb-item active"><a th:href="@{/admin/users}">Danh sách người dùng</a> / [[${pageTitle}]]</li>
+        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item active"><a th:href="@{/users}">Danh sách người dùng</a> / [[${pageTitle}]]</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -30,7 +30,7 @@
         <div class="card">
           <div class="card-body">
             <!-- Vertical Form -->
-            <form class="row g-3" th:action="@{/admin/users/save}" method="post"
+            <form class="row g-3" th:action="@{/users/save}" method="post"
                   enctype="multipart/form-data"
                   th:object="${user}"
                   onsubmit="return checkEmailUnique(this);">
@@ -119,7 +119,7 @@
 
 <script type="text/javascript">
 
-  moduleURL = "[[@{users/brand}]]";
+  moduleURL = "[[@{/users}]]";
   MAX_FILE_SIZE = 102400;
 
   function checkEmailUnique(form) {

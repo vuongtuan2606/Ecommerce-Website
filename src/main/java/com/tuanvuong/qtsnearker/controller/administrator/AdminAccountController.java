@@ -30,7 +30,7 @@ public class AdminAccountController  {
     *  được sử dụng để truy cập vào thông tin người dùng
     *  đã được xác thực (authenticated) trong một phương thức controller hoặc service.
     * */
-    @GetMapping("/admin/account")
+    @GetMapping("/account")
     public String viewDetails(@AuthenticationPrincipal AdminUserDetails loggedUser, Model model){
 
         // lấy tên  người dùng đăng nhập
@@ -44,11 +44,11 @@ public class AdminAccountController  {
         return "administrator/user/users-profile";
     }
 
-    @PostMapping("/admin/account/update")
+    @PostMapping("/account/update")
     public String saveUser(User user,
                            RedirectAttributes redirectAttributes,
                            @AuthenticationPrincipal AdminUserDetails loggedUser,
-                           @RequestParam("image") MultipartFile multipartFile) throws IOException {
+                           @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
 
         if(!multipartFile.isEmpty()){
 
@@ -59,7 +59,7 @@ public class AdminAccountController  {
             User savedUser = userService.updateAccount(user);
 
             // đường dẫn thư mục ->  tạo thư mục "user-photos"
-            String uploadDir = "static/user-photos/" +savedUser.getId();
+            String uploadDir = "../user-photos/" +savedUser.getId();
 
             // xóa ảnh cũ
             FileUploadUtil.cleanDir(uploadDir);
@@ -78,7 +78,7 @@ public class AdminAccountController  {
         userService.updateAccount(user);
         redirectAttributes.addFlashAttribute("message","Your account detail have been updated");
 
-        return "redirect:/admin/account";
+        return "redirect:/account";
 
     }
 }

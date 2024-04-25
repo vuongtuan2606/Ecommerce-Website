@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
 public class AdminBrandController {
     @Autowired
     private BrandService brandService;
@@ -30,12 +29,12 @@ public class AdminBrandController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/brand")
+    @GetMapping("/brands")
     public String listFirstPage(Model model) {
         return listByPage("asc", null,1 ,model);
     }
 
-    @GetMapping("/brand/page/{pageNum}")
+    @GetMapping("/brands/page/{pageNum}")
     public String listByPage(@Param("sortDir") String sortDir,
                              @Param("keyword") String keyword,
                              @PathVariable(name = "pageNum") int pageNum,
@@ -68,14 +67,14 @@ public class AdminBrandController {
         model.addAttribute("listBrand", listBrand);
         model.addAttribute("reverseSortDir", reverseSortDir);
 
-        model.addAttribute("moduleURL", "/admin/brand");
+        model.addAttribute("moduleURL", "/brands");
 
         model.addAttribute("pageTitle","Danh sách thương hiệu");
 
         return "administrator/brand/brand";
     }
 
-    @GetMapping("/brand/create")
+    @GetMapping("/brands/create")
     public  String newBrands(Model model){
         Brand brand = new Brand();
         List<Category> listCategory = categoryService.listCategoriesUsedInForm();
@@ -87,7 +86,7 @@ public class AdminBrandController {
 
     }
 
-    @PostMapping("/brand/save")
+    @PostMapping("/brands/save")
     public String saveBrands(Brand brand,
                              RedirectAttributes redirectAttributes,
                              @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
@@ -101,7 +100,7 @@ public class AdminBrandController {
             Brand savedBrand = brandService.save(brand);
 
             // đường dẫn thư mục ->  tạo thư mục "category-images"
-            String uploadDir = "src/main/resources/static/brand-logo/" +savedBrand.getId();
+            String uploadDir = "../brand-logo/" +savedBrand.getId();
 
             // xóa ảnh cũ
             FileUploadUtil.cleanDir(uploadDir);
@@ -115,10 +114,10 @@ public class AdminBrandController {
 
         redirectAttributes.addFlashAttribute("message","The brand has been saved successfully");
 
-        return "redirect:/admin/brand";
+        return "redirect:/brands";
 
     }
-    @GetMapping("/brand/edit/{id}")
+    @GetMapping("/brands/edit/{id}")
     public String editBrands(@PathVariable(name = "id") Integer id, Model model,
                                RedirectAttributes redirectAttributes) {
         try {
@@ -136,10 +135,10 @@ public class AdminBrandController {
 
         } catch (BrandNotFoundException ex) {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
-            return "redirect:/admin/brand";
+            return "redirect:/brands";
         }
     }
-    @GetMapping("/brand/delete/{id}")
+    @GetMapping("/brands/delete/{id}")
     public String deleteBrands(@PathVariable(name = "id") Integer id,
                                  Model model,
                                  RedirectAttributes redirectAttributes) {
@@ -151,10 +150,10 @@ public class AdminBrandController {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
 
-        return "redirect:/admin/brand";
+        return "redirect:/brands";
     }
 
-    @GetMapping("/brand/export/excel")
+    @GetMapping("/brands/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException{
 
         List<Brand> listBrand = brandService.listAll();

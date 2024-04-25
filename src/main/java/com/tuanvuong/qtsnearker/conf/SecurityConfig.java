@@ -20,10 +20,20 @@ public class SecurityConfig  {
         http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(auth -> auth
-                        .anyRequest().authenticated()
+                .requestMatchers("/users/**").hasAuthority("Admin")
+
+                .requestMatchers("/categories/**","/brands/**").hasAnyAuthority("Admin","Editor")
+
+                .requestMatchers("/products/create/**","/products/delete/**").hasAnyAuthority("Admin","Editor")
+
+                .requestMatchers("/products/edit/**","/products/save/**","/products/check_unique/**").hasAnyAuthority("Admin","Editor","Salesperson")
+
+                .requestMatchers("/products/**").hasAnyAuthority("Admin","Editor","Salesperson","Shipper")
+
+                .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/showMyLoginPage")
+                        .loginPage("/login")
                         .usernameParameter("email")
                         .permitAll()
                 )
@@ -31,7 +41,7 @@ public class SecurityConfig  {
                 )
                 .rememberMe(rem -> rem
                         .key("AbcDefgHijklmnOpqrs_1234567890")
-                        .tokenValiditySeconds(7*24*60*60)
+                        .tokenValiditySeconds(7 * 24 * 60 * 60)
                 )
         ;
 

@@ -6,6 +6,10 @@ import com.tuanvuong.qtsnearker.services.ProductService;
 import com.tuanvuong.qtsnearker.services.exceptions.ProductNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,6 +25,31 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> ListProductAll() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public Page<Product> listByPage(int pageNum, String sortField, String sortDir, String keyword, Integer categoryId) {
+        Sort sort = Sort.by(sortField);
+
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+        Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_PAGE, sort);
+
+        if (keyword != null && !keyword.isEmpty()) {
+            if (categoryId != null && categoryId > 0) {
+                String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
+                return productRepository.searchInCategory(categoryId, categoryIdMatch, keyword, pageable);
+            }
+
+            return productRepository.findAll(keyword, pageable);
+        }
+
+        if (categoryId != null && categoryId > 0) {
+            String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
+            return productRepository.findAllInCategory(categoryId, categoryIdMatch, pageable);
+        }
+
+        return productRepository.findAll(pageable);
     }
 
     @Override
@@ -93,4 +122,15 @@ public class ProductServiceImpl implements ProductService {
     public void updateCategoryEnabledStatus(Integer id, boolean enabled) {
             productRepository.updateEnabledStatus(id, enabled);
     }
+    @Override
+    public void saveProductPrice(Product productInForm) {
+        Product productInDB = productRepository.findById(productInForm.getId()).get();
+
+        productInDB.setCost(productInForm.getCost());
+        productInDB.setPrice(productInForm.getPrice());
+        productInDB.setDiscountPercent(productInForm.getDiscountPercent());
+
+        productRepository.save(productInDB);
+    }
+
 }

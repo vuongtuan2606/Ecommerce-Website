@@ -6,30 +6,26 @@
         <div class="row p-3" id="divProductImages">
 
            <div class="col-md-4 col-sm-12 border p-3   ">
-               <div>
-                   <label class="form-label">Ảnh Chính:  [[${product.mainImage}]]</label>
-                   <input type="hidden" th:field="*{mainImage}" />
-               </div>
-
+               <div><label class="form-label">Ảnh Chính:  [[${product.mainImage}]]</label></div>
                <div class="m-2">
-                   <input type="file"  class="form-control"  accept="image/png, image/jpeg"
-                          name="fileImage" id="fileImage"
-                          th:required="${product.mainImage == null}"  >
-               </div>
-
-               <div>
                    <img alt="Main image preview"   class="img-fluid"   style="width: 250px; height: auto; padding: 10px 0px;"
                         id="thumbnail"
                         th:src="@{${product.mainImagePath}}"  >
                </div>
+               <div>
+                   <input type="file"  class="form-control"  accept="image/png, image/jpeg"
+                          name="fileImage" id="fileImage"
+                          th:required="${product.mainImage == null}"  >
+               </div>
+               <input type="hidden" th:field="*{mainImage}" />
            </div>
 
-            <th:block th:each="productImages, status : ${product.images}">
+            <th:block th:each="productImage, status : ${product.images}">
 
                 <div class="col-md-4 col-sm-12 border p-3 " th:id=" 'divExtraImage' + ${status.index}">
-                    <div th:id="'extraImageHeader' + ${status.index}">
+                    <div>
                         <label class="form-label">
-                            Ảnh phụ #:[[${status.index +1}]]: [[${productImages.name}]]
+                            Ảnh phụ #[[${status.index +1}]]: [[${productImage.name}]]
                         </label>
                         <a  title="Remove this image"
                             class="btn btn-secondary bi bi-trash float-right"
@@ -37,38 +33,46 @@
                     </div>
 
                     <div class="m-2">
-                        <input type="file" name="extraImage" class="form-control " accept="image/png, image/jpeg"  >
+                        <img th:alt=" 'Extra image'  + ${status.index + 1} + 'preview' " class="img-fluid"   style="width: 250px; height: auto; padding: 10px 0px;"
+                             th:id="'extraThumbnail' + ${status.index} "
+                             th:src="@{${productImage.imagePath}}"  >
                     </div>
 
                     <div>
-                        <img th:alt=" 'Extra image'  + ${status.index + 1} + 'preview' " class="img-fluid"   style="width: 250px; height: auto; padding: 10px 0px;"
-                             th:id="'extraThumbnail' + ${status.index} "
-                             th:src="@{${productImages.imagePath}}"  >
-
-                        <input type="hidden" name="imageIDs" th:id="'imageIDs' + ${status.index}"/>
-                        <input type="hidden" name="imageName" th:id="'imageName' + ${status.index}"/>
+                        <input type="file" name="extraImage"
+                               class="form-control " accept="image/png, image/jpeg"  >
                     </div>
+
+                    <input type="hidden"
+                           name="imageIDs"
+                           th:id="'imageId' + ${status.index}"
+                           th:value="${productImage.id}" />
+
+                    <input type="hidden"
+                           name="imageNames"
+                           th:id="'imageName' + ${status.index}"
+                           th:value="${productImage.name}" />
                 </div>
 
             </th:block>
 
 
-                <div class="col-md-4 col-sm-12 border p-3  "  th:id=" 'divExtraImage' + ${numberOfExistingExtraImages}">
-                    <div th:id=" 'extraImageHeader' +${numberOfExistingExtraImages}">
-                        <label class="form-label">Ảnh phụ # [[${numberOfExistingExtraImages + 1}]] :</label>
-                    </div>
-
-                    <div class="m-2">
-                        <input type="file" name="extraImage" class="form-control " accept="image/png, image/jpeg"  >
-                    </div>
-
-                    <div>
-                        <img th:alt=" 'Extra image #' +${numberOfExistingExtraImages}+' preview' " class="img-fluid"   style="width: 250px; height: auto; padding: 10px 0px;"
-                             th:id=" 'extraThumbnail' +${numberOfExistingExtraImages}"
-                             th:src=" @{/images/image-thumbnail.png}" >
-                    </div>
+            <div class="col-md-4 col-sm-12 border p-3" th:id="'divExtraImage' + ${numberOfExistingExtraImages}">
+                <div th:id="'extraImageHeader' + ${numberOfExistingExtraImages}">
+                    <label class="form-label">Ảnh phụ #[[${numberOfExistingExtraImages + 1}]]:</label>
                 </div>
-       </div>
+                <div class="m-2">
+                    <img th:alt="'Extra image' + ${numberOfExistingExtraImages} + ' preview'" class="img-fluid" style="width: 250px; height: auto; padding: 10px 0px;"
+                         th:id="'extraThumbnail' + ${numberOfExistingExtraImages}"
+                         th:src="@{/images/image-thumbnail.png}">
+                </div>
+                <div>
+                    <input type="file" name="extraImage"
+                           class="form-control" accept="image/png, image/jpeg">
+                </div>
+            </div>
+
+        </div>
 
 
 

@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 public class AdminUserDetails implements UserDetails {
+
+
     private User user;
 
     public AdminUserDetails(User user) {
@@ -57,15 +59,19 @@ public class AdminUserDetails implements UserDetails {
     public boolean isEnabled() {
         return user.isEnabled();
     }
+
     public void setFirstName(String firstName){
         this.user.setFirstName(firstName);
     }
+
     public void setLastName(String lastName){
         this.user.setLastName(lastName);
     }
+
     public void  setPhoto(String photo){
         this.user.setPhotos(photo);
     }
+
     public String getFullName(){
         return this.user.getFirstName() + " "+this.user.getLastName();
     }
@@ -74,5 +80,8 @@ public class AdminUserDetails implements UserDetails {
         return this.user.getPhotosImagePath();
     }
 
+    public boolean hasRole(String roloName){
+        return user.hasRole(roloName);
+    }
 
 }

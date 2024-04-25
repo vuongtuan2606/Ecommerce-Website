@@ -17,8 +17,8 @@
         <h1>Quản lý thương hiệu</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
-                <li class="breadcrumb-item active"><a th:href="@{/admin/brand}">Danh sách thương hiệu</a> / [[${pageTitle}]]</li>
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/brands}">Danh sách thương hiệu</a> / [[${pageTitle}]]</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Vertical Form -->
-                        <form class="row g-3" th:action="@{/admin/brand/save}" method="post"
+                        <form class="row g-3" th:action="@{/brands/save}" method="post"
                               enctype="multipart/form-data"
                               th:object="${brand}"
                               onsubmit="return checkUnique(this);">
@@ -99,7 +99,7 @@
 
 <script type="text/javascript">
 
-    moduleURL = "[[@{/admin/brand}]]";
+    moduleURL = "[[@{/brands}]]";
     MAX_FILE_SIZE = 102400;
 
 
@@ -140,7 +140,7 @@
         });
     }
     function checkUnique(form) {
-        var url = "[[@{/brand/check_unique}]]";
+        var url = "[[@{/brands/check_unique}]]";
         var brandId = $("#id").val();
         var brandName = $("#name").val();
 

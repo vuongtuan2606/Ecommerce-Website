@@ -20,16 +20,14 @@ $(document).ready(function() {
 });
 
 function getCategoriesForNewForm() {
-    // Lấy trường input có id là "categoryId"
-    var catIdField = $("#categoryId");
+    catIdField = $("#categoryId");
+    editMode = false;
 
-    // Kiểm tra xem form có trong chế độ chỉnh sửa hay không
-    var editMode = catIdField.length > 0;
-
-    // Nếu không phải là chế độ chỉnh sửa, gọi hàm getCategories() để lấy danh mục
-    if (!editMode) {
-        getCategories();
+    if (catIdField.length) {
+        editMode = true;
     }
+
+    if (!editMode) getCategories();
 }
 
 

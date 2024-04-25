@@ -13,7 +13,7 @@ public class ProductRestController {
 
 	@Autowired private ProductService productService;
 	
-	@PostMapping("/product/check_unique")
+	@PostMapping("/products/check_unique")
 	public String checkUnique(Integer id, String name) {
 		return productService.checkUnique(id, name);
 	}	

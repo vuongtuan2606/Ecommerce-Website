@@ -23,7 +23,6 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/admin")
 public class AdminUserController {
 
     @Autowired
@@ -81,9 +80,9 @@ public class AdminUserController {
 
         model.addAttribute("keyword", keyword);
 
-        model.addAttribute("moduleURL", "/admin/users");
+        model.addAttribute("moduleURL", "/users");
 
-        model.addAttribute("pageTitle","Danh sách khách hàng");
+        model.addAttribute("pageTitle","Danh sách người dùng");
 
 
         return "administrator/user/user";
@@ -126,7 +125,7 @@ public class AdminUserController {
             User savedUser = userService.save(user);
 
             // đường dẫn thư mục ->  tạo thư mục "user-photos"
-            String uploadDir = "src/main/resources/static/user-photos/" +savedUser.getId();
+            String uploadDir = "../user-photos/" +savedUser.getId();
 
             // xóa ảnh cũ
             FileUploadUtil.cleanDir(uploadDir);
@@ -150,7 +149,7 @@ public class AdminUserController {
         // tách  phần đầu của địa chỉ email
         String firstPartOfEmail = user.getEmail().split("@")[0];
 
-        return "redirect:/admin/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;
+        return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;
     }
 
     /* redirectAttributes.addFlashAttribute("key", "value")
@@ -196,7 +195,7 @@ public class AdminUserController {
 
              redirectAttributes.addFlashAttribute("message",ex.getMessage());
          }
-         return "redirect:/admin/users";
+         return "redirect:/users";
      }
 
      @GetMapping("/users/{id}/enabled/{status}")
@@ -212,7 +211,7 @@ public class AdminUserController {
 
          redirectAttributes.addFlashAttribute("message",message);
 
-         return "redirect:/admin/users";
+         return "redirect:/users";
      }
 
      /*

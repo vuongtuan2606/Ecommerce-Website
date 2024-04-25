@@ -17,8 +17,8 @@
     <h1>Quản lý thương thiệu</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
-        <li class="breadcrumb-item active"><a th:href="@{/admin/brand}">[[${pageTitle}]]</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item active"><a th:href="@{/brands}">[[${pageTitle}]]</a></li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -30,13 +30,13 @@
         <div class="row">
           <div class="col-xl-12 element_container ">
 
-            <div class="search-bar" th:replace="~{administrator/common/fragments :: search_form('/admin/brand')}">
+            <div class="search-bar" th:replace="~{administrator/common/fragments :: search_form('/brand')}">
             </div>
             <!-- End search bar-->
 
             <div class="button-container">
-              <a class="btn btn-success" th:href="@{/admin/brand/create}" title="Thêm"><i class="bi bi-file-earmark-person"></i> Tạo mới </a>
-              <a class="btn btn-primary" th:href="@{/admin/brand/export/excel}"  title="In"><i class="bi bi-file-earmark-excel"></i> Xuất Excel </a>
+              <a class="btn btn-success" th:href="@{/brands/create}" title="Thêm"><i class="bi bi-file-earmark-person"></i> Tạo mới </a>
+              <a class="btn btn-primary" th:href="@{/brands/export/excel}"  title="In"><i class="bi bi-file-earmark-excel"></i> Xuất Excel </a>
             </div>
 
           </div>
@@ -86,9 +86,9 @@
                   </td>
 
                   <td class="table-td-center">
-                    <a th:replace="~{administrator/common/fragments :: delete(${brand.name}, '/admin/brand/delete/' + ${brand.id})}" ></a>
+                    <a th:replace="~{administrator/common/fragments :: delete(${brand.name}, '/brands/delete/' + ${brand.id})}" ></a>
 
-                    <a th:replace="~{administrator/common/fragments :: edit('/admin/brand/edit/' + ${brand.id}) }"></a>
+                    <a th:replace="~{administrator/common/fragments :: edit('/brands/edit/' + ${brand.id}) }"></a>
                   </td>
 
                 </tr>
@@ -101,7 +101,7 @@
             </div>
 
             <div class="text-center m-1" th:unless="${totalItem > 0}">
-              <span >Không tìm thấy người dùng</span>
+              <span >Không tìm thấy thương hiệu </span>
             </div>
 
             <div th:if="${totalPages > 1}">
@@ -110,24 +110,24 @@
                 <ul class="pagination justify-content-end" >
 
                   <li th:class="${totalPages > 1  ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/admin/brand/page/'+ ${totalPages -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
+                    <a class="page-link" th:href="@{'/brands/page/'+ ${totalPages -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
 
                   <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
                       th:each="i : ${#numbers.sequence(1, totalPages)}">
-                    <a class="page-link" th:href="@{'/admin/brand/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
+                    <a class="page-link" th:href="@{'/brands/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
                   </li>
 
                   <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}" >
-                    <a class="page-link" th:href="@{'/admin/brand/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
+                    <a class="page-link" th:href="@{'/brands/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
 
                   <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/admin/brand/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
+                    <a class="page-link" th:href="@{'/brands/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
                       Last
                     </a>
                   </li>
@@ -158,7 +158,7 @@
 
 <script type="text/javascript">
 
-  moduleURL = "[[@{/admin/brand}]]";
+  moduleURL = "[[@{/brands}]]";
 
 </script>
 

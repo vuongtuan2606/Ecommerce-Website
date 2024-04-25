@@ -229,7 +229,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" th:href="@{/admin/account}">
+                        <a class="dropdown-item d-flex align-items-center" th:href="@{/account}">
                             <i class="bi bi-person"></i>
                             <span>My Profile</span>
                         </a>
@@ -259,89 +259,93 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " th:href="@{/admin/home}">
+            <a class="nav-link " th:href="@{/}">
                 <i class="bi bi-grid"></i>
                 <span>Trang chủ</span>
             </a>
         </li><!-- End Dashboard Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                <i class="bi bi-person-lines-fill"></i><span>Quản lý khách hàng</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a th:href="@{/admin/users}">
-                        <i class="bi bi-circle"></i><span>Danh sách khách hàng</span>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/users/create}">
-                        <i class="bi bi-circle"></i><span>Thêm khách hàng</span>
-                    </a>
-                </li>
-            </ul>
-        </li><!-- End User Nav -->
+        <th:block sec:authorize="hasAuthority('Admin')">
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                    <i class="bi bi-person-lines-fill"></i><span>Quản lý người dùng</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a th:href="@{/users}">
+                            <i class="bi bi-circle"></i><span>Danh sách người dùng</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/users/create}">
+                            <i class="bi bi-circle"></i><span>Thêm người dùng</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End User Nav -->
+        </th:block>
 
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#brand-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                    <i class="bi bi-tags-fill"></i><span>Quản lý thương hiệu</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="brand-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a th:href="@{/brands}">
+                            <i class="bi bi-circle"></i><span>Danh sách thương hiệu</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/brands/create}">
+                            <i class="bi bi-circle"></i><span>Thêm thương hiệu</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End brand Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#brand-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                <i class="bi bi-tags-fill"></i><span>Quản lý thương hiệu</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="brand-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a th:href="@{/admin/brand}">
-                        <i class="bi bi-circle"></i><span>Danh sách thương hiệu</span>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/brand/create}">
-                        <i class="bi bi-circle"></i><span>Thêm thương hiệu</span>
-                    </a>
-                </li>
-            </ul>
-        </li><!-- End brand Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#categories-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                <i class="bi  bi-journal-text"></i><span>Quản lý danh mục</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="categories-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a th:href="@{/admin/categories}">
-                        <i class="bi bi-circle"></i><span>Danh sách danh mục</span>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/categories/create}">
-                        <i class="bi bi-circle"></i><span>Thêm danh mục</span>
-                    </a>
-                </li>
-            </ul>
-        </li><!-- End category Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#product-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                <i class="bi bi-grid-fill"></i><span>Quản lý sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="product-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a th:href="@{/admin/product}">
-                        <i class="bi bi-circle"></i><span>Danh sách sản phẩm</span>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/product/create}">
-                        <i class="bi bi-circle"></i><span>Thêm sản phẩm</span>
-                    </a>
-                </li>
-            </ul>
-        </li><!-- End product Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#categories-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                    <i class="bi  bi-journal-text"></i><span>Quản lý danh mục</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="categories-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a th:href="@{/categories}">
+                            <i class="bi bi-circle"></i><span>Danh sách danh mục</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/categories/create}">
+                            <i class="bi bi-circle"></i><span>Thêm danh mục</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End category Nav -->
+        </th:block>
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson', 'Shipper')">
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#product-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                    <i class="bi bi-grid-fill"></i><span>Quản lý sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="product-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a th:href="@{/products}" >
+                            <i class="bi bi-circle"></i><span>Danh sách sản phẩm</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/products/create}" sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                            <i class="bi bi-circle"></i><span>Thêm sản phẩm</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End product Nav -->
+        </th:block>
 
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed"  th:href="@{/admin/account}">
+            <a class="nav-link collapsed"  th:href="@{/account}">
                 <i class="bi bi-person"></i>
                 <span>Profile</span>
             </a>
@@ -362,7 +366,7 @@
         </li><!-- End Register Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" th:href="@{/showMyLoginPage}">
+            <a class="nav-link collapsed" th:href="@{/login}">
                 <i class="bi bi-box-arrow-in-right"></i>
                 <span>Login</span>
             </a>

@@ -17,8 +17,8 @@
         <h1>Quản lý danh mục</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
-                <li class="breadcrumb-item active"><a th:href="@{/admin/categories}">Danh sách danh mục</a> / [[${pageTitle}]]</li>
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/categories}">Danh sách danh mục</a> / [[${pageTitle}]]</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Vertical Form -->
-                        <form class="row g-3" th:action="@{/admin/categories/save}" method="post"
+                        <form class="row g-3" th:action="@{/categories/save}" method="post"
                               enctype="multipart/form-data"
                               th:object="${category}"
                               onsubmit="return checkUnique(this);">
@@ -112,7 +112,7 @@
 
 <script type="text/javascript">
 
-    moduleURL = "[[@{/admin/categories}]]";
+    moduleURL = "[[@{/categories}]]";
     MAX_FILE_SIZE = 102400;
 
     function checkUnique(form) {

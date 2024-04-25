@@ -5,41 +5,66 @@
 
     <div class="col-12 pb-3 ">
         <label  class="form-label">Tên sản phẩm</label>
-        <input type="text" class="form-control" th:field="*{name}" required minlength="3" maxlength="255" >
+        <input type="text" class="form-control"
+               th:readonly="${#authorization.expression('hasAnyAuthority( ''Salesperson'')')}"
+               th:field="*{name}" required minlength="3" maxlength="255" >
     </div>
 
     <div class="col-12 pb-3 ">
         <label  class="form-label">Bí danh</label>
-        <input type="text" class="form-control" th:field="*{alias}"  placeholder="Default is product name (spaces are replaced by dashes)" >
+        <input type="text" class="form-control"  th:readonly="${#authorization.expression('hasAnyAuthority( ''Salesperson'')')}"
+               th:field="*{alias}"  placeholder="Default is product name (spaces are replaced by dashes)" >
     </div>
 
     <div class="col-12 pb-3">
         <label class="form-label">Thương hiệu</label>
-        <select th:field="*{brand}" class="form-control">
-            <option th:each="temp : ${listBrand}" th:value="${temp.id}" th:text="${temp.name}" />
-        </select>
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+            <select th:field="*{brand}" class="form-control">
+                <option th:each="temp : ${listBrand}" th:value="${temp.id}" th:text="${temp.name}"   />
+            </select>
+        </th:block>
+
+        <th:block sec:authorize="hasAuthority('Salesperson')">
+            <input type="text" class="form-control" th:value="${product.brand.name}" readonly />
+        </th:block>
+
     </div>
 
     <div class="col-12 pb-3">
         <label class="form-label">Danh mục</label>
-        <th:block th:if="${product.category != null}">
-            <select th:field="*{category}" class="form-control">
-                <option th:each="temp : ${product.brand.categories}" th:value="${temp.id}" th:text="${temp.name}" />
-            </select>
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+
+            <th:block th:if="${product.category != null}">
+                <select th:field="*{category}" class="form-control">
+                    <option th:each="temp : ${product.brand.categories}" th:value="${temp.id}" th:text="${temp.name}"  />
+                </select>
+            </th:block>
+
+            <th:block th:if="${product.category == null}">
+                <select th:field="*{category}" class="form-control"></select>
+            </th:block>
         </th:block>
-        <th:block th:if="${product.category == null}">
-            <select th:field="*{category}" class="form-control"></select>
+
+        <th:block sec:authorize="hasAuthority('Salesperson')">
+            <input type="text" class="form-control" th:value="${product.category.name}" readonly />
         </th:block>
+
     </div>
 
     <div class="col-12 pb-3">
         <label class="form-label">Trạng thái</label>
-        <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{enabled}"  >
+        <input type="checkbox" class="form-check-input" style="margin-left: 5px"
+               th:disabled="${#authorization.expression('hasAuthority( ''Salesperson'')')}"
+               th:field="*{enabled}"
+               >
     </div>
 
     <div class="col-12 pb-3">
         <label class="form-label">Còn hàng</label>
-        <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{inStock}"  >
+        <input type="checkbox" class="form-check-input" style="margin-left: 5px"
+               th:disabled="${#authorization.expression('hasAuthority( ''Salesperson'')')}"
+               th:field="*{inStock}"
+               >
     </div>
 
     <div class="col-12 pb-3 ">

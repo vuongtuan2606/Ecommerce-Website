@@ -23,6 +23,15 @@ $(document).ready(function() {
 // hiển thị ExtraImage
 function showExtraImageThumbnail(fileInput, index) {
     var file = fileInput.files[0];
+
+    fileName = file.name;
+
+    imageNameHiddenField = $("#imageName" + index);
+    if (imageNameHiddenField.length) {
+        imageNameHiddenField.val(fileName);
+    }
+
+
     var reader = new FileReader();
     reader.onload = function(e) {
         $("#extraThumbnail" + index).attr("src", e.target.result);
@@ -40,16 +49,18 @@ function showExtraImageThumbnail(fileInput, index) {
 function addNextExtraImageSection(index) {
     htmlExtraImage = `
 		<div class="col-md-4 col-sm-12  border  p-3 " id="divExtraImage${index}">
-			<div id="extraImageHeader${index}"><label class="form-label">Ảnh phụ #${index + 1}:</label></div>
-			<div class="m-2">
-                <input type="file" class="form-control"  accept="image/png, image/jpeg" 
-                        name="extraImage"
-                        onchange="showExtraImageThumbnail(this, ${index})" />
+			<div id="extraImageHeader${index}">
+			    <label class="form-label">Ảnh phụ #${index + 1}:</label>
 			</div>
-			<div>
+			<div class="m-2">
 				<img alt="Extra image #${index + 1} preview" class="img-fluid" style="width: 250px; height: auto; padding: 10px 0px;"
 				    id="extraThumbnail${index}"
 					src="${defaultImageThumbnailSrc}"/>
+			</div>
+			<div >
+                <input type="file"  name="extraImage"
+                       class="form-control" accept="image/png, image/jpeg"                      
+                       onchange="showExtraImageThumbnail(this, ${index})" />
 			</div>
 		</div>	
 	`;
