@@ -4,7 +4,7 @@ package com.tuanvuong.qtsnearker.controller.administrator;
 import com.tuanvuong.qtsnearker.entity.User;
 import com.tuanvuong.qtsnearker.security.AdminUserDetails;
 
-import com.tuanvuong.qtsnearker.services.UserService;
+import com.tuanvuong.qtsnearker.services.administrator.AdminUserService;
 import com.tuanvuong.qtsnearker.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -21,9 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminAccountController  {
     @Autowired
-    private UserService userService;
+    private AdminUserService adminUserService;
 
     /* @AuthenticationPrincipal
     *  là một annotation trong Spring Security
@@ -37,7 +39,7 @@ public class AdminAccountController  {
         String email = loggedUser.getUsername();
 
         //truyền vào email của người dùng đang đăng nhập để lấy thông tin đầy đủ về người dùng từ cơ sở dữ liệu.
-        User user = userService.getByEmail(email);
+        User user = adminUserService.getByEmail(email);
 
         model.addAttribute("user", user);
 
@@ -56,7 +58,7 @@ public class AdminAccountController  {
 
             user.setPhotos(fileName);
 
-            User savedUser = userService.updateAccount(user);
+            User savedUser = adminUserService.updateAccount(user);
 
             // đường dẫn thư mục ->  tạo thư mục "user-photos"
             String uploadDir = "../user-photos/" +savedUser.getId();
@@ -75,10 +77,10 @@ public class AdminAccountController  {
         loggedUser.setLastName(user.getLastName());
         loggedUser.setPhoto(user.getPhotos());
 
-        userService.updateAccount(user);
+        adminUserService.updateAccount(user);
         redirectAttributes.addFlashAttribute("message","Your account detail have been updated");
 
-        return "redirect:/account";
+        return "redirect:/admin/account";
 
     }
 }

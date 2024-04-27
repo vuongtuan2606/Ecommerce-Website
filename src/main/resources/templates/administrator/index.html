@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="~{administrator/common/common :: html_head}"></head>
+<head th:replace="~{administrator/common/common :: html_head('Home')}"></head>
 
 <body>
 
@@ -17,7 +17,7 @@
       <h1>Bảng điều khiển</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a th:href="@{/}" >Home</a></li>
+          <li class="breadcrumb-item"><a th:href="@{administrator}" >Home</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->

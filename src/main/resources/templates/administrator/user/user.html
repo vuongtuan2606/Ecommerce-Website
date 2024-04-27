@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{administrator/common/common :: html_head}"></head>
+<head th:replace="~{administrator/common/common :: html_head('Users')}"></head>
 
 <body>
 
@@ -17,8 +17,8 @@
     <h1>Quản lý khách hàng</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-        <li class="breadcrumb-item active"><a th:href="@{/users}">[[${pageTitle}]]</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+        <li class="breadcrumb-item active"><a th:href="@{/admin/users}">[[${pageTitle}]]</a></li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -35,9 +35,9 @@
             <!-- End search bar-->
 
             <div class="button-container">
-              <a class="btn btn-success" th:href="@{/users/create}" title="Thêm"><i class="bi bi-file-earmark-person"></i> Tạo mới </a>
-              <a class="btn btn-primary"th:href="@{/users/export/excel}"  title="In"><i class="bi bi-file-earmark-excel"></i> Xuất Excel </a>
-              <a class="btn btn-secondary" th:href="@{/users/export/pdf}"><i class="bi bi-file-pdf"></i> Xuất PDF </a>
+              <a class="btn btn-success" th:href="@{/admin/create}" title="Thêm"><i class="bi bi-file-earmark-person"></i> Tạo mới </a>
+              <a class="btn btn-primary" th:href="@{/admin/users/export/excel}" title="In"><i class="bi bi-file-earmark-excel"></i> Xuất Excel </a>
+              <a class="btn btn-secondary" th:href="@{/admin/users/export/pdf}"><i class="bi bi-file-pdf"></i> Xuất PDF </a>
             </div>
 
           </div>
@@ -88,12 +88,12 @@
 
                   <td th:text="${user.roles}"></td>
 
-                  <td th:replace="~{administrator/common/fragments :: status(${user.enabled},  '/users/' + ${user.id})}" ></td>
+                  <td th:replace="~{administrator/common/fragments :: status(${user.enabled},  '/admin/users/' + ${user.id})}" ></td>
 
                   <td class="table-td-center">
-                    <a th:replace="~{administrator/common/fragments :: delete(${user.id}, '/users/delete/' + ${user.id})}" ></a>
+                    <a th:replace="~{administrator/common/fragments :: delete(${user.id}, '/admin/users/delete/' + ${user.id})}" ></a>
 
-                    <a th:replace="~{administrator/common/fragments :: edit('/users/edit/' + ${user.id}) }"></a>
+                    <a th:replace="~{administrator/common/fragments :: edit('/admin/users/edit/' + ${user.id}) }"></a>
                   </td>
 
                 </tr>
@@ -115,24 +115,24 @@
                 <ul class="pagination justify-content-end" >
 
                   <li th:class="${currentPage > 1  ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/users/page/'+ ${currentPage -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
+                    <a class="page-link" th:href="@{'/admin/users/page/'+ ${currentPage -1} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
 
                   <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
                       th:each="i : ${#numbers.sequence(1, totalPages)}">
-                    <a class="page-link" th:href="@{'/users/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
+                    <a class="page-link" th:href="@{'/admin/users/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
                   </li>
 
                   <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}" >
-                    <a class="page-link" th:href="@{'/users/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
+                    <a class="page-link" th:href="@{'/admin/users/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
 
                   <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/users/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
+                    <a class="page-link" th:href="@{'/admin/users/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
                       Last
                     </a>
                   </li>
@@ -160,7 +160,7 @@
 <span th:replace="~{administrator/common/common :: js}"></span>
 
 <script type="text/javascript">
-  moduleURL = "[[@{/users}]]";
+  moduleURL = "[[@{/admin/users}]]";
 </script>
 
 <script th:src="@{/administrator/js/common_form.js}"></script>

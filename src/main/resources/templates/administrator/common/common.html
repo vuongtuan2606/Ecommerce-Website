@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:fragment="html_head">
+<head th:fragment="html_head(title)">
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>ADMIN HOME</title>
+    <title>[[${title}]]</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -56,13 +56,13 @@
 <header  th:fragment="header" id="header" class="header fixed-top d-flex align-items-center">
     <!--  form hidden logout  -->
     <div>
-        <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+        <form th:action="@{/admin/home}" method="post" th:hidden="true" name="logoutForm">
             <input type="submit">
         </form>
     </div>
     <div class="d-flex align-items-center justify-content-between">
         <a href="" class="logo d-flex align-items-center">
-            <img src="" alt="">
+            <img th:src="@{/admin/home}" alt="">
             <span class="d-none d-lg-block">QT Sneaker</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -229,7 +229,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" th:href="@{/account}">
+                        <a class="dropdown-item d-flex align-items-center" th:href="@{/admin/account}">
                             <i class="bi bi-person"></i>
                             <span>My Profile</span>
                         </a>
@@ -259,7 +259,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " th:href="@{/}">
+            <a class="nav-link " th:href="@{/admin/home}">
                 <i class="bi bi-grid"></i>
                 <span>Trang chủ</span>
             </a>
@@ -272,12 +272,12 @@
                 </a>
                 <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a th:href="@{/users}">
+                        <a th:href="@{/admin/users}">
                             <i class="bi bi-circle"></i><span>Danh sách người dùng</span>
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/users/create}">
+                        <a th:href="@{/admin/users/create}">
                             <i class="bi bi-circle"></i><span>Thêm người dùng</span>
                         </a>
                     </li>
@@ -292,12 +292,12 @@
                 </a>
                 <ul id="brand-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a th:href="@{/brands}">
+                        <a th:href="@{/admin/brands}">
                             <i class="bi bi-circle"></i><span>Danh sách thương hiệu</span>
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/brands/create}">
+                        <a th:href="@{/admin/brands/create}">
                             <i class="bi bi-circle"></i><span>Thêm thương hiệu</span>
                         </a>
                     </li>
@@ -310,12 +310,12 @@
                 </a>
                 <ul id="categories-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a th:href="@{/categories}">
+                        <a th:href="@{/admin/categories}">
                             <i class="bi bi-circle"></i><span>Danh sách danh mục</span>
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/categories/create}">
+                        <a th:href="@{/admin/categories/create}">
                             <i class="bi bi-circle"></i><span>Thêm danh mục</span>
                         </a>
                     </li>
@@ -329,12 +329,12 @@
                 </a>
                 <ul id="product-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a th:href="@{/products}" >
+                        <a th:href="@{/admin/products}" >
                             <i class="bi bi-circle"></i><span>Danh sách sản phẩm</span>
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/products/create}" sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <a th:href="@{/admin/products/create}" sec:authorize="hasAnyAuthority('Admin', 'Editor')">
                             <i class="bi bi-circle"></i><span>Thêm sản phẩm</span>
                         </a>
                     </li>
@@ -345,7 +345,7 @@
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed"  th:href="@{/account}">
+            <a class="nav-link collapsed"  th:href="@{/admin/account}">
                 <i class="bi bi-person"></i>
                 <span>Profile</span>
             </a>

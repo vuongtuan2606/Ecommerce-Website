@@ -18,10 +18,11 @@ public class Category extends IdBasedEntity {
 
     @Column(name = "all_parent_ids", length = 256,nullable = true)
     private String allParentIDs;
+    // cha
     @OneToOne
     @JoinColumn(name = "parent_id")
     private Category parent;
-
+    // 1 cha có nhiều con
     @OneToMany(mappedBy = "parent")
     @OrderBy("name asc")
     private Set<Category> children = new HashSet<>();

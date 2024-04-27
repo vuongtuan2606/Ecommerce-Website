@@ -221,4 +221,20 @@ public class Product extends IdBasedEntity {
 
         return false;
     }
+    @Transient
+    public String getShortName() {
+        if (name.length() > 70) {
+            return name.substring(0, 70).concat("...");
+        }
+        return name;
+    }
+
+    // tính giá sản phẩm sau khi đã áp dụng giảm giá nếu có
+    @Transient
+    public float getDiscountPrice() {
+        if (discountPercent > 0) {
+            return price * ((100 - discountPercent) / 100);
+        }
+        return this.price;
+    }
 }

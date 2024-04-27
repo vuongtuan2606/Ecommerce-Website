@@ -2,7 +2,7 @@ package com.tuanvuong.qtsnearker.controller.administrator;
 
 import com.tuanvuong.qtsnearker.dto.CategoryPageInfo;
 import com.tuanvuong.qtsnearker.entity.Category;
-import com.tuanvuong.qtsnearker.services.CategoryService;
+import com.tuanvuong.qtsnearker.services.administrator.AdminCategoryService;
 import com.tuanvuong.qtsnearker.services.exceptions.CategoryNotFoundException;
 import com.tuanvuong.qtsnearker.util.CategoryExcelExporter;
 import com.tuanvuong.qtsnearker.util.FileUploadUtil;
@@ -20,9 +20,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminCategoryController {
     @Autowired
-    private  CategoryService categoryService;
+    private AdminCategoryService adminCategoryService;
 
     @GetMapping("/categories")
     public String listFirstPage(Model model) {
@@ -36,11 +37,11 @@ public class AdminCategoryController {
 
         CategoryPageInfo pageInfo = new CategoryPageInfo();
 
-        List<Category> listCategories = categoryService.listByPage(pageInfo, pageNum, sortDir,keyword);
+        List<Category> listCategories = adminCategoryService.listByPage(pageInfo, pageNum, sortDir,keyword);
 
-        long startCount = (pageNum - 1) * CategoryService.ROOT_CATEGORIES_PER_PAGE + 1;
+        long startCount = (pageNum - 1) * AdminCategoryService.ROOT_CATEGORIES_PER_PAGE + 1;
 
-        long endCount = startCount + CategoryService.ROOT_CATEGORIES_PER_PAGE - 1;
+        long endCount = startCount + AdminCategoryService.ROOT_CATEGORIES_PER_PAGE - 1;
 
         if (endCount > pageInfo.getTotalElements()) {
             endCount = pageInfo.getTotalElements();
@@ -62,7 +63,7 @@ public class AdminCategoryController {
         model.addAttribute("listCategory", listCategories);
         model.addAttribute("reverseSortDir", reverseSortDir);
 
-        model.addAttribute("moduleURL", "/categories");
+        model.addAttribute("moduleURL", "/admin/categories");
 
         model.addAttribute("pageTitle","Danh sách danh mục");
 
@@ -71,7 +72,7 @@ public class AdminCategoryController {
     @GetMapping("/categories/create")
     public String newCategories(Model model){
 
-        List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+        List<Category> listCategories = adminCategoryService.listCategoriesUsedInForm();
 
         model.addAttribute("category", new Category());
         model.addAttribute("listCategories", listCategories);
@@ -92,10 +93,10 @@ public class AdminCategoryController {
 
             category.setImage(fileName);
 
-            Category savedCategory = categoryService.save(category);
+            Category savedCategory = adminCategoryService.save(category);
 
             // đường dẫn thư mục ->  tạo thư mục "category-images"
-            String uploadDir = "src/main/resources/static/category-images/" +savedCategory.getId();
+            String uploadDir = "../category-images/" +savedCategory.getId();
 
             // xóa ảnh cũ
             FileUploadUtil.cleanDir(uploadDir);
@@ -104,12 +105,12 @@ public class AdminCategoryController {
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
         else {
-            categoryService.save(category);
+            adminCategoryService.save(category);
         }
 
         redirectAttributes.addFlashAttribute("message","The categories has been saved successfully");
 
-        return "redirect:/categories";
+        return "redirect:/admin/categories";
 
     }
 
@@ -117,9 +118,9 @@ public class AdminCategoryController {
     public String editCategory(@PathVariable(name = "id") Integer id, Model model,
                                RedirectAttributes redirectAttributes) {
         try {
-            Category category = categoryService.get(id);
+            Category category = adminCategoryService.get(id);
 
-            List<Category> categoryList = categoryService.listCategoriesUsedInForm();
+            List<Category> categoryList = adminCategoryService.listCategoriesUsedInForm();
 
             model.addAttribute("category", category);
 
@@ -131,7 +132,7 @@ public class AdminCategoryController {
 
         } catch (CategoryNotFoundException ex) {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
-            return "redirect:/categories";
+            return "redirect:/admin/categories";
         }
     }
 
@@ -140,7 +141,7 @@ public class AdminCategoryController {
                                               @PathVariable("status") boolean enabled,
                                               RedirectAttributes redirectAttributes) {
 
-        categoryService.updateCategoryEnabledStatus(id, enabled);
+        adminCategoryService.updateCategoryEnabledStatus(id, enabled);
 
         String status = enabled ? "enabled" : "disabled";
 
@@ -148,7 +149,7 @@ public class AdminCategoryController {
 
         redirectAttributes.addFlashAttribute("message", message);
 
-        return "redirect:/categories";
+        return "redirect:/admin/categories";
     }
 
     @GetMapping("/categories/delete/{id}")
@@ -156,14 +157,14 @@ public class AdminCategoryController {
                                  Model model,
                                  RedirectAttributes redirectAttributes) {
         try {
-            categoryService.delete(id);
+            adminCategoryService.delete(id);
             redirectAttributes.addFlashAttribute("message", "The category ID " + id + " has been deleted successfully");
 
         } catch (CategoryNotFoundException ex) {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
 
-        return "redirect:/categories";
+        return "redirect:/admin/categories";
     }
 
     /*
@@ -172,7 +173,7 @@ public class AdminCategoryController {
     @GetMapping("/categories/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException{
 
-        List<Category> listCate = categoryService.listCategoriesUsedInForm();
+        List<Category> listCate = adminCategoryService.listCategoriesUsedInForm();
 
         CategoryExcelExporter exporter = new CategoryExcelExporter();
 

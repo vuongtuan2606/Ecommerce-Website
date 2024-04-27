@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{administrator/common/common :: html_head}"></head>
+<head th:replace="~{administrator/common/common :: html_head('brands form')}"></head>
 
 <body>
 
@@ -17,8 +17,8 @@
         <h1>Quản lý thương hiệu</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-                <li class="breadcrumb-item active"><a th:href="@{/brands}">Danh sách thương hiệu</a> / [[${pageTitle}]]</li>
+                <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/brands/create}">Danh sách thương hiệu</a> / [[${pageTitle}]]</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Vertical Form -->
-                        <form class="row g-3" th:action="@{/brands/save}" method="post"
+                        <form class="row g-3" th:action="@{/admin/brands/save}" method="post"
                               enctype="multipart/form-data"
                               th:object="${brand}"
                               onsubmit="return checkUnique(this);">
@@ -99,7 +99,7 @@
 
 <script type="text/javascript">
 
-    moduleURL = "[[@{/brands}]]";
+    moduleURL = "[[@{/admin/brands}]]";
     MAX_FILE_SIZE = 102400;
 
 

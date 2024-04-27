@@ -3,7 +3,7 @@ package com.tuanvuong.qtsnearker.controller.administrator;
 import com.tuanvuong.qtsnearker.entity.User;
 import com.tuanvuong.qtsnearker.entity.Role;
 import com.tuanvuong.qtsnearker.services.exceptions.UserNotFoundException;
-import com.tuanvuong.qtsnearker.services.UserService;
+import com.tuanvuong.qtsnearker.services.administrator.AdminUserService;
 import com.tuanvuong.qtsnearker.util.FileUploadUtil;
 import com.tuanvuong.qtsnearker.util.UserExcelExporter;
 import com.tuanvuong.qtsnearker.util.UserPdfExporter;
@@ -23,10 +23,11 @@ import java.util.List;
 
 
 @Controller
+@RequestMapping("/admin")
 public class AdminUserController {
 
     @Autowired
-    private UserService userService;
+    private AdminUserService adminUserService;
 
     @GetMapping("/users")
     public String listFirstPage(Model model){
@@ -45,13 +46,13 @@ public class AdminUserController {
         System.out.println("sort dir:" +sortDir);
         System.out.println("keyword:" +keyword);
 
-        Page<User> page = userService.listByPage(pageNum,sortField,sortDir,keyword);
+        Page<User> page = adminUserService.listByPage(pageNum,sortField,sortDir,keyword);
 
         List<User> listUsers = page.getContent();
 
-        long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE + 1;
+        long startCount = (pageNum - 1) * AdminUserService.USERS_PER_PAGE + 1;
 
-        long endCount = startCount + UserService.USERS_PER_PAGE-1;
+        long endCount = startCount + AdminUserService.USERS_PER_PAGE-1;
 
         if(endCount > page.getTotalElements()){
             endCount = page.getTotalElements();
@@ -80,7 +81,7 @@ public class AdminUserController {
 
         model.addAttribute("keyword", keyword);
 
-        model.addAttribute("moduleURL", "/users");
+        model.addAttribute("moduleURL", "/admin/users");
 
         model.addAttribute("pageTitle","Danh sách người dùng");
 
@@ -94,7 +95,7 @@ public class AdminUserController {
 
         User user = new User();
 
-        List<Role> listRoles = userService.findRoleAll();
+        List<Role> listRoles = adminUserService.findRoleAll();
 
         user.setEnabled(true);
 
@@ -122,7 +123,7 @@ public class AdminUserController {
 
             user.setPhotos(fileName);
 
-            User savedUser = userService.save(user);
+            User savedUser = adminUserService.save(user);
 
             // đường dẫn thư mục ->  tạo thư mục "user-photos"
             String uploadDir = "../user-photos/" +savedUser.getId();
@@ -135,7 +136,7 @@ public class AdminUserController {
         }
         else {
             if(user.getPhotos().isEmpty()) user.setPhotos(null);
-            userService.save(user);
+            adminUserService.save(user);
         }
 
         redirectAttributes.addFlashAttribute("message","The user has been saved successfully");
@@ -149,7 +150,7 @@ public class AdminUserController {
         // tách  phần đầu của địa chỉ email
         String firstPartOfEmail = user.getEmail().split("@")[0];
 
-        return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;
+        return "redirect:/admin/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;
     }
 
     /* redirectAttributes.addFlashAttribute("key", "value")
@@ -164,9 +165,9 @@ public class AdminUserController {
                             Model model,
                             RedirectAttributes redirectAttributes )  {
          try{
-             User user =userService.findById(id);
+             User user = adminUserService.findById(id);
 
-             List<Role> listRoles = userService.findRoleAll();
+             List<Role> listRoles = adminUserService.findRoleAll();
 
              model.addAttribute("user", user);
 
@@ -187,7 +188,7 @@ public class AdminUserController {
                             Model model,
                             RedirectAttributes redirectAttributes )  {
          try{
-             userService.delete(id);
+             adminUserService.delete(id);
 
              redirectAttributes.addFlashAttribute("message", "The user ID:"+id+" has been deleted successfully" );
          }
@@ -195,7 +196,7 @@ public class AdminUserController {
 
              redirectAttributes.addFlashAttribute("message",ex.getMessage());
          }
-         return "redirect:/users";
+         return "redirect:/admin/users";
      }
 
      @GetMapping("/users/{id}/enabled/{status}")
@@ -203,7 +204,7 @@ public class AdminUserController {
                                            @PathVariable("status") boolean enabled,
                                            RedirectAttributes redirectAttributes){
 
-         userService.updateUserEnableStatus(id, enabled);
+         adminUserService.updateUserEnableStatus(id, enabled);
 
          String status = enabled ? "enabled" : "disabled";
 
@@ -211,7 +212,7 @@ public class AdminUserController {
 
          redirectAttributes.addFlashAttribute("message",message);
 
-         return "redirect:/users";
+         return "redirect:/admin/users";
      }
 
      /*
@@ -220,7 +221,7 @@ public class AdminUserController {
      @GetMapping("/users/export/excel")
      public void exportToExcel(HttpServletResponse response) throws IOException{
 
-         List<User> listUsers = userService.findUserAll();
+         List<User> listUsers = adminUserService.findUserAll();
 
          UserExcelExporter exporter = new UserExcelExporter();
 
@@ -234,7 +235,7 @@ public class AdminUserController {
     @GetMapping("/users/export/pdf")
     public void exportToPdf(HttpServletResponse response) throws IOException{
 
-        List<User> listUsers = userService.findUserAll();
+        List<User> listUsers = adminUserService.findUserAll();
 
         UserPdfExporter exporter = new UserPdfExporter();
 

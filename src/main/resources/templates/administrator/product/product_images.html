@@ -13,7 +13,7 @@
                         th:src="@{${product.mainImagePath}}"  >
                </div>
                <div>
-                   <input type="file"  class="form-control"  accept="image/png, image/jpeg"
+                   <input type="file"  class="form-control"  accept="image/png, image/jpeg, image/webp"
                           name="fileImage" id="fileImage"
                           th:required="${product.mainImage == null}"  >
                </div>
@@ -40,7 +40,7 @@
 
                     <div>
                         <input type="file" name="extraImage"
-                               class="form-control " accept="image/png, image/jpeg"  >
+                               class="form-control " accept="image/png, image/jpeg , image/webp"  >
                     </div>
 
                     <input type="hidden"
@@ -68,7 +68,7 @@
                 </div>
                 <div>
                     <input type="file" name="extraImage"
-                           class="form-control" accept="image/png, image/jpeg">
+                           class="form-control" accept="image/png, image/jpeg,  image/webp">
                 </div>
             </div>
 

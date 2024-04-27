@@ -2,8 +2,8 @@ package com.tuanvuong.qtsnearker.controller.administrator;
 
 import com.tuanvuong.qtsnearker.entity.Brand;
 import com.tuanvuong.qtsnearker.entity.Category;
-import com.tuanvuong.qtsnearker.services.BrandService;
-import com.tuanvuong.qtsnearker.services.CategoryService;
+import com.tuanvuong.qtsnearker.services.administrator.AdminBrandService;
+import com.tuanvuong.qtsnearker.services.administrator.AdminCategoryService;
 import com.tuanvuong.qtsnearker.services.exceptions.BrandNotFoundException;
 import com.tuanvuong.qtsnearker.util.BrandExcelExporter;
 import com.tuanvuong.qtsnearker.util.FileUploadUtil;
@@ -21,13 +21,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.util.List;
 
+
 @Controller
+@RequestMapping("/admin")
 public class AdminBrandController {
     @Autowired
-    private BrandService brandService;
+    private AdminBrandService adminBrandService;
 
     @Autowired
-    private CategoryService categoryService;
+    private AdminCategoryService adminCategoryService;
 
     @GetMapping("/brands")
     public String listFirstPage(Model model) {
@@ -40,13 +42,13 @@ public class AdminBrandController {
                              @PathVariable(name = "pageNum") int pageNum,
                              Model model){
 
-        Page<Brand> page = brandService.listByPage(pageNum,sortDir,keyword);
+        Page<Brand> page = adminBrandService.listByPage(pageNum,sortDir,keyword);
 
         List<Brand> listBrand = page.getContent();
 
-        long startCount = (pageNum - 1) * BrandService.BRAND_PER_PAGE + 1;
+        long startCount = (pageNum - 1) * AdminBrandService.BRAND_PER_PAGE + 1;
 
-        long endCount = startCount + BrandService.BRAND_PER_PAGE - 1;
+        long endCount = startCount + AdminBrandService.BRAND_PER_PAGE - 1;
 
         if (endCount > page.getTotalElements()) {
             endCount = page.getTotalElements();
@@ -67,7 +69,7 @@ public class AdminBrandController {
         model.addAttribute("listBrand", listBrand);
         model.addAttribute("reverseSortDir", reverseSortDir);
 
-        model.addAttribute("moduleURL", "/brands");
+        model.addAttribute("moduleURL", "/admin/brands");
 
         model.addAttribute("pageTitle","Danh sách thương hiệu");
 
@@ -77,7 +79,7 @@ public class AdminBrandController {
     @GetMapping("/brands/create")
     public  String newBrands(Model model){
         Brand brand = new Brand();
-        List<Category> listCategory = categoryService.listCategoriesUsedInForm();
+        List<Category> listCategory = adminCategoryService.listCategoriesUsedInForm();
 
         model.addAttribute("listCategory", listCategory);
         model.addAttribute("brand", brand);
@@ -97,7 +99,7 @@ public class AdminBrandController {
 
             brand.setLogo(fileName);
 
-            Brand savedBrand = brandService.save(brand);
+            Brand savedBrand = adminBrandService.save(brand);
 
             // đường dẫn thư mục ->  tạo thư mục "category-images"
             String uploadDir = "../brand-logo/" +savedBrand.getId();
@@ -109,21 +111,21 @@ public class AdminBrandController {
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
         else {
-            brandService.save(brand);
+            adminBrandService.save(brand);
         }
 
         redirectAttributes.addFlashAttribute("message","The brand has been saved successfully");
 
-        return "redirect:/brands";
+        return "redirect:/admin/brands";
 
     }
     @GetMapping("/brands/edit/{id}")
     public String editBrands(@PathVariable(name = "id") Integer id, Model model,
                                RedirectAttributes redirectAttributes) {
         try {
-            Brand brand = brandService.get(id);
+            Brand brand = adminBrandService.get(id);
 
-            List<Category> listCategory = categoryService.listCategoriesUsedInForm();
+            List<Category> listCategory = adminCategoryService.listCategoriesUsedInForm();
 
             model.addAttribute("brand", brand);
 
@@ -135,7 +137,7 @@ public class AdminBrandController {
 
         } catch (BrandNotFoundException ex) {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
-            return "redirect:/brands";
+            return "redirect:/admin/brands";
         }
     }
     @GetMapping("/brands/delete/{id}")
@@ -143,20 +145,20 @@ public class AdminBrandController {
                                  Model model,
                                  RedirectAttributes redirectAttributes) {
         try {
-            brandService.delete(id);
+            adminBrandService.delete(id);
             redirectAttributes.addFlashAttribute("message", "The brand ID " + id + " has been deleted successfully");
 
         } catch (BrandNotFoundException ex) {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
 
-        return "redirect:/brands";
+        return "redirect:/admin/brands";
     }
 
     @GetMapping("/brands/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException{
 
-        List<Brand> listBrand = brandService.listAll();
+        List<Brand> listBrand = adminBrandService.listAll();
 
         BrandExcelExporter exporter = new BrandExcelExporter();
 

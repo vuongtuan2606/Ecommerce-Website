@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{administrator/common/common :: html_head}"></head>
+<head th:replace="~{administrator/common/common :: html_head('Product form')}"></head>
 
 <body>
 
@@ -17,8 +17,8 @@
         <h1>Quản lý sản phẩm</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-                <li class="breadcrumb-item active"><a th:href="@{/products}">Danh sách sản phẩm</a> / [[${pageTitle}]]</li>
+                <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/products}">Danh sách sản phẩm</a> / [[${pageTitle}]]</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Vertical Form -->
-                        <form class="row g-3" th:action="@{/products/save}" method="post"
+                        <form class="row g-3" th:action="@{/admin/products/save}" method="post"
                               enctype="multipart/form-data"
                               th:object="${product}"
                               onsubmit="return checkUnique(this);">
@@ -111,7 +111,7 @@
 
 <script type="text/javascript">
 
-    moduleURL = "[[@{/products}]]";
+    moduleURL = "[[@{/admin/products}]]";
     brandModuleURL = "[[@{/brands}]]";
     MAX_FILE_SIZE = 502400; // 500KB
     defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";

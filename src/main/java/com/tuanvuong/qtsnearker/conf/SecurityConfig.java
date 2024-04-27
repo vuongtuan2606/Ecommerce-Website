@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,20 +19,20 @@ public class SecurityConfig  {
         http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/users/**").hasAuthority("Admin")
+                .requestMatchers("/administrator/users/**").hasAuthority("Admin")
 
-                .requestMatchers("/categories/**","/brands/**").hasAnyAuthority("Admin","Editor")
+                .requestMatchers("/administrator/categories/**", "/administrator/brands/**").hasAnyAuthority("Admin","Editor")
 
-                .requestMatchers("/products/create/**","/products/delete/**").hasAnyAuthority("Admin","Editor")
+                .requestMatchers("/administrator/products/create/**", "/administrator/products/delete/**").hasAnyAuthority("Admin","Editor")
 
-                .requestMatchers("/products/edit/**","/products/save/**","/products/check_unique/**").hasAnyAuthority("Admin","Editor","Salesperson")
+                .requestMatchers("/administrator/products/edit/**", "/administrator/products/save/**","/products/check_unique/**").hasAnyAuthority("Admin","Editor","Salesperson")
 
-                .requestMatchers("/products/**").hasAnyAuthority("Admin","Editor","Salesperson","Shipper")
+                .requestMatchers("/administrator/products/**").hasAnyAuthority("Admin","Editor","Salesperson","Shipper")
 
                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage("/administrator/login")
                         .usernameParameter("email")
                         .permitAll()
                 )
@@ -54,7 +53,7 @@ public class SecurityConfig  {
 
     @Bean
     WebSecurityCustomizer configureWebSecurity() throws Exception{
-        return (web) -> web.ignoring().requestMatchers("/administrator/css/**","/administrator/js/**","/administrator/vendor/**","/administrator/webjars/**");
+        return (web) -> web.ignoring().requestMatchers("/administrator/**","/customer/**","/customer/assets/img/icons/**", "/images/**");
     }
     @Bean
     UserDetailsService userDetailsServices(){

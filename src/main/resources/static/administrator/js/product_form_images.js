@@ -59,7 +59,7 @@ function addNextExtraImageSection(index) {
 			</div>
 			<div >
                 <input type="file"  name="extraImage"
-                       class="form-control" accept="image/png, image/jpeg"                      
+                       class="form-control" accept="image/png, image/jpeg, image/webp"                      
                        onchange="showExtraImageThumbnail(this, ${index})" />
 			</div>
 		</div>	

@@ -3,11 +3,10 @@ package com.tuanvuong.qtsnearker.controller.administrator;
 import com.tuanvuong.qtsnearker.entity.Brand;
 import com.tuanvuong.qtsnearker.entity.Category;
 import com.tuanvuong.qtsnearker.entity.Product;
-import com.tuanvuong.qtsnearker.entity.ProductImage;
 import com.tuanvuong.qtsnearker.security.AdminUserDetails;
-import com.tuanvuong.qtsnearker.services.BrandService;
-import com.tuanvuong.qtsnearker.services.CategoryService;
-import com.tuanvuong.qtsnearker.services.ProductService;
+import com.tuanvuong.qtsnearker.services.administrator.AdminBrandService;
+import com.tuanvuong.qtsnearker.services.administrator.AdminCategoryService;
+import com.tuanvuong.qtsnearker.services.administrator.AdminProductService;
 import com.tuanvuong.qtsnearker.services.exceptions.ProductNotFoundException;
 import com.tuanvuong.qtsnearker.util.FileUploadUtil;
 
@@ -28,17 +27,18 @@ import java.util.List;
 
 
 @Controller
+@RequestMapping("/admin")
 public class AdminProductController {
 
 
     @Autowired
-    private ProductService productService;
+    private AdminProductService adminProductService;
 
     @Autowired
-    private BrandService brandService;
+    private AdminBrandService adminBrandService;
 
     @Autowired
-    private CategoryService categoryService;
+    private AdminCategoryService adminCategoryService;
 
     @GetMapping("/products")
     public String listFirstPage(Model model) {
@@ -53,15 +53,15 @@ public class AdminProductController {
                              Model model,
                              @Param("categoryId") Integer categoryId) {
 
-        Page<Product> page = productService.listByPage(pageNum, sortField, sortDir, keyword, categoryId);
+        Page<Product> page = adminProductService.listByPage(pageNum, sortField, sortDir, keyword, categoryId);
 
         List<Product> listProduct = page.getContent();
 
-        List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+        List<Category> listCategories = adminCategoryService.listCategoriesUsedInForm();
 
-        long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_PAGE + 1;
+        long startCount = (pageNum - 1) * AdminProductService.PRODUCTS_PER_PAGE + 1;
 
-        long endCount = startCount + ProductService.PRODUCTS_PER_PAGE - 1;
+        long endCount = startCount + AdminProductService.PRODUCTS_PER_PAGE - 1;
 
         if (endCount > page.getTotalElements()) {
             endCount = page.getTotalElements();
@@ -89,7 +89,7 @@ public class AdminProductController {
 
         model.addAttribute("keyword", keyword);
 
-        model.addAttribute("moduleURL", "/products");
+        model.addAttribute("moduleURL", "/admin/products");
 
         model.addAttribute("listProduct", listProduct);
 
@@ -100,7 +100,7 @@ public class AdminProductController {
     }
     @GetMapping("/products/create")
     public String createProduct(Model model) {
-        List<Brand> listBrand = brandService.listAll();
+        List<Brand> listBrand = adminBrandService.listAll();
 
         Product product = new Product();
         product.setEnabled(true);
@@ -127,17 +127,17 @@ public class AdminProductController {
         // kiểm tra xem người dùng hiện tại có vai trò "Salesperson" không
         if(loggedUser.hasRole("Salesperson")){
             // nếu có thì saveProductPrice
-            productService.saveProductPrice(product);
+            adminProductService.saveProductPrice(product);
 
             redirectAttributes.addFlashAttribute("message", "Sản phảm đã được lưu thành công");
-            return "redirect:/products";
+            return "redirect:/admin/products";
         }
 
         AdminProductSaveHelper.setMainImageName(mainImageMultipart, product);
         AdminProductSaveHelper.setExistingExtraImageNames(imageIDs, imageNames, product);
         AdminProductSaveHelper.setNewExtraImageNames(extraImageMultipart, product);
 
-        Product savedProduct = productService.save(product);
+        Product savedProduct = adminProductService.save(product);
 
         AdminProductSaveHelper.saveUploadedImages(mainImageMultipart, extraImageMultipart, savedProduct);
 
@@ -146,14 +146,14 @@ public class AdminProductController {
 
         redirectAttributes.addFlashAttribute("message", "Sản phảm đã được lưu thành công");
 
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
     @GetMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable(name = "id") Integer id,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
         try {
-            productService.delete(id);
+            adminProductService.delete(id);
 
             String productExtraImagesDir = "../product-images/" + id + "/extras";
             String productImagesDir = "../product-images/" + id;
@@ -167,7 +167,7 @@ public class AdminProductController {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
 
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/products/{id}/enabled/{status}")
@@ -175,7 +175,7 @@ public class AdminProductController {
                                              @PathVariable("status") boolean enabled,
                                              RedirectAttributes redirectAttributes) {
 
-        productService.updateCategoryEnabledStatus(id, enabled);
+        adminProductService.updateCategoryEnabledStatus(id, enabled);
 
         String status = enabled ? "enabled" : "disabled";
 
@@ -183,7 +183,7 @@ public class AdminProductController {
 
         redirectAttributes.addFlashAttribute("message", message);
 
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/products/edit/{id}")
@@ -191,8 +191,8 @@ public class AdminProductController {
                               Model model,
                               RedirectAttributes redirectAttributes) {
         try {
-            Product product = productService.get(id);
-            List<Brand> listBrand = brandService.listAll();
+            Product product = adminProductService.get(id);
+            List<Brand> listBrand = adminBrandService.listAll();
 
             // lấy số lượng ảnh hiện có
             Integer numberOfExistingExtraImages = product.getImages().size();
@@ -207,7 +207,7 @@ public class AdminProductController {
         } catch (ProductNotFoundException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
 
-            return "redirect:/products";
+            return "redirect:/admin/products";
         }
     }
     @GetMapping("/products/detail/{id}")
@@ -215,7 +215,7 @@ public class AdminProductController {
                                      Model model,
                                      RedirectAttributes redirectAttributes) {
         try {
-            Product product = productService.get(id);
+            Product product = adminProductService.get(id);
             model.addAttribute("product", product);
             model.addAttribute("pageTitle", "Chi tiết sản phẩm:(ID: " + id + ")");
 
@@ -224,7 +224,7 @@ public class AdminProductController {
         } catch (ProductNotFoundException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
 
-            return "redirect:/products";
+            return "redirect:/admin/products";
         }
     }
 
