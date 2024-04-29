@@ -4,9 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
 public class AdminHomeController {
-    @GetMapping("/home")
+    @GetMapping("/")
     public String HomeAdmin(){
         return "administrator/index";
     }

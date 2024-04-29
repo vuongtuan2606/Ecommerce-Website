@@ -223,8 +223,8 @@ public class Product extends IdBasedEntity {
     }
     @Transient
     public String getShortName() {
-        if (name.length() > 70) {
-            return name.substring(0, 70).concat("...");
+        if (name.length() > 50) {
+            return name.substring(0, 50).concat("...");
         }
         return name;
     }

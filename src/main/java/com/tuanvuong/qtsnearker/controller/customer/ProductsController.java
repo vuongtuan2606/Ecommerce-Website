@@ -119,15 +119,15 @@ public class ProductsController {
         try {
             List<Category> listNoChildrenCategories = categoryService.listNoChildrenCategories();
 
-            Product productDetail = productService.getProduct(alias);
+            Product product = productService.getProduct(alias);
 
-            List<Category> listCategoryParents = categoryService.getCategoryParents(productDetail.getCategory());
+            List<Category> listCategoryParents = categoryService.getCategoryParents(product.getCategory());
 
             model.addAttribute("listCategoryParents", listCategoryParents);
-            model.addAttribute("productDetail", productDetail);
+            model.addAttribute("product", product);
 
             model.addAttribute("listNoChildrenCategories", listNoChildrenCategories);
-            model.addAttribute("pageTitle", productDetail.getShortName());
+            model.addAttribute("pageTitle", product.getShortName());
 
             return "customer/product/product-details";
         } catch (ProductNotFoundException e) {

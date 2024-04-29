@@ -70,9 +70,9 @@
                         <div class="logo-container">
                             <!-- Logo -->
                             <div class="logo">
-                                <a href="index.html">
-                                    <img class='default-logo' th:src="@{/customer/assets/img/logo.png}" data-rjs="2" alt="ecommerce">
-                                    <img class='sticky-logo'  th:src="@{/customer/assets/img/logo2.png}" data-rjs="2" alt="ecommerce">
+                                <a th:href="@{/index}">
+                                    <img class='default-logo' th:src="@{${SITE_LOGO}}"  data-rjs="2" alt="ecommerce" >
+                                    <img class='sticky-logo' th:src="@{${SITE_LOGO}}" data-rjs="2" alt="ecommerce" >
                                 </a>
                             </div>
                             <!-- End of Logo -->
@@ -409,6 +409,47 @@
         </div>
     </th:block>
 
+    <th:block th:fragment="page-titles">
+        <section  class="page-title-inner" th:ata-bg-img="@{/images/slider_nike.jpg}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- page title inner -->
+                        <div class="page-title-wrap" >
+
+                            <div class="page-title-heading">
+                                <h1 class="h2"  th:if="${category != null}">
+                                    Category<span th:text="${category.name}"></span>
+                                </h1>
+                                <h1 class="h2"  th:if="${product != null}">
+                                    product<span th:text="${product.shortName}"></span>
+                                </h1>
+                            </div>
+
+                            <th:block th:if="${listCategoryParents != null and not #lists.isEmpty(listCategoryParents)}">
+                                <ul class="list-unstyled mb-0"  >
+                                    <li>
+                                        <a th:href="@{/index}">home</a>
+                                    </li>
+                                    <th:block th:each="parent :${listCategoryParents} ">
+                                        <li class="">
+                                            <a th:href="@{'/categories/' +${parent.alias}}">[[${parent.name}]]</a>
+                                        </li>
+                                    </th:block>
+                                    <li class="" th:if="${product != null}">
+                                        <span>[[${product.shortName}]]</span>
+                                    </li>
+                                </ul>
+                            </th:block>
+
+                        </div>
+                        <!-- End of page title inner -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </th:block>
+
     <!-- footer area -->
     <footer class="pattern footer-type1 pt-30" th:fragment="footer">
         <div class="footer-top">
@@ -431,7 +472,7 @@
                         <div class="footer-widget">
                             <!-- footer Widget heading -->
                             <div class="footer-header">
-                                <h5>About kinen</h5>
+                                <h5>About QT Sneaker</h5>
                             </div>
                             <!--End of footer Widget heading -->
                             <div class="footer-links">
@@ -441,12 +482,6 @@
                                     </li>
                                     <li>
                                         <a href="#">License</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Policy Privacy</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Terms of use</a>
                                     </li>
                                 </ul>
                             </div>
@@ -523,19 +558,9 @@
                         <div class="footer-bottom-wrap">
                             <!-- copyright text -->
                             <div class="copyright-text">
-                                <p>© 2018 <a href="#">ThemeLooks</a> All rights reserved</p>
+                                <p>[[${COPYRIGHT}]]</p>
                             </div>
                             <!-- End of copyright text -->
-
-                            <!-- tarms and condition -->
-                            <div class="trams-conditaion">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="#">License</a></li>
-                                    <li><a href="#">Policy Privacy</a></li>
-                                    <li><a href="#">Terms of use</a></li>
-                                </ul>
-                            </div>
-                            <!-- End of tarms and condition -->
                         </div>
 
                     </div>

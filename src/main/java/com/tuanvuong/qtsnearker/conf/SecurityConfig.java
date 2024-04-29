@@ -19,20 +19,20 @@ public class SecurityConfig  {
         http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/administrator/users/**").hasAuthority("Admin")
+                .requestMatchers("/admin/users/**","/admin/setting/**").hasAuthority("Admin")
 
-                .requestMatchers("/administrator/categories/**", "/administrator/brands/**").hasAnyAuthority("Admin","Editor")
+                .requestMatchers("/admin/categories/**", "/admin/brands/**").hasAnyAuthority("Admin","Editor")
 
-                .requestMatchers("/administrator/products/create/**", "/administrator/products/delete/**").hasAnyAuthority("Admin","Editor")
+                .requestMatchers("/admin/products/create/**", "/admin/products/delete/**").hasAnyAuthority("Admin","Editor")
 
-                .requestMatchers("/administrator/products/edit/**", "/administrator/products/save/**","/products/check_unique/**").hasAnyAuthority("Admin","Editor","Salesperson")
+                .requestMatchers("/admin/products/edit/**", "/admin/products/save/**","/products/check_unique/**").hasAnyAuthority("Admin","Editor","Salesperson")
 
-                .requestMatchers("/administrator/products/**").hasAnyAuthority("Admin","Editor","Salesperson","Shipper")
+                .requestMatchers("/admin/products/**").hasAnyAuthority("Admin","Editor","Salesperson","Shipper")
 
                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/administrator/login")
+                        .loginPage("/admin/login")
                         .usernameParameter("email")
                         .permitAll()
                 )

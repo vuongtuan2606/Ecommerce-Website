@@ -56,7 +56,7 @@
 <header  th:fragment="header" id="header" class="header fixed-top d-flex align-items-center">
     <!--  form hidden logout  -->
     <div>
-        <form th:action="@{/admin/home}" method="post" th:hidden="true" name="logoutForm">
+        <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
             <input type="submit">
         </form>
     </div>
@@ -259,7 +259,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " th:href="@{/admin/home}">
+            <a class="nav-link " th:href="@{/}">
                 <i class="bi bi-grid"></i>
                 <span>Trang chủ</span>
             </a>
@@ -341,7 +341,21 @@
                 </ul>
             </li><!-- End product Nav -->
         </th:block>
+        <th:block sec:authorize="hasAuthority('Admin')">
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#setting-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                    <i class="bi bi-gear"></i><span>Setting</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="setting-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a th:href="@{/admin/setting}">
+                            <i class="bi bi-circle"></i><span>General</span>
+                        </a>
+                    </li>
 
+                </ul>
+            </li><!-- End Setting Nav -->
+        </th:block>
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
@@ -364,13 +378,6 @@
                 <span>Register</span>
             </a>
         </li><!-- End Register Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" th:href="@{/login}">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Login</span>
-            </a>
-        </li><!-- End Login Page Nav -->
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="">

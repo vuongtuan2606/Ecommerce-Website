@@ -21,3 +21,8 @@
     -webkit-line-clamp: 2;
     display: -webkit-box;
 }
+.default-logo,
+.sticky-logo{
+    max-width: 200px;
+    height: auto;
+}

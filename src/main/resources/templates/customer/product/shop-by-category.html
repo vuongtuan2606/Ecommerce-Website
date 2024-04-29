@@ -15,39 +15,9 @@
     <!-- offcanvas menu-->
     <th:block th:replace="~{customer/common/common :: offcanvas_menu}"></th:block>
 
+
     <!-- page title -->
-    <section class="page-title-inner" th:ata-bg-img="@{/images/slider_nike.jpg}">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <!-- page title inner -->
-                    <div class="page-title-wrap" >
-
-                        <div class="page-title-heading">
-                            <h1 class="h2">
-                                Category<span th:text="${category.name}"></span>
-                            </h1>
-                        </div>
-
-                        <th:block th:if="${listCategoryParents != null and not #lists.isEmpty(listCategoryParents)}">
-                            <ul class="list-unstyled mb-0"  >
-                                <li>
-                                    <a th:href="@{/index}">home</a>
-                                </li>
-                                <th:block th:each="parent :${listCategoryParents} ">
-                                    <li class="">
-                                        <a th:href="@{'/categories/' +${parent.alias}}">[[${parent.name}]]</a>
-                                    </li>
-                                </th:block>
-                            </ul>
-                        </th:block>
-
-                    </div>
-                    <!-- End of page title inner -->
-                </div>
-            </div>
-        </div>
-    </section>
+    <th:block th:replace="~{customer/common/common :: page-titles}"></th:block>
 
     <!-- our partner -->
     <section>
@@ -191,62 +161,7 @@
                                 <div class="tab-pane fade show active" role="tabpanel" id="fourcol" aria-labelledby="nav-four-col">
                                     <div class="row">
                                         <th:block th:each="product : ${listProducts}">
-                                            <div class="col-md-4 col-sm-12 col-lg-3">
-
-                                               <!-- single product -->
-                                                <div class="single-product type2">
-                                                    <div class="product-item">
-                                                        <div class="product-thumb">
-                                                            <!-- Product Image -->
-                                                            <div class="product-image">
-                                                                <a th:href="@{'/product/'+${product.alias}}">
-                                                                    <img class='normal-state' data-rjs="2" th:src="@{${product.mainImagePath}}" alt="">
-                                                                </a>
-                                                            </div>
-                                                            <!-- End of Product Image -->
-
-                                                            <!-- product button -->
-                                                            <div class="product-buttons">
-                                                                <div class="addto-cart-btn">
-                                                                    <div class="addto-icon-btn">
-                                                                        <a href="#">
-                                                                            <span class="product-icon"><img th:src="@{/customer/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
-                                                                            <span class="icon-title">Add To Cart</span>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- End of product button -->
-                                                        </div>
-
-                                                        <!-- product info -->
-                                                        <div class="product-info">
-                                                            <div class="product-rating">
-                                                                <div class="star-rating">
-                                                                    <span></span>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- product title -->
-                                                            <div class="product-title">
-                                                                <h4><a th:href="@{'/product/'+${product.alias}}">[[${product.name}]]</a></h4>
-                                                            </div>
-                                                            <!-- end of product title -->
-
-                                                            <div class="product-price" th:if="${product.discountPercent <= 0}">
-                                                                <h5 th:text="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')} + ' đ'" ></h5>
-                                                            </div>
-                                                            <div class="product-price" th:if="${product.discountPercent > 0}">
-                                                                <h5 th:text="${#numbers.formatDecimal(product.getDiscountPrice(), 0, 'POINT', 0, 'COMMA')} + ' đ'"></h5>
-                                                                <del th:text="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')} + ' đ'"></del>
-                                                            </div>
-
-                                                        </div>
-                                                        <!-- End of product info -->
-                                                    </div>
-                                                </div>
-                                                <!-- End of single product -->
-                                            </div>
+                                            <div th:replace="~{customer/product/fragment :: content}"></div>
                                         </th:block>
                                     </div>
                                 </div>
