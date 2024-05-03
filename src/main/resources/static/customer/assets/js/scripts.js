@@ -119,7 +119,7 @@ We may release future updates so it will overwrite this file. it's better and sa
             /* 03: Parsley form validation
             ==============================================*/
 
-            $('.parsley-validate, .parsley-validate form').parsley();
+            // $('.parsley-validate, .parsley-validate form').parsley();
 
 
             /* 04: Smooth scroll for comment reply

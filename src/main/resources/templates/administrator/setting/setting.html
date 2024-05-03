@@ -36,11 +36,13 @@
                             <ul class="nav nav-tabs nav-tabs-bordered">
 
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#General">General</a>
+                                    <a class="nav-link active" data-bs-toggle="tab"  href="#general" data-bs-target="#General">General</a>
                                 </li>
-
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#mailServer">Máy chủ Mail</a>
+                                    <a class="nav-link" data-bs-toggle="tab" href="#mailServer" data-bs-target="#mailServer">Máy chủ Mail</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#mailTemplate">Mẫu gửi Mail</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#Payment">Payment</a>
@@ -50,15 +52,19 @@
                             <div class="tab-content pt-2">
 
                                 <div class="tab-pane fade show active pt-3  " id="General">
-                                    <div th:replace="~{administrator/setting/common :: content }"></div>
+                                    <div th:replace="~{administrator/setting/general :: content }"></div>
                                 </div>
 
                                 <div class="tab-pane fade pt-3" id="mailServer">
-                                    <div th:replace="~{administrator/setting/common :: content }"></div>
+                                    <div th:replace="~{administrator/setting/mail_server :: content }"></div>
+                                </div>
+
+                                <div class="tab-pane fade pt-3" id="mailTemplate">
+                                    <div th:replace="~{administrator/setting/mail_template :: content }"></div>
                                 </div>
 
                                 <div class="tab-pane fade pt-3" id="Payment">
-                                    <div th:replace="~{administrator/setting/common :: content }"></div>
+                                    
                                 </div>
 
                             </div><!-- End Bordered Tabs -->
@@ -88,6 +94,10 @@
     moduleURL = "[[@{/admin/setting}]]";
     MAX_FILE_SIZE = 502400; // 500KB
     defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
+
+    $(document).ready(function() {
+        $("#customerVerificationContent").richText();
+    });
 </script>
 <script th:src="@{/administrator/js/common_form.js}"></script>
 

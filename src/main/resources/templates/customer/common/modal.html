@@ -16,5 +16,41 @@
             </div>
         </div>
     </div>
+    <!-- Modal Confirm -->
+    <div th:fragment="modal_dialog" class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <span id="confirmText"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
+                    <a href="" class="btn btn-success" id="confirmDelete">Xác Nhận</a>
+                </div>
+            </div>
+        </div>
+    </div><!-- End modal Confirm-->
+
+    <!-- Modal error-->
+    <div th:fragment="modal_error" class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <span id="errorBody"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- End modal error-->
 </body>
 </html>

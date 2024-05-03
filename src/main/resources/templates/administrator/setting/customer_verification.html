@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content"  >
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Chủ đề Email</h5>
+                <input type="text" class="form-control" name="CUSTOMER_VERIFY_SUBJECT"
+                       th:value="${CUSTOMER_VERIFY_SUBJECT}" required  />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Nội dung Email</h5>
+                <textarea rows="5" name="CUSTOMER_VERIFY_CONTENT" id="customerVerificationContent">
+                    [[${CUSTOMER_VERIFY_CONTENT}]]
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

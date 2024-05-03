@@ -34,6 +34,7 @@ public class AdminSettingControler {
 
     @GetMapping("/setting")
     public String findAll(Model model){
+
         List<Setting> listSettings = settingService.listAllSettings();
 
         List<Currency> listCurrencies = currencyRepository.findAllByOrderByNameAsc();
@@ -62,7 +63,7 @@ public class AdminSettingControler {
 
         updateSettingValuesFromForm(request, settingBag.list());
 
-        redirectAttributes.addFlashAttribute("message", "General settings have been saved.");
+        redirectAttributes.addFlashAttribute("message", "Cài đặt đã được lưu thành công.");
 
         return "redirect:/admin/setting";
     }
@@ -109,6 +110,30 @@ public class AdminSettingControler {
 
         settingService.saveAll(listSettings);
     }
+
+    @PostMapping("/setting/save_mail_server")
+    public String saveMailServerSetttings(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
+        List<Setting> mailServerSettings = settingService.getMailServerSettings();
+
+        updateSettingValuesFromForm(request, mailServerSettings);
+
+        redirectAttributes.addFlashAttribute("message", "Cài đặt máy chủ mail đã được lưu");
+
+        return "redirect:/admin/setting#mailServer";
+    }
+    @PostMapping("/setting/save_mail_templates")
+    public String saveMailTemplateSetttings(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
+        List<Setting> mailTemplateSettings = settingService.getMailTemplateSettings();
+
+        updateSettingValuesFromForm(request, mailTemplateSettings);
+
+        redirectAttributes.addFlashAttribute("message", "Cài đặt mẫu gửi mail đã được lưu");
+
+        return "redirect:/admin/setting#mailTemplate";
+    }
+
 
 
 }

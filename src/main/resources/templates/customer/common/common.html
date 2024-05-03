@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="html_head(pageTitle)">
@@ -410,7 +410,7 @@
     </th:block>
 
     <th:block th:fragment="page-titles">
-        <section  class="page-title-inner" th:ata-bg-img="@{/images/slider_nike.jpg}">
+        <section  class="page-title-inner" th:data-bg-img='@{customer/assets/img/page-titlebg.png}'>
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -572,7 +572,7 @@
     <!-- JS-->
     <th:block th:fragment="script" >
         <!-- JS Files -->
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <!-- ==== Bootstrap js file==== -->
         <script th:src="@{/customer/assets/js/bootstrap.bundle.min.js}"></script>

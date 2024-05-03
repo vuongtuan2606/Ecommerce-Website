@@ -40,4 +40,14 @@ public class AdminSettingServiceImpl implements AdminSettingService {
             repository.saveAll(settings);
     }
 
+    @Override
+    public List<Setting> getMailServerSettings() {
+        return repository.findByCategory(SettingCategory.MAIL_SERVER);
+    }
+
+    @Override
+    public List<Setting> getMailTemplateSettings() {
+        return repository.findByCategory(SettingCategory.MAIL_TEMPLATES);
+    }
+
 }

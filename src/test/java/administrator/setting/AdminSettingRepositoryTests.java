@@ -53,6 +53,24 @@ public class AdminSettingRepositoryTests {
 	}
 
 	@Test
+	public void testCreateMailSettings() {
+		Setting mailHot = new Setting("MAIL_HOST", "mstp.gmail.com",SettingCategory.MAIL_SERVER);
+		Setting mailPort = new Setting("MAIL_PORT", "123",SettingCategory.MAIL_SERVER);
+		Setting mailUserName = new Setting("MAIL_USERNAME", "username",SettingCategory.MAIL_SERVER);
+		Setting mailPassWord = new Setting("MAIL_PASSWORD", "password",SettingCategory.MAIL_SERVER);
+		Setting smtp_auth = new Setting("SMTP_AUTH", "true",SettingCategory.MAIL_SERVER);
+		Setting smtp_secured = new Setting("SMTP_SECURED", "true",SettingCategory.MAIL_SERVER);
+		Setting mailForm = new Setting("MAIL_FROM", "qtsneaker@gmail.com",SettingCategory.MAIL_SERVER);
+		Setting mailSenderName = new Setting("MAIL_SENDER_NAME", "qt sneaker company",SettingCategory.MAIL_SERVER);
+		Setting customerVerifySubject = new Setting("CUSTOMER_VERIFY_SUBJECT", "Email subject",SettingCategory.MAIL_TEMPLATES);
+		Setting customerVerifyContent = new Setting("CUSTOMER_VERIFY_CONTENT", "Email content",SettingCategory.MAIL_TEMPLATES);
+
+		repo.saveAll(List.of(mailHot,mailPort,mailUserName,mailPassWord,
+				mailForm,smtp_auth,smtp_secured,mailSenderName,customerVerifySubject,customerVerifyContent));
+	}
+
+
+	@Test
 	public void testListSettingsByCategory() {
 		List<Setting> settings = repo.findByCategory(SettingCategory.GENERAL);
 
