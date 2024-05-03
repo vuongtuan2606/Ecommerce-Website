@@ -17,7 +17,7 @@
         <h1>Quản lý sản phẩm</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
                 <li class="breadcrumb-item active"><a th:href="@{/admin/products}">[[${pageTitle}]]</a></li>
             </ol>
         </nav>
@@ -37,7 +37,7 @@
 
                                 <div class="search-categorie" >
                                     <select class="form-control" name="categoryId" id="dropdownCategory">
-                                        <option value="0">All Categories</option>
+                                        <option value="0">Tất cả danh mục</option>
                                         <option th:each="temp : ${listCategories}"
                                                 th:value="${temp.id}"
                                                 th:selected="(${categoryId} == ${temp.id})"
@@ -82,15 +82,15 @@
 
                                     <th scope="col">Image</th>
 
-                                    <th th:replace="~{administrator/common/fragments :: column_link('name', ' Product name')}"></th>
+                                    <th th:replace="~{administrator/common/fragments :: column_link('name', ' Tên sả phẩm')}"></th>
 
-                                    <th th:replace="~{administrator/common/fragments :: column_link('brand', ' Brand')}"></th>
+                                    <th th:replace="~{administrator/common/fragments :: column_link('brand', ' Thương hiệu')}"></th>
 
-                                    <th th:replace="~{administrator/common/fragments :: column_link('category', ' Category')}"></th>
+                                    <th th:replace="~{administrator/common/fragments :: column_link('category', ' Danh mục')}"></th>
 
-                                    <th sec:authorize="hasAnyAuthority('Admin', 'Editor')" scope="col">Enabled</th>
+                                    <th sec:authorize="hasAnyAuthority('Admin', 'Editor')" scope="col">Trạng thái</th>
 
-                                    <th scope="col">Other</th>
+                                    <th scope="col">Khác</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -104,7 +104,7 @@
                                     </td>
 
                                     <td>
-                                        <a title="Chi tiết sản phẩm" th:href="@{'/products/detail/' + ${product.id}}" style="font-size: 15px; color: black">
+                                        <a title="Chi tiết sản phẩm" th:href="@{'/admin/products/detail/' + ${product.id}}" style="font-size: 15px; color: black">
                                             [[${product.name}]]
                                         </a>
                                     </td>
@@ -140,7 +140,7 @@
                         </div>
 
                         <div class="text-center m-1" th:unless="${totalItem > 0}">
-                            <span >Không tìm thấy người dùng</span>
+                            <span >Không tìm thấy sản phẩm</span>
                         </div>
 
                         <div th:if="${totalPages > 1}">

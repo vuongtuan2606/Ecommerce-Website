@@ -83,7 +83,7 @@ public class AdminUserController {
 
         model.addAttribute("moduleURL", "/admin/users");
 
-        model.addAttribute("pageTitle","Danh sách người dùng");
+        model.addAttribute("pageTitle","Danh sách nhân viên");
 
 
         return "administrator/user/user";
@@ -139,7 +139,7 @@ public class AdminUserController {
             adminUserService.save(user);
         }
 
-        redirectAttributes.addFlashAttribute("message","The user has been saved successfully");
+        redirectAttributes.addFlashAttribute("message","Nhân viên đã được lưu thành công !");
 
         return getRedirectURLtoAffectedUser(user);
 
@@ -190,7 +190,7 @@ public class AdminUserController {
          try{
              adminUserService.delete(id);
 
-             redirectAttributes.addFlashAttribute("message", "The user ID:"+id+" has been deleted successfully" );
+             redirectAttributes.addFlashAttribute("message", "Nhân viên có ID:"+id+" đã được xóa thành công" );
          }
          catch (UserNotFoundException ex){
 
@@ -208,7 +208,7 @@ public class AdminUserController {
 
          String status = enabled ? "enabled" : "disabled";
 
-         String message = "The user ID:" +id +" has been " + status;
+         String message = "Nhân viên:" +id +" đã được " + status;
 
          redirectAttributes.addFlashAttribute("message",message);
 

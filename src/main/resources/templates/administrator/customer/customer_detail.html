@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{administrator/common/common :: html_head('Users form')}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{administrator/common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{administrator/common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Quản lý khách hàng</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item active"><a th:href="@{/admin/customers}">Danh sách khách hàng</a> / [[${pageTitle}]]</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section admin-user">
+    <div class="row">
+      <!-- columns form -->
+      <div class="col-lg-12 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <!-- Vertical Form -->
+            <form class="row g-3" th:object="${customer}">
+
+              <div class="col-12">
+                <label  class="form-label">ID</label>
+                <input type="email" class="form-control" th:field="*{id}"   readonly style="background-color: #c9c9c966">
+             </div>
+              <div class="col-12">
+                <label  class="form-label">Email</label>
+                <input type="email" class="form-control" th:field="*{email}"   readonly style="background-color: #c9c9c966">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Tên đầu</label>
+                <input type="text" class="form-control" th:field="*{firstName}"   readonly style="background-color: #c9c9c966">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Tên cuối</label>
+                <input type="text" class="form-control" th:field="*{lastName}"   readonly style="background-color: #c9c9c966">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Số điện thoại</label>
+                <input type="text" class="form-control" th:field="*{phoneNumber}"   readonly style="background-color: #c9c9c966">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Địa chỉ</label>
+                <input type="text" class="form-control" th:field="*{addressLine1}"   readonly style="background-color: #c9c9c966">
+              </div>
+              <div class="col-12 pb-3">
+                  <label class="form-label">Trạng thái</label>
+                  <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{enabled}"  onclick="return false;" >
+              </div>
+
+            </form><!-- Vertical Form -->
+
+          </div>
+        </div>
+      </div><!-- End columns table-->
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer th:replace="~{administrator/common/common :: footer}" ></footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+</body>
+
+</html>

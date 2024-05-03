@@ -21,6 +21,8 @@ public class SecurityConfig  {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/admin/users/**","/admin/setting/**").hasAuthority("Admin")
 
+                .requestMatchers("/admin/customers/**").hasAnyAuthority("Admin","Salesperson")
+
                 .requestMatchers("/admin/categories/**", "/admin/brands/**").hasAnyAuthority("Admin","Editor")
 
                 .requestMatchers("/admin/products/create/**", "/admin/products/delete/**").hasAnyAuthority("Admin","Editor")

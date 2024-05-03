@@ -268,17 +268,32 @@
         <th:block sec:authorize="hasAuthority('Admin')">
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                    <i class="bi bi-person-lines-fill"></i><span>Quản lý người dùng</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-person-lines-fill"></i><span>Quản lý nhân viên</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a th:href="@{/admin/users}">
-                            <i class="bi bi-circle"></i><span>Danh sách người dùng</span>
+                            <i class="bi bi-circle"></i><span>Danh sách nhân viên</span>
                         </a>
                     </li>
                     <li>
                         <a th:href="@{/admin/users/create}">
-                            <i class="bi bi-circle"></i><span>Thêm người dùng</span>
+                            <i class="bi bi-circle"></i><span>Thêm nhân viên</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End User Nav -->
+        </th:block>
+
+        <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#customer-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                    <i class="bi bi-people"></i><span>Quản lý khách hàng</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="customer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a th:href="@{/admin/customers}">
+                            <i class="bi bi-circle"></i><span>Danh sách khách hàng</span>
                         </a>
                     </li>
                 </ul>

@@ -17,7 +17,7 @@
     <h1>Quản lý danh mục</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
         <li class="breadcrumb-item active"><a th:href="@{/admin/categories}">[[${pageTitle}]]</a></li>
       </ol>
     </nav>
@@ -57,15 +57,15 @@
                 <tr>
                   <th scope="col">id</th>
 
-                  <th scope="col">image</th>
+                  <th scope="col">Hình ảnh</th>
 
-                  <th th:replace="~{administrator/common/fragments :: column_link('name', ' Category name')}"></th>
+                  <th th:replace="~{administrator/common/fragments :: column_link('name', ' Tên danh mục')}"></th>
 
-                  <th scope="col">alias</th>
+                  <th scope="col">bí danh</th>
 
-                  <th scope="col">Enabled</th>
+                  <th scope="col">Trạng thái</th>
 
-                  <th scope="col">Other</th>
+                  <th scope="col">Khác</th>
                 </tr>
                 </thead>
                 <tbody>

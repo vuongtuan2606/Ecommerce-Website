@@ -17,7 +17,7 @@
         <h1>Quản lý thương hiệu</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
                 <li class="breadcrumb-item active"><a th:href="@{/admin/brands/create}">Danh sách thương hiệu</a> / [[${pageTitle}]]</li>
             </ol>
         </nav>
@@ -38,26 +38,26 @@
                             <input type="hidden" th:field="*{id}">
 
                             <div class="col-12">
-                                <label class="form-label">Brand Name</label>
+                                <label class="form-label">Tên thương hiệu</label>
                                 <input type="text" class="form-control" th:field="*{name}" required minlength="3" maxlength="128" >
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label">Select one or more categories</label>
+                                <label class="form-label">Chọn một hoặc nhiều danh mục</label>
                                 <select th:field="*{categories}" class="form-control" multiple required>
                                     <option th:each="temp : ${listCategory}" th:value="${temp.id}" th:text="${temp.name}" />
                                 </select>
                             </div>
 
                             <div class="col-12">
-                                <label class="col-sm-4 col-form-label">Chosen categories:</label>
+                                <label class="col-sm-4 col-form-label">Các danh mục được chọn:</label>
                                 <div class="col-sm-8">
                                     <div id="chosenCategories"></div>
                                 </div>
                             </div>
 
                             <div class="col-md-12 col-sm-12">
-                                <label class="form-label">Brand Logo</label>
+                                <label class="form-label">Logo thương hiệu</label>
                                 <input type="hidden" th:field="*{logo}">
                                 <div class="" >
                                     <input type="file"

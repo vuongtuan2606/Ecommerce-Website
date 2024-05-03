@@ -179,7 +179,7 @@ public class AdminProductController {
 
         String status = enabled ? "enabled" : "disabled";
 
-        String message = "The product ID " + id + " has been " + status;
+        String message = "Sản phẩm có ID:" + id + " đã được " + status;
 
         redirectAttributes.addFlashAttribute("message", message);
 

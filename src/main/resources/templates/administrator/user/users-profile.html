@@ -50,11 +50,11 @@
             <ul class="nav nav-tabs nav-tabs-bordered">
 
               <li class="nav-item">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Tổng quan</button>
               </li>
 
               <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Chỉnh sửa thông tin</button>
               </li>
 
 
@@ -62,7 +62,7 @@
             <div class="tab-content pt-2">
 
               <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                <h5 class="card-title">Profile Details</h5>
+                <h5 class="card-title">Chi tiết hồ sơ</h5>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Email</div>
@@ -70,17 +70,17 @@
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">First Name</div>
+                  <div class="col-lg-3 col-md-4 label ">Tên đầu</div>
                   <div class="col-lg-9 col-md-8">[[${user.firstName}]]</div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Last Name</div>
+                  <div class="col-lg-3 col-md-4 label ">Tên cuối</div>
                   <div class="col-lg-9 col-md-8">[[${user.lastName}]]</div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Roles</div>
+                  <div class="col-lg-3 col-md-4 label">Vai trò</div>
                   <div class="col-lg-9 col-md-8">[[${user.roles}]]</div>
                 </div>
 
@@ -95,28 +95,28 @@
                   <input type="hidden" th:field="*{id}">
 
                   <div class="row mb-3">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                    <label class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
                       <input th:field="*{email}" type="email" class="form-control" style="background-color: #c9c9c966" readonly="readonly" >
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="fisrtName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                    <label class="col-md-4 col-lg-3 col-form-label">Tên đầu</label>
                     <div class="col-md-8 col-lg-9">
                       <input th:field="*{firstName}"  type="text" class="form-control"  required minlength="2" maxlength="45">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                    <label  class="col-md-4 col-lg-3 col-form-label">Tên cuối</label>
                     <div class="col-md-8 col-lg-9">
                       <input th:field="*{lastName}"  type="text" class="form-control" required minlength="2" maxlength="45" >
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Password</label>
+                    <label  class="col-md-4 col-lg-3 col-form-label">Mật khẩu</label>
                     <div class="col-md-8 col-lg-9">
                       <input th:field="*{password}" type="password" class="form-control"
                              minlength="8" maxlength="20"
@@ -126,7 +126,7 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Re-enter Password</label>
+                    <label class="col-md-4 col-lg-3 col-form-label">Nhập lại mật khẩu</label>
                     <div class="col-md-8 col-lg-9">
                       <input  type="password" class="form-control"
                               id="password"
@@ -136,7 +136,7 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Assigned Roles</label>
+                    <label  class="col-md-4 col-lg-3 col-form-label">Vai trò được chỉ định</label>
                     <div class="col-md-8 col-lg-9">
                       <span class="form-control"  style="border: 0px; padding: 0.375rem;"><b>[[${user.roles}]]</b></span>
                     </div>
@@ -144,7 +144,7 @@
 
                   <div class="row mb-3">
                     <div class="col-12 ">
-                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                      <label  class="col-md-4 col-lg-3 col-form-label">Hình ảnh cá nhân</label>
                       <input type="hidden" th:field="*{photos}">
                       <input type="file"
                              class="form-control "
@@ -165,7 +165,7 @@
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                   </div>
 
                 </form>

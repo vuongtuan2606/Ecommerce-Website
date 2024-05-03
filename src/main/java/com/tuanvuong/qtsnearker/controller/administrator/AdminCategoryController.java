@@ -108,7 +108,7 @@ public class AdminCategoryController {
             adminCategoryService.save(category);
         }
 
-        redirectAttributes.addFlashAttribute("message","The categories has been saved successfully");
+        redirectAttributes.addFlashAttribute("message","Danh mục đã được lưu thành công!");
 
         return "redirect:/admin/categories";
 
@@ -126,7 +126,7 @@ public class AdminCategoryController {
 
             model.addAttribute("categoryList", categoryList);
 
-            model.addAttribute("pageTitle", "Edit Category (ID: " + id + ")");
+            model.addAttribute("pageTitle", "Chỉnh sửa dnah mục (ID: " + id + ")");
 
             return "administrator/category/category_form";
 
@@ -145,7 +145,7 @@ public class AdminCategoryController {
 
         String status = enabled ? "enabled" : "disabled";
 
-        String message = "The category ID " + id + " has been " + status;
+        String message = "Danh mục c ID: " + id + " đã được " + status;
 
         redirectAttributes.addFlashAttribute("message", message);
 
@@ -158,7 +158,7 @@ public class AdminCategoryController {
                                  RedirectAttributes redirectAttributes) {
         try {
             adminCategoryService.delete(id);
-            redirectAttributes.addFlashAttribute("message", "The category ID " + id + " has been deleted successfully");
+            redirectAttributes.addFlashAttribute("message", "Danh mục có ID: " + id + " đã được xóa thành công");
 
         } catch (CategoryNotFoundException ex) {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());

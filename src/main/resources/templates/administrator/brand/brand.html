@@ -17,7 +17,7 @@
     <h1>Quản lý thương thiệu</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ </a></li>
         <li class="breadcrumb-item active"><a th:href="@{/admin/brands}">[[${pageTitle}]]</a></li>
       </ol>
     </nav>
@@ -59,11 +59,11 @@
 
                   <th scope="col">Logo</th>
 
-                  <th th:replace="~{administrator/common/fragments :: column_link('name', ' Brand name')}"></th>
+                  <th th:replace="~{administrator/common/fragments :: column_link('name', ' Tên thương hiệu')}"></th>
 
-                  <th scope="col">Categories</th>
+                  <th scope="col">Danh mục</th>
 
-                  <th scope="col">Other</th>
+                  <th scope="col">Khác</th>
                 </tr>
                 </thead>
                 <tbody>

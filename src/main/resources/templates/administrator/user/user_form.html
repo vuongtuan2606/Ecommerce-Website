@@ -14,11 +14,11 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Quản lý khách hàng</h1>
+    <h1>Quản lý nhân viên</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-        <li class="breadcrumb-item active"><a th:href="@{/admin/users/create}">Danh sách người dùng</a> / [[${pageTitle}]]</li>
+        <li class="breadcrumb-item active"><a th:href="@{/admin/users/create}">Danh sách nhân viên</a> / [[${pageTitle}]]</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -41,22 +41,22 @@
                 <input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128" >
               </div>
               <div class="col-12">
-                <label class="form-label">First Name</label>
+                <label class="form-label">Tên đầu</label>
                 <input type="text" class="form-control" th:field="*{firstName}" required minlength="2" maxlength="45" >
               </div>
               <div class="col-12">
-                <label class="form-label">Last Name</label>
+                <label class="form-label">Tên cuối</label>
                 <input type="text" class="form-control" th:field="*{lastName}" required minlength="2" maxlength="45" >
               </div>
               <div class="col-12">
-                <label class="form-label">Password</label>
+                <label class="form-label">Mật khẩu</label>
                 <input type="password" class="form-control" th:field="*{password}"
                        th:if="${user.id == null}"  required minlength="8" maxlength="20">
                 <input type="password" class="form-control" th:field="*{password}" placeholder="bỏ qua nếu bạn không muốn thay đổi password"
                        th:if="${user.id != null}"  minlength="8" maxlength="20" >
               </div>
               <div class="col-12">
-                <label class="col-form-label">Role</label>
+                <label class="col-form-label">Vai trò</label>
                 <th:block th:each="role : ${listRoles}" >
                   <div class="col-sm-10">
                     <div class="form-check form-switch">
@@ -71,12 +71,12 @@
                 </th:block>
               </div>
               <div class="col-12">
-                <label class="form-label">Enable</label>
+                <label class="form-label">Trạng thái</label>
                 <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{enabled}"  >
               </div>
 
               <div class="col-md-12 col-sm-12">
-                <label class="form-label">Photos</label>
+                <label class="form-label">Ảnh</label>
                 <input type="hidden" th:field="*{photos}">
                 <div class="" >
                   <input type="file"

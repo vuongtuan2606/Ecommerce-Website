@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AdminUserService {
     // số phần tử trên 1 trang
-    int USERS_PER_PAGE = 5;
+    public static final int USERS_PER_PAGE = 5;
 
     List<User> findUserAll();
     Page <User> listByPage(int pageNum, String sortField, String sortDir,String keyword);

@@ -17,7 +17,7 @@
         <h1>Quản lý danh mục</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
                 <li class="breadcrumb-item active"><a th:href="@{/admin/categories}">Danh sách danh mục</a> / [[${pageTitle}]]</li>
             </ol>
         </nav>
@@ -38,19 +38,19 @@
                             <input type="hidden" th:field="*{id}">
 
                             <div class="col-12">
-                                <label class="form-label">Category Name</label>
+                                <label class="form-label">Tên danh mục</label>
                                 <input type="text" class="form-control" th:field="*{name}" required minlength="3" maxlength="128" >
                             </div>
                             <div class="col-12">
-                                <label class="form-label">Alias</label>
+                                <label class="form-label">Bí danh</label>
                                 <input type="text" class="form-control" th:field="*{alias}"  >
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label">Parent Category</label>
+                                <label class="form-label">Danh mục con</label>
                                 <select th:field="*{parent}" class="form-control">
 
-                                    <option value="0">[No Parent]</option>
+                                    <option value="0">[không chọn]</option>
 
                                     <option th:each="temp : ${listCategories}" th:value="${temp.id}" th:text="${temp.name}" />
 
@@ -58,12 +58,12 @@
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label">Enable</label>
+                                <label class="form-label">Trạng thái</label>
                                 <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{enabled}"  >
                             </div>
 
                             <div class="col-md-12 col-sm-12">
-                                <label class="form-label">Image</label>
+                                <label class="form-label">Hình ảnh</label>
                                 <div class="row" >
                                     <div class="col-12">
                                         <input type="hidden" th:field="*{image}">
