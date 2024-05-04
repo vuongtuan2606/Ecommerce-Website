@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div class="col-md-4 col-sm-12 col-lg-3" th:fragment="content">
+    <!-- single product -->
+    <div class="single-product type2">
+        <div class="product-item">
+            <div class="product-thumb">
+                <!-- Product Image -->
+                <div class="product-image" >
+                    <a th:href="@{'/product/'+${product.alias}}">
+                        <img class='normal-state' data-rjs="2" th:src="@{${product.mainImagePath}}" alt="">
+                    </a>
+                </div>
+
+                <!-- product button -->
+                <div class="product-buttons">
+                    <div class="addto-cart-btn">
+                        <div class="addto-icon-btn">
+                            <a href="#">
+                                <span class="product-icon"><img th:src="@{/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
+                                <span class="icon-title">Add To Cart</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- product info -->
+            <div class="product-info">
+                <div class="product-rating">
+                    <div class="star-rating">
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- product title -->
+                <div class="product-title">
+                    <h4><a th:href="@{'/product/'+${product.alias}}">[[${product.name}]]</a></h4>
+                </div>
+
+                <!-- product price -->
+                <div class="product-price" >
+                    <th:block th:replace="~{product/fragment :: product_price}"></th:block>
+                </div>
+
+            </div>
+            <!-- End of product info -->
+        </div>
+    </div>
+    <!-- End of single product -->
+</div>
+
+
+<th:block th:fragment="product_price" >
+    <th:block th:if="${product.discountPercent <= 0}">
+        <h5 class="old-price">
+            <span th:replace="~{product/fragment :: price_fragment(${product.price})}"></span>
+        </h5>
+    </th:block>
+
+    <th:block th:if="${product.discountPercent > 0}">
+        <h5 class="new-price">
+            <span th:replace="~{product/fragment :: price_fragment(${product.discountPrice})}"></span>
+        </h5>
+        <del class="old-price">
+            <span th:replace="~{product/fragment :: price_fragment(${product.price})}"></span>
+        </del>
+    </th:block>
+</th:block>
+
+<th:block th:fragment="price_fragment(productPrice)" >
+    <span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}">[[${CURRENCY_SYMBOL}]]</span>
+    [[${#numbers.formatDecimal(productPrice, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
+    <span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}">[[${CURRENCY_SYMBOL}]]</span>
+</th:block>
+
+</body>
+</html>

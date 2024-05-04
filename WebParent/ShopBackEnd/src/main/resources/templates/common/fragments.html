@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="search_form(moduleURL)">
+    <form th:action="@{${moduleURL + '/page/1'}}" class="search-form d-flex align-items-center" id="searchForm" >
+        <input type="hidden" name="sortField" th:value="${sortField}"/>
+        <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="Search" title="Enter search keyword" >
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+
+    </form>
+</div>
+
+<!-- ======= User Column ======-->
+<th scope="col" th:fragment="column_link(fieldName, columnLabel)" >
+    <a  style="color: black"
+        th:href="@{${moduleURL}
+                       +'/page/'+ ${currentPage}
+                       + '?sortField='+${fieldName}
+                       + '&sortDir='+ ${sortField != fieldName ? sortDir: reverseSortDir }
+                       + ${keyword != null ? '&keyword=' + keyword : ' '}}">
+        [[${columnLabel}]]
+    </a>
+    <span th:if="${sortField == fieldName}"
+          th:class="${sortDir == 'asc' ? 'bi bi-sort-alpha-down' : 'bi bi-sort-alpha-down-alt'}">
+            </span>
+</th>
+
+<td th:fragment="user_photos" >
+    <span th:if="${user.photos == null}" class="bi bi-card-image" style="color: darkgrey;font-size: 50px"></span>
+    <img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" style="width: 100px; height:auto;" >
+</td>
+
+
+<td  th:fragment="status(enabled, entityURL)">
+    <a th:if="${enabled == true}" class="bi bi-check-circle-fill"  style="color: green"
+       th:href="@{${entityURL} +'/enabled/false'}">
+    </a>
+    <a th:if="${enabled == false}" class="bi bi-check-circle-fill" style="color: darkgrey"
+       th:href="@{${entityURL} +'/enabled/true'}">
+    </a>
+</td>
+
+<a th:fragment="delete( entityId,entityName, deleteURL)" class="bi bi-trash link-delete" data-bs-toggle="modal" data-bs-target="#confirmModal" style="color: #5c636a;font-size: 20px"
+   th:href="@{${deleteURL}}"
+   th:entityId="${entityId}"
+   th:entityName="${entityName}"
+   title="delete this user">
+</a>
+
+<a th:fragment="edit(editURL)" class="bi bi-pencil-square" style="color: #003c81;font-size: 20px"
+   th:href="@{${editURL}}"
+   title="edit this user">
+</a>
+
+
+
+</body>
+</html>

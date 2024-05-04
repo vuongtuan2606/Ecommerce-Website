@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{common/common :: html_head('brands form')}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Quản lý thương hiệu</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/brands/create}">Danh sách thương hiệu</a> / [[${pageTitle}]]</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section admin-user">
+        <div class="row">
+            <!-- columns form -->
+            <div class="col-lg-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Vertical Form -->
+                        <form class="row g-3" th:action="@{/admin/brands/save}" method="post"
+                              enctype="multipart/form-data"
+                              th:object="${brand}"
+                              onsubmit="return checkUnique(this);">
+
+                            <input type="hidden" th:field="*{id}">
+
+                            <div class="col-12">
+                                <label class="form-label">Tên thương hiệu</label>
+                                <input type="text" class="form-control" th:field="*{name}" required minlength="3" maxlength="128" >
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Chọn một hoặc nhiều danh mục</label>
+                                <select th:field="*{categories}" class="form-control" multiple required>
+                                    <option th:each="temp : ${listCategory}" th:value="${temp.id}" th:text="${temp.name}" />
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="col-sm-4 col-form-label">Các danh mục được chọn:</label>
+                                <div class="col-sm-8">
+                                    <div id="chosenCategories"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12">
+                                <label class="form-label">Logo thương hiệu</label>
+                                <input type="hidden" th:field="*{logo}">
+                                <div class="" >
+                                    <input type="file"
+                                           class="form-control "
+                                           name="fileImage"
+                                           id="fileImage"
+                                           accept="image/png, image/jpeg">
+                                    <img id="thumbnail"
+                                         class="img-fluid"
+                                         alt="Image preview"
+                                         th:src="@{${brand.logoPath}}"
+                                         style="width: 250px; height: auto;padding: 10px 0px;">
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary btn-style "  type="reset">Reset</button>
+                                <button class="btn btn-success btn-style " type="submit" value="submit">Submit</button>
+                            </div>
+                        </form><!-- Vertical Form -->
+
+                        <!-- Modal -->
+                        <div th:replace="~{common/fragments_modal :: modal_error}"></div>
+                    </div>
+                </div>
+            </div><!-- End columns table-->
+
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer th:replace="~{common/common :: footer}" ></footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- ======= JS ======= -->
+<span th:replace="~{common/common :: js}"></span>
+
+<script type="text/javascript">
+
+    moduleURL = "[[@{/admin/brands}]]";
+    MAX_FILE_SIZE = 102400;
+
+
+    $(document).ready(function () {
+        // th:field="*{categories}"
+        dropdownCategories = $("#categories");
+        divChosenCategories = $("#chosenCategories");
+
+        dropdownCategories.change(function () {
+            divChosenCategories.empty();
+            showChosenCategories();
+        });
+
+        showChosenCategories();
+    });
+
+    function showChosenCategories() {
+        dropdownCategories.children("option:selected").each(function () {
+            selectedCategory = $(this);
+            catId = selectedCategory.val();
+            catName = selectedCategory.text().replace(/-/g, "");
+
+            // Tạo nút xóa cho mỗi mục đã chọn và gắn sự kiện click
+            var closeButton = $("<button type='button' class='btn-close' aria-label='Close' style='color:#868cbf;border: 1px solid #868cbf;border-radius: 100%; margin-left: 5px '></button>");
+            closeButton.click(function() {
+                // Xóa mục đã chọn khi nút xóa được click
+                selectedCategory.prop('selected', false);
+                closeButton.parent().remove(); // Xóa nút xóa và mục đã chọn khỏi danh sách
+            });
+
+            // Tạo phần tử span chứa mục đã chọn và nút xóa
+            var categoryElement = $("<span class='badge badge-secondary m-1' style='font-size: 13px; color: #012970;border: 1px solid #868cbf; background-color: #e4edff;'></span>");
+            categoryElement.text(catName);
+            categoryElement.append(closeButton);
+
+            // Thêm phần tử chứa mục đã chọn và nút xóa vào div chosenCategories
+            divChosenCategories.append(categoryElement);
+        });
+    }
+    function checkUnique(form) {
+        var url = "[[@{/brands/check_unique}]]";
+        var brandId = $("#id").val();
+        var brandName = $("#name").val();
+
+        var csrfValue = $("input[name='_csrf']").val();
+        var params = {id: brandId, name: brandName, _csrf: csrfValue};
+
+        $.post(url, params, function (response) {
+
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicate") {
+
+                $("#errorBody").text("Có một danh mục khác có cùng tên " + brandName);
+                $('#errorModal').modal('show');
+
+            } else {
+                $("#errorBody").text("Phản hồi không xác định từ máy chủ");
+            }
+
+        }).fail(function () {
+            $("#errorBody").text("Không thể kết nối đến máy chủ");
+        });
+
+        return false;
+    }
+
+</script>
+
+<script th:src="@{js/common_form.js}"></script>
+
+</body>
+
+</html>

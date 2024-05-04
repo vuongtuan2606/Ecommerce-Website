@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{common/common :: html_head('register')}"></head>
+
+<body>
+<!-- Preloader -->
+<div th:replace="~{common/common :: preLoader}"></div>
+
+<!-- Main header -->
+<header th:replace="~{common/common :: header}"></header>
+
+<!-- Catagory menu -->
+<div th:replace="~{common/common :: catagory-menu}"></div>
+
+<!-- offcanvas menu-->
+<th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
+<!-- End of offcanvas menu-->
+<section class="page-title-inner" th:data-bg-img='@{assets/img/page-titlebg.png}'>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- page title inner -->
+                <div class="page-title-wrap">
+                    <div class="page-title-heading"><h1 class="h2">Đăng ký<span></span></h1></div>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="index.html">home</a></li>
+                        <li><a href="#">Đăng ký</a></li>
+
+                    </ul>
+                </div>
+                <!-- End of page title inner -->
+            </div>
+        </div>
+    </div>
+</section>
+    
+    <!-- logout register wrap -->
+    <section class="pt-100 pb-100">
+        <div class="container">
+            <div class="text-center">
+                <h2>Xác minh khách hàng</h2>
+                <h4>Tài khoản của bạn đã được xác minh hoặc mã xác minh không hợp lệ.</h4>
+            </div>
+        </div>
+    </section>
+    <!-- End of logout register wrap -->
+
+    <!-- footer area -->
+    <div th:replace="~{common/common :: footer}"></div>
+    <!-- End of footer area -->
+        
+    <!-- back to top -->
+    <div class="back-to-top">
+            <a href="#">
+                <div class="back-toop-tooltip"><span>Back To Top</span></div>
+                <div class="top-array"></div>
+                <div class="top-line"></div>
+            </a>
+        </div>
+
+    <!-- JS Files -->
+    <th:block th:replace="~{common/common :: script}"></th:block>
+
+
+
+    
+</body>
+</html>

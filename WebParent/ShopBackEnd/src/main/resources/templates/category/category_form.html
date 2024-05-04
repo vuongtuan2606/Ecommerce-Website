@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{common/common :: html_head('categories form')}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Quản lý danh mục</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/categories}">Danh sách danh mục</a> / [[${pageTitle}]]</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section admin-user">
+        <div class="row">
+            <!-- columns form -->
+            <div class="col-lg-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Vertical Form -->
+                        <form class="row g-3" th:action="@{/admin/categories/save}" method="post"
+                              enctype="multipart/form-data"
+                              th:object="${category}"
+                              onsubmit="return checkUnique(this);">
+
+                            <input type="hidden" th:field="*{id}">
+
+                            <div class="col-12">
+                                <label class="form-label">Tên danh mục</label>
+                                <input type="text" class="form-control" th:field="*{name}" required minlength="3" maxlength="128" >
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Bí danh</label>
+                                <input type="text" class="form-control" th:field="*{alias}"  >
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Danh mục con</label>
+                                <select th:field="*{parent}" class="form-control">
+
+                                    <option value="0">[không chọn]</option>
+
+                                    <option th:each="temp : ${listCategories}" th:value="${temp.id}" th:text="${temp.name}" />
+
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Trạng thái</label>
+                                <input type="checkbox" class="form-check-input" style="margin-left: 5px" th:field="*{enabled}"  >
+                            </div>
+
+                            <div class="col-md-12 col-sm-12">
+                                <label class="form-label">Hình ảnh</label>
+                                <div class="row" >
+                                    <div class="col-12">
+                                        <input type="hidden" th:field="*{image}">
+                                        <input type="file"
+                                               class="form-control "
+                                               name="fileImage"
+                                               id="fileImage"
+                                               accept="image/png, image/jpeg"
+                                        >
+                                        <img id="thumbnail"
+                                             class="img-fluid"
+                                             alt="Image preview"
+                                             th:src="@{${category.imagePath}}"
+                                             style="width: 250px; height: auto;padding: 15px 0px;">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="text-center">
+                                <button class="btn btn-primary btn-style "  type="reset">Reset</button>
+                                <button class="btn btn-success btn-style " type="submit" value="submit">Submit</button>
+                            </div>
+                        </form><!-- Vertical Form -->
+
+
+                        <!-- Modal -->
+                        <div th:replace="~{common/fragments_modal :: modal_error}"></div>
+                    </div>
+                </div>
+            </div><!-- End columns table-->
+
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer th:replace="~{common/common :: footer}" ></footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- ======= JS ======= -->
+<span th:replace="~{common/common :: js}"></span>
+
+<script type="text/javascript">
+
+    moduleURL = "[[@{/admin/categories}]]";
+    MAX_FILE_SIZE = 502400;
+
+    function checkUnique(form) {
+        var url = "[[@{/categories/check_unique}]]";
+        var cateId = $("#id").val();
+        var cateName = $("#name").val();
+        var cateAlias = $("#alias").val();
+        var csrfValue = $("input[name='_csrf']").val();
+
+
+        var params = {id: cateId, name: cateName, alias: cateAlias, _csrf: csrfValue};
+
+        $.post(url, params, function (response) {
+
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "DuplicateName") {
+
+                $("#errorBody").text("Có một danh mục khác có cùng tên " + cateName);
+                $('#errorModal').modal('show');
+
+            } else if (response == "DuplicateAlias") {
+
+                $("#errorBody").text("Có một danh mục khác có cùng bí danh " + cateAlias);
+                $('#errorModal').modal('show');
+
+            } else {
+                $("#errorBody").text("Phản hồi không xác định từ máy chủ");
+            }
+
+        }).fail(function () {
+            $("#modalBody").text("Không thể kết nối đến máy chủ");
+        });
+
+        return false;
+    }
+</script>
+
+<script th:src="@{/js/common_form.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{common/common :: html_head('Product form')}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Quản lý sản phẩm</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/products}">Danh sách sản phẩm</a> / [[${pageTitle}]]</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section admin-user">
+        <div class="row">
+            <!-- columns form -->
+            <div class="col-lg-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Vertical Form -->
+                        <form class="row g-3" th:action="@{/admin/products/save}" method="post"
+                              enctype="multipart/form-data"
+                              th:object="${product}"
+                              onsubmit="return checkUnique(this);">
+
+                            <input type="hidden" th:field="*{id}">
+
+                            <input th:if="${product.category != null}"
+                                   type="hidden" id="categoryId"
+                                   th:value="${product.category.id}"
+                            >
+                            <div >
+                                <!-- Bordered Tabs -->
+                                <ul class="nav nav-tabs nav-tabs-bordered">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#Overview">Tổng quan</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#Description">Miêu tả</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#Images">Hình ảnh</a>
+                                    </li>
+
+                                </ul>
+                                <div class="tab-content pt-2">
+
+                                    <div class="tab-pane fade show active pt-3  " id="Overview">
+                                        <div th:replace="~{product/product_overview :: content }"></div>
+                                    </div>
+
+                                    <div class="tab-pane fade  pt-3" id="Description">
+                                        <th:block sec:authorize="hasAuthority('Salesperson')">
+                                            <div th:replace="~{product/product_description_read_only :: content }"></div>
+                                        </th:block>
+                                        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                                            <div th:replace="~{product/product_description :: content }"></div>
+                                        </th:block>
+                                    </div>
+
+                                    <div class="tab-pane fade pt-3" id="Images">
+                                        <th:block sec:authorize="hasAuthority('Salesperson')">
+                                            <div th:replace="~{product/product_images_ready_only.html :: content }"></div>
+                                        </th:block>
+                                        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                                            <div th:replace="~{product/product_images :: content }"></div>
+                                        </th:block>
+                                    </div>
+
+                                </div><!-- End Bordered Tabs -->
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary btn-style "  type="reset">Reset</button>
+                                <button class="btn btn-success btn-style " type="submit" value="submit">Submit</button>
+                            </div>
+                        </form><!-- Vertical Form -->
+
+                        <!-- Modal -->
+                        <div th:replace="~{common/fragments_modal :: modal_error}"></div>
+
+                    </div>
+                </div>
+            </div><!-- End columns table-->
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer th:replace="~{common/common :: footer}" ></footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- ======= JS ======= -->
+<span th:replace="~{common/common :: js}"></span>
+
+<script type="text/javascript">
+
+    moduleURL = "[[@{/admin/products}]]";
+    brandModuleURL = "[[@{/brands}]]";
+    MAX_FILE_SIZE = 502400; // 500KB
+    defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
+    checkUniqueUrl = "[[@{/products/check_unique}]]";
+
+</script>
+<script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/product_form_overview.js}"></script>
+<script th:src="@{/js/product_form_images.js}"></script>
+
+
+</body>
+
+</html>
