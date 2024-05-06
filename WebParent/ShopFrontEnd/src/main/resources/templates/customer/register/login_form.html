@@ -21,140 +21,152 @@
 <!-- End of offcanvas menu-->
 
 <!-- page title -->
-    <section class="page-title-inner">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <!-- page title inner -->
-                    <div class="page-title-wrap">
-                        <div class="page-title-heading"><h1 class="h2">My Account<span>Profile</span></h1></div>
-                        <ul class="list-unstyled mb-0">
-                            <li><a href="index.html">home</a></li>
-                            <li><a href="#">Shop</a></li>
-                            <li class="active"><a href="#">Log In</a></li>
-                        </ul>
-                    </div>
-                    <!-- End of page title inner -->
+<section class="page-title-inner">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- page title inner -->
+                <div class="page-title-wrap">
+                    <div class="page-title-heading"><h1 class="h2">My Account<span>Profile</span></h1></div>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="index.html">home</a></li>
+                        <li><a href="#">Shop</a></li>
+                        <li class="active"><a href="#">Log In</a></li>
+                    </ul>
                 </div>
+                <!-- End of page title inner -->
             </div>
         </div>
-    </section>
-    <!-- End of page title -->
-    
-    <!-- logout register wrap -->
-    <section class="pt-100 pb-100">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6">
-                    <!-- login register -->
-                    <div class="login-register-wrap text-center main-log-regi">
-                        <!-- login register nav -->
-                        <div class="login-register-nav">
-                            <nav class="nav lr-nav text-center">
-                                <a id="nav-login-tab2" data-toggle="tab" class="active">Đăng nhập</a>
-                                <a  th:href="@{/register}">Đăng ký</a>
-                            </nav>
-                        </div>
-                        <!-- End of login register nav -->
+    </div>
+</section>
+<!-- End of page title -->
 
-                        <!-- login register content -->
-                        <div class="login-register-content tab-content">
-                            <div class="tab-pane fade show active" id="login2" role="tabpanel" aria-labelledby="nav-login-tab2">
-                                <div class="primary-form parsley-validate">
-                                    <form th:action="@{/login}" method="post">
-                                        <!-- Check for login error -->
-                                        <div th:if="${param.error}">
-                                            <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                                                Tài khoản và mật khẩu không chính xác
-                                            </div>
-                                        </div>
-                                        <!-- Check for logout -->
-                                        <div th:if="${param.logout}">
-                                            <div class="alert alert-success col-xs-offset-1 col-xs-10">
-                                                Bạn đã được đăng xuất.
-                                            </div>
-                                        </div>
-                                        <div class="name-input input-field">
-                                            <label>
-                                                <img th:src="@{customer/assets/img/icons/account3.svg}" class="svg" alt="">
-                                            </label>
-                                            <input type="email" name="email" placeholder='Email Address' class="theme-input-style" required>
-                                        </div>
+<!-- logout register wrap -->
+<section class="pt-100 pb-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <!-- login register -->
+                <div class="login-register-wrap text-center main-log-regi">
+                    <!-- login register nav -->
+                    <div class="login-register-nav">
+                        <nav class="nav lr-nav text-center">
+                            <a id="nav-login-tab2" data-toggle="tab" class="active">Đăng nhập</a>
+                            <a  th:href="@{/register}">Đăng ký</a>
+                        </nav>
+                    </div>
+                    <!-- End of login register nav -->
 
-                                        <div class="password-input input-field">
-                                            <label>
-                                                <img th:src="@{customer/assets/img/icons/regi-icon.svg}" class="svg" alt="">
-                                            </label>
-                                            <input type="password" name="password" placeholder='password' class="theme-input-style" required>
+                    <!-- login register content -->
+                    <div class="login-register-content tab-content">
+                        <div class="tab-pane fade show active" id="login2" role="tabpanel" aria-labelledby="nav-login-tab2">
+                            <div class="primary-form parsley-validate">
+                                <form th:action="@{/login}" method="post">
+                                    <!-- Check for login error -->
+                                    <div th:if="${param.error}">
+                                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                            Tài khoản và mật khẩu không chính xác
                                         </div>
-                                        <div class="remember-me-input input-field" >
-                                            <input type="checkbox" name="remember-me"  value="true" >
-                                            <label>Nhớ đăng nhập</label>
+                                    </div>
+                                    <!-- Check for logout -->
+                                    <div th:if="${param.logout}">
+                                        <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                                            Bạn đã được đăng xuất.
                                         </div>
-                                        <button type="submit" class="btn btn-fill-type">Đăng nhập</button>
-                                    </form>
-                                    <p>Chưa có tài khoản,<a  th:href="@{/register}">Đăng ký ngay!</a></p>
-                                </div>
+                                    </div>
+                                    <div class="name-input input-field">
+                                        <label>
+                                            <img th:src="@{customer/assets/img/icons/account3.svg}" class="svg" alt="">
+                                        </label>
+                                        <input type="email" name="email" placeholder='Email Address' class="theme-input-style" required>
+                                    </div>
+
+                                    <div class="password-input input-field">
+                                        <label>
+                                            <img th:src="@{customer/assets/img/icons/regi-icon.svg}" class="svg" alt="">
+                                        </label>
+                                        <input type="password" name="password" placeholder='password' class="theme-input-style" required>
+                                    </div>
+                                    <div class="remember-me-input  " style="text-align: start !important;">
+                                        <label>Nhớ đăng nhập</label>
+                                        <input type="checkbox" name="remember-me"  value="true"  style="vertical-align: middle;" >
+                                    </div>
+
+                                    <button type="submit" class="btn btn-fill-type ">Đăng nhập</button>
+                                    <div class="line-break">
+                                        <span>Hoặc đăng nhập qua</span>
+                                    </div>
+                                    <div class="input-field setting-input-botton">
+                                        <div class="google-login">
+                                            <a th:href="@{/oauth2/authorization/google}" ><img th:src="@{https://bizweb.dktcdn.net/assets/admin/images/login/gp-btn.svg}" style="width: 150px; " ></a>
+                                        </div>
+                                        <div class="facebook-login">
+                                            <a href="#" ><img th:src="@{https://bizweb.dktcdn.net/assets/admin/images/login/fb-btn.svg}" style="width: 150px; "></a>
+                                        </div>
+                                    </div>
+                                </form>
+
                             </div>
                         </div>
-                        <!-- End of login register content -->
                     </div>
-                    <!-- End of login register -->
+                    <!-- End of login register content -->
                 </div>
-                <!-- Modal -->
-                <div th:replace="~{customer/common/modal :: modal_error}"></div>
+                <!-- End of login register -->
             </div>
+            <!-- Modal -->
+            <div th:replace="~{customer/common/modal :: modal_error}"></div>
         </div>
-    </section>
-    <!-- End of logout register wrap -->
+    </div>
+</section>
+<!-- End of logout register wrap -->
 
-    <!-- footer area -->
-    <div th:replace="~{customer/common/common :: footer}"></div>
-    <!-- End of footer area -->
-        
-    <!-- back to top -->
-    <div class="back-to-top">
-            <a href="#">
-                <div class="back-toop-tooltip"><span>Back To Top</span></div>
-                <div class="top-array"></div>
-                <div class="top-line"></div>
-            </a>
-        </div>
+<!-- footer area -->
+<div th:replace="~{customer/common/common :: footer}"></div>
+<!-- End of footer area -->
 
-    <!-- JS Files -->
-    <th:block th:replace="~{customer/common/common :: script}"></th:block>
+<!-- back to top -->
+<div class="back-to-top">
+    <a href="#">
+        <div class="back-toop-tooltip"><span>Back To Top</span></div>
+        <div class="top-array"></div>
+        <div class="top-line"></div>
+    </a>
+</div>
 
-    <script type="text/javascript">
-        function checkPasswordMatch(confirmPassword) {
-            if (confirmPassword.value != $("#password").val()) {
-                confirmPassword.setCustomValidity("Mật khẩu không trùng khớp!");
+<!-- JS Files -->
+<th:block th:replace="~{customer/common/common :: script}"></th:block>
+
+<script type="text/javascript">
+    function checkPasswordMatch(confirmPassword) {
+        if (confirmPassword.value != $("#password").val()) {
+            confirmPassword.setCustomValidity("Mật khẩu không trùng khớp!");
+        } else {
+            confirmPassword.setCustomValidity("");
+        }
+    }
+
+    function checkEmailUnique(form) {
+        var url = "[[@{/customers/check_unique_email}]]";
+        var customerEmail = $("#email").val();
+        var csrfValue = $("input[name='_csrf']").val();
+        var params = { email: customerEmail, _csrf: csrfValue };
+
+        $.post(url, params, function(response) {
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicated") {
+                $("#errorBody").text("Email này đã tồn tại: " + customerEmail);
+                $('#errorModal').modal('show');
+
             } else {
-                confirmPassword.setCustomValidity("");
+                $("#errorBody").text("Không phản hồi từ máy chủ");
+                $('#errorModal').modal('show');
             }
-        }
+        });
+        return false;
+    }
+</script>
 
-        function checkEmailUnique(form) {
-            var url = "[[@{/customers/check_unique_email}]]";
-            var customerEmail = $("#email").val();
-            var csrfValue = $("input[name='_csrf']").val();
-            var params = { email: customerEmail, _csrf: csrfValue };
 
-            $.post(url, params, function(response) {
-                if (response == "OK") {
-                    form.submit();
-                } else if (response == "Duplicated") {
-                    $("#errorBody").text("Email này đã tồn tại: " + customerEmail);
-                    $('#errorModal').modal('show');
-
-                } else {
-                    $("#errorBody").text("Không phản hồi từ máy chủ");
-                    $('#errorModal').modal('show');
-                }
-            });
-            return false;
-        }
-    </script>
-
-    
 </body>
 </html>

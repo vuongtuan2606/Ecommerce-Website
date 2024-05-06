@@ -12,5 +12,8 @@ public interface CustomerService {
     void encodePassword(Customer customer);
 
     boolean verify(String verificationCode);
-    public void updateAuthenticationType(Customer customer, AuthenticationType type);
+    void updateAuthenticationType(Customer customer, AuthenticationType type);
+    Customer getCustomerByEmail(String email);
+
+    void addNewCustomerUponOAuthLogin(String name, String email);
 }
