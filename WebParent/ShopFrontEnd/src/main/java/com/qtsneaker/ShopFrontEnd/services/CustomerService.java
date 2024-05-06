@@ -1,5 +1,7 @@
 package com.qtsneaker.ShopFrontEnd.services;
 
+
+import com.qtsneaker.common.entity.AuthenticationType;
 import com.qtsneaker.common.entity.Customer;
 
 public interface CustomerService {
@@ -10,5 +12,5 @@ public interface CustomerService {
     void encodePassword(Customer customer);
 
     boolean verify(String verificationCode);
-
+    public void updateAuthenticationType(Customer customer, AuthenticationType type);
 }

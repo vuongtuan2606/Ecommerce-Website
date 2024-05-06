@@ -4,7 +4,7 @@ package com.qtsneaker.ShopFrontEnd.controller;
 import com.qtsneaker.ShopFrontEnd.services.CustomerService;
 import com.qtsneaker.ShopFrontEnd.services.SettingService;
 import com.qtsneaker.ShopFrontEnd.setting.EmailSettingBag;
-import com.qtsneaker.ShopFrontEnd.setting.Utility;
+import com.qtsneaker.ShopFrontEnd.util.Utility;
 import com.qtsneaker.common.entity.Customer;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 @Controller
 public class CustomerController {
@@ -32,26 +31,27 @@ public class CustomerController {
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
 
+        Customer customers = new Customer();
         model.addAttribute("pageTitle", "Đăng ký khách hàng");
-        model.addAttribute("customer", new Customer());
+        model.addAttribute("customers", customers);
 
-        return "/register/register_form";
+        return "customer/register/register_form";
 
 
     }
-    @PostMapping("/create_customer")
-    public String createCustomer(Customer customer,
+    @PostMapping("/register/success")
+    public String createCustomer(Customer customers,
                                  Model model,
                                  HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
 
-        customerService.registerCustomer(customer);
+        customerService.registerCustomer(customers);
 
-        sendVerificationEmail(request, customer);
+        sendVerificationEmail(request, customers);
 
         model.addAttribute("pageTitle", "Đăng ký thành công!");
 
-        return "/register/register_succses";
+        return "customer/register/register_success";
     }
 
     private void sendVerificationEmail(HttpServletRequest request, Customer customer)
@@ -103,7 +103,7 @@ public class CustomerController {
         boolean verified = customerService.verify(code);
 
         // Trả về view tương ứng với kết quả xác nhận
-        return "/register/" + (verified ? "verify_succses" : "verify_fail");
+        return "customer/register/" + (verified ? "verify_success" : "verify_fail");
     }
 }
 

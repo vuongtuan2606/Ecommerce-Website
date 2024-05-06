@@ -18,7 +18,7 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-        <li class="breadcrumb-item active"><a th:href="@{/admin/user/create}">Danh sách nhân viên</a> / [[${pageTitle}]]</li>
+        <li class="breadcrumb-item active"><a th:href="@{/admin/users/create}">Danh sách nhân viên</a> / [[${pageTitle}]]</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -30,7 +30,7 @@
         <div class="card">
           <div class="card-body">
             <!-- Vertical Form -->
-            <form class="row g-3" th:action="@{/admin/user/save}" method="post"
+            <form class="row g-3" th:action="@{/admin/users/save}" method="post"
                   enctype="multipart/form-data"
                   th:object="${user}"
                   onsubmit="return checkEmailUnique(this);">
@@ -123,7 +123,7 @@
   MAX_FILE_SIZE = 102400;
 
   function checkEmailUnique(form) {
-    var url = "[[@{/user/check_email}]]";
+    var url = "[[@{/users/check_email}]]";
     var userId =  $("#id").val();
     var userEmail = $("#email").val();
     var csrfValue = $("input[name='_csrf']").val();

@@ -20,7 +20,7 @@ public class SecurityConfig  {
         http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/customer/**").authenticated()
+                .requestMatchers("/customer").authenticated()
                 .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
@@ -34,6 +34,7 @@ public class SecurityConfig  {
                         .key("AbcDefgHijklmnOpqrs_1234567890")
                         .tokenValiditySeconds(7 * 24 * 60 * 60)
                 )
+
         ;
 
         return http.build();
@@ -42,7 +43,7 @@ public class SecurityConfig  {
 
     @Bean
     WebSecurityCustomizer configureWebSecurity() throws Exception{
-        return (web) -> web.ignoring().requestMatchers("assets/**");
+        return (web) -> web.ignoring().requestMatchers("/customer/assets/**");
     }
     @Bean
     UserDetailsService userDetailsServices(){

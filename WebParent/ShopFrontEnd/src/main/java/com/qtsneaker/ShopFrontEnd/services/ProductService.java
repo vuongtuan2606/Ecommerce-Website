@@ -1,11 +1,9 @@
 package com.qtsneaker.ShopFrontEnd.services;
 
-import com.qtsneaker.common.entity.Product;
 
+import com.qtsneaker.common.entity.Product;
 import com.qtsneaker.common.exception.ProductNotFoundException;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 public interface ProductService {
     public  static final int PRODUCT_PER_PAGE = 4;

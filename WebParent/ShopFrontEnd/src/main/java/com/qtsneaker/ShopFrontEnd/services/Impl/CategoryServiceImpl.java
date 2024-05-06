@@ -4,7 +4,6 @@ package com.qtsneaker.ShopFrontEnd.services.Impl;
 import com.qtsneaker.ShopFrontEnd.dao.CategoryRepository;
 import com.qtsneaker.ShopFrontEnd.services.CategoryService;
 import com.qtsneaker.common.entity.Category;
-
 import com.qtsneaker.common.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

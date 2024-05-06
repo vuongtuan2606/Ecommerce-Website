@@ -3,14 +3,14 @@ package com.qtsneaker.ShopFrontEnd.services.Impl;
 
 import com.qtsneaker.ShopFrontEnd.dao.CustomerRepository;
 import com.qtsneaker.ShopFrontEnd.services.CustomerService;
+import com.qtsneaker.common.entity.AuthenticationType;
 import com.qtsneaker.common.entity.Customer;
-
 import jakarta.transaction.Transactional;
-import net.bytebuddy.utility.RandomString;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import net.bytebuddy.utility.RandomString;
 import java.util.Date;
 
 
@@ -59,6 +59,13 @@ public class CustomerServiceImpl implements CustomerService {
 		} else {
 			customerRepository.enable(customer.getId());
 			return true;
+		}
+	}
+
+	@Override
+	public void updateAuthenticationType(Customer customer, AuthenticationType type) {
+		if (!customer.getAuthenticationType().equals(type)) {
+			customerRepository.updateAuthenticationType(customer.getId(), type);
 		}
 	}
 }

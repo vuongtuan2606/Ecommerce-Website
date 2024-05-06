@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{customer/common/common :: html_head('register')}"></head>
+
+<body>
+<!-- Preloader -->
+<div th:replace="~{customer/common/common :: preLoader}"></div>
+<!-- End Of Preloader -->
+
+<!-- Main header -->
+<header th:replace="~{customer/common/common :: header}"></header>
+<!-- End of main header -->
+
+<!-- Catagory menu -->
+<div th:replace="~{customer/common/common :: catagory-menu}"></div>
+<!-- End of Catagory menu -->
+
+<!-- offcanvas menu-->
+<th:block th:replace="~{customer/common/common :: offcanvas_menu}"></th:block>
+<!-- End of offcanvas menu-->
+
+<!-- page title -->
+    <section class="page-title-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- page title inner -->
+                    <div class="page-title-wrap">
+                        <div class="page-title-heading"><h1 class="h2">My Account<span>Profile</span></h1></div>
+                        <ul class="list-unstyled mb-0">
+                            <li><a href="index.html">home</a></li>
+                            <li><a href="#">Shop</a></li>
+                            <li class="active"><a href="#">Log In</a></li>
+                        </ul>
+                    </div>
+                    <!-- End of page title inner -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of page title -->
+    
+    <!-- logout register wrap -->
+    <section class="pt-100 pb-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <!-- login register -->
+                    <div class="login-register-wrap text-center main-log-regi">
+                        <!-- login register nav -->
+                        <div class="login-register-nav">
+                            <nav class="nav lr-nav text-center">
+                                <a  th:href="@{/login}" >Đăng nhập</a>
+                                <a id="nav-register-tab2" data-toggle="tab"  class="active">Đăng ký</a>
+                            </nav>
+                        </div>
+                        <!-- End of login register nav -->
+
+                        <!-- login register content -->
+                        <div class="tab-pane fade show active" id="reg2" role="tabpanel" aria-labelledby="nav-register-tab2">
+                            <div class="primary-form parsley-validate">
+                                <form  th:action="@{/register/success}" th:object="${customers}"  method="post"
+                                      onsubmit="return checkEmailUnique(this);">
+                                    <!-- register input -->
+                                    <div class="name-input input-field">
+                                        <label>
+                                            <img th:src="@{customer/assets/img/icons/account-icon.svg}" class="svg" alt="">
+                                        </label>
+                                        <input type="text" th:field="*{firstName}" placeholder='First name ' class="theme-input-style" required minlength="2" maxlength="45" >
+                                    </div>
+
+                                    <div class="name-input input-field">
+                                        <label>
+                                            <img th:src="@{customer/assets/img/icons/account-icon.svg}" class="svg" alt="">
+                                        </label>
+                                        <input type="text" th:field="*{lastName}" placeholder='Last name ' class="theme-input-style" required minlength="2" maxlength="45">
+                                    </div>
+
+                                    <div class="email-input input-field">
+                                        <label>
+                                            <img th:src="@{customer/assets/img/icons/email-icon.svg}" class="svg" alt="">
+                                        </label>
+                                        <input type="email" th:field="*{email}" placeholder='email' class="theme-input-style" required  minlength="8" maxlength="45">
+                                    </div>
+
+                                    <div class="password-input input-field">
+                                        <label>
+                                            <img th:src="@{customer/assets/img/icons/regi-icon.svg}" class="svg" alt="">
+                                        </label>
+                                        <input type="password" placeholder='password' class="theme-input-style"
+                                               th:field="*{password}" required minlength="6" maxlength="15"
+                                               oninput="checkPasswordMatch(document.getElementById('confirmPassword'))">
+                                    </div>
+
+                                    <div class="password-input input-field">
+                                        <label>
+                                            <img th:src="@{customer/assets/img/icons/regi-icon.svg}" class="svg" alt="">
+                                        </label>
+                                        <input type="password" placeholder='Re-type Password:' class="theme-input-style"
+                                                required minlength="6" maxlength="15"
+                                               id="confirmPassword"
+                                               oninput="checkPasswordMatch(this)">
+                                    </div>
+
+                                    <button type="submit" value="submit" class="btn btn-fill-type">Đăng ký</button>
+                                </form>
+                                <p>Đã có tài khoản,<a th:href="@{/login}">Đăng nhập ngay!</a></p>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- End of login register content -->
+                </div>
+                    <!-- End of login register -->
+            </div>
+                <!-- Modal -->
+            <div th:replace="~{customer/common/modal :: modal_error}"></div>
+        </div>
+    </section>
+    <!-- End of logout register wrap -->
+
+    <!-- footer area -->
+    <div th:replace="~{customer/common/common :: footer}"></div>
+    <!-- End of footer area -->
+        
+    <!-- back to top -->
+    <div class="back-to-top">
+            <a href="#">
+                <div class="back-toop-tooltip"><span>Back To Top</span></div>
+                <div class="top-array"></div>
+                <div class="top-line"></div>
+            </a>
+        </div>
+
+    <!-- JS Files -->
+    <th:block th:replace="~{customer/common/common :: script}"></th:block>
+
+    <script type="text/javascript">
+        function checkPasswordMatch(confirmPassword) {
+            if (confirmPassword.value != $("#password").val()) {
+                confirmPassword.setCustomValidity("Mật khẩu không trùng khớp!");
+            } else {
+                confirmPassword.setCustomValidity("");
+            }
+        }
+
+        function checkEmailUnique(form) {
+            var url = "[[@{/customers/check_unique_email}]]";
+            var customerEmail = $("#email").val();
+            var csrfValue = $("input[name='_csrf']").val();
+            var params = { email: customerEmail, _csrf: csrfValue };
+
+            $.post(url, params, function(response) {
+                if (response == "OK") {
+                    form.submit();
+                } else if (response == "Duplicated") {
+                    $("#errorBody").text("Email này đã tồn tại: " + customerEmail);
+                    $('#errorModal').modal('show');
+
+                } else {
+                    $("#errorBody").text("Không phản hồi từ máy chủ");
+                    $('#errorModal').modal('show');
+                }
+            });
+            return false;
+        }
+    </script>
+
+    
+</body>
+</html>

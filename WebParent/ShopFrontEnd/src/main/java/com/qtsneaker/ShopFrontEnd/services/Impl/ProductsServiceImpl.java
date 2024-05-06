@@ -1,17 +1,17 @@
 package com.qtsneaker.ShopFrontEnd.services.Impl;
 
+
 import com.qtsneaker.ShopFrontEnd.dao.ProductRepository;
 import com.qtsneaker.ShopFrontEnd.services.ProductService;
 import com.qtsneaker.common.entity.Product;
 import com.qtsneaker.common.exception.ProductNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class ProductsServiceImpl implements ProductService {
