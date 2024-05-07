@@ -22,9 +22,10 @@ public class Customer extends IdBasedEntity {
     @Column(name = "phone_number",  length = 15)
     private String phoneNumber;
 
-    @Column( length = 64)
+    @Column(name = "address_line_1", length = 64)
     private String addressLine1;
-
+    @Column(name = "address_line_2", length = 64)
+    protected String addressLine2;
     private boolean enabled;
 
     @Column(name = "created_time")
@@ -38,6 +39,8 @@ public class Customer extends IdBasedEntity {
     @Column(name = "authentication_type", length = 10)
     private AuthenticationType authenticationType;
 
+    @Column(name = "reset_password_token", length = 30)
+    private String resetPasswordToken;
     public String getEmail() {
         return email;
     }
@@ -116,6 +119,22 @@ public class Customer extends IdBasedEntity {
 
     public void setAuthenticationType(AuthenticationType authenticationType) {
         this.authenticationType = authenticationType;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
     }
 
     @Override

@@ -30,8 +30,13 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		// Lấy thông tin tên từ đối tượng oauth2User
 		String name = oauth2User.getName();
 		String email = oauth2User.getEmail();
+		String  clientName = oauth2User.getClientName();
 
 		System.out.println("OAuth2LoginSuccessHandler:" + name +" | " + email  );
+		System.out.println("CLient name :" + clientName);
+
+		// Lấy loại xác thực từ tên của client
+		AuthenticationType authenticationType = getAuthenticationType(clientName);
 
 		// Lấy thông tin khách hàng từ dịch vụ khách hàng bằng địa chỉ email
 		Customer customer = customerService.getCustomerByEmail(email);
@@ -40,16 +45,39 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		if (customer == null) {
 
 			// Nếu không tồn tại, thêm khách hàng mới vào cơ sở dữ liệu
-			customerService.addNewCustomerUponOAuthLogin(name, email );
+			customerService.addNewCustomerUponOAuthLogin(name, email ,authenticationType);
 		} else {
+			// cập nhật lại tên khách hàng
+			oauth2User.setFullName(customer.getFullName());
 
 			// Nếu tồn tại, cập nhật thông tin và loại xác thực của khách hàng
-			customerService.updateAuthenticationType(customer, AuthenticationType.GOOGLE);
+			customerService.updateAuthenticationType(customer, authenticationType);
+
 		}
 
 		// Gọi phương thức onAuthenticationSuccess() của class cha để xử lý thành công xác thực
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
+
+	/**
+	 * Xác định và trả về loại xác thực dựa trên tên của khách hàng.
+	 * Nếu tên khách hàng là "Google", phương thức trả về AuthenticationType.GOOGLE.
+	 * Nếu tên khách hàng là "Facebook", phương thức trả về AuthenticationType.FACEBOOK.
+	 * Nếu không, phương thức trả về AuthenticationType.DATABASE.
+	 *
+	 * @param clientName Tên của khách hàng
+	 * @return Loại xác thực dựa trên tên của khách hàng
+	 */
+	private AuthenticationType getAuthenticationType(String clientName) {
+		if (clientName.equals("Google")) {
+			return AuthenticationType.GOOGLE;
+		} else if (clientName.equals("Facebook")) {
+			return AuthenticationType.FACEBOOK;
+		} else {
+			return AuthenticationType.DATABASE;
+		}
+	}
+
 
 
 }

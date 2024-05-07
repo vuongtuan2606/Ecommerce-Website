@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/common :: html_head(${pageTitle})}"></head>
+
+<body>
+<!-- Preloader -->
+<div th:replace="~{common/common :: preLoader}"></div>
+
+<!-- Main header -->
+<header th:replace="~{common/common :: html_header}"></header>
+
+<!-- Catagory menu -->
+<div th:replace="~{common/common :: catagory-menu}"></div>
+
+<!-- Offcanvas menu-->
+<th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
+<!-- page title -->
+<section class="page-title-inner">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <!-- page title inner -->
+        <div class="page-title-wrap">
+          <div class="page-title-heading"><h1 class="h2">Thông báo<span></span></h1></div>
+          <ul class="list-unstyled mb-0">
+            <li><a th:href="@{/}">home</a></li>
+            <li class="active"><a href="#">Thôg báo</a></li>
+          </ul>
+        </div>
+        <!-- End of page title inner -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- message wrap -->
+<section class="pt-100 pb-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="login-register-wrap text-center main-log-regi">
+          <div class="login-register-content tab-content">
+            <div class="tab-pane fade show active" id="login2" role="tabpanel" aria-labelledby="nav-login-tab2">
+              <div class="primary-form parsley-validate">
+                <div th:if="${title != null}">
+                  <h2>[[${title}]]</h2>
+                </div>
+
+                <div th:if="${message != null}">
+                  <h3>[[${message}]]</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- footer  -->
+<div th:replace="~{common/common :: footer}"></div>
+
+<!-- back to top -->
+<div class="back-to-top">
+  <a href="#">
+    <div class="back-toop-tooltip"><span>Back To Top</span></div>
+    <div class="top-array"></div>
+    <div class="top-line"></div>
+  </a>
+</div>
+
+
+<!-- JS Files -->
+<th:block th:replace="~{common/common :: script}"></th:block>
+
+</body>
+
+</html>

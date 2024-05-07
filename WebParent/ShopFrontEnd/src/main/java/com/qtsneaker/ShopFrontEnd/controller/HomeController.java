@@ -24,13 +24,13 @@ public class HomeController {
 
         model.addAttribute("listNoChildrenCategories",listNoChildrenCategories);
 
-        return "customer/homePage";
+        return "homePage";
     }
     @GetMapping("/login")
     public String viewLoginPage() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-            return "customer/register/login_form";
+            return "register/login_form";
         }
 
         return "redirect:/";

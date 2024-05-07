@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{customer/common/common :: html_head('register')}"></head>
+<head th:replace="~{common/common :: html_head('register')}"></head>
 
 <body>
 <!-- Preloader -->
-<div th:replace="~{customer/common/common :: preLoader}"></div>
+<div th:replace="~{common/common :: preLoader}"></div>
 <!-- End Of Preloader -->
 
 <!-- Main header -->
-<header th:replace="~{customer/common/common :: header}"></header>
+<header th:replace="~{common/common :: header}"></header>
 <!-- End of main header -->
 
 <!-- Catagory menu -->
-<div th:replace="~{customer/common/common :: catagory-menu}"></div>
+<div th:replace="~{common/common :: catagory-menu}"></div>
 <!-- End of Catagory menu -->
 
 <!-- offcanvas menu-->
-<th:block th:replace="~{customer/common/common :: offcanvas_menu}"></th:block>
+<th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
 <!-- End of offcanvas menu-->
-<section class="page-title-inner" th:data-bg-img='@{customer/assets/img/page-titlebg.png}'>
+<section class="page-title-inner" th:data-bg-img='@{assets/img/page-titlebg.png}'>
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -49,7 +49,7 @@
     <!-- End of logout register wrap -->
 
     <!-- footer area -->
-    <div th:replace="~{customer/common/common :: footer}"></div>
+    <div th:replace="~{common/common :: footer}"></div>
     <!-- End of footer area -->
         
     <!-- back to top -->
@@ -62,7 +62,7 @@
         </div>
 
     <!-- JS Files -->
-    <th:block th:replace="~{customer/common/common :: script}"></th:block>
+    <th:block th:replace="~{common/common :: script}"></th:block>
 
 
 

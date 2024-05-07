@@ -19,7 +19,7 @@
                     <div class="addto-cart-btn">
                         <div class="addto-icon-btn">
                             <a href="#">
-                                <span class="product-icon"><img th:src="@{/customer/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
+                                <span class="product-icon"><img th:src="@{/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
                                 <span class="icon-title">Add To Cart</span>
                             </a>
                         </div>
@@ -42,7 +42,7 @@
 
                 <!-- product price -->
                 <div class="product-price" >
-                    <th:block th:replace="~{customer/product/fragment :: product_price}"></th:block>
+                    <th:block th:replace="~{product/fragment :: product_price}"></th:block>
                 </div>
 
             </div>
@@ -56,16 +56,16 @@
 <th:block th:fragment="product_price" >
     <th:block th:if="${product.discountPercent <= 0}">
         <h5 class="old-price">
-            <span th:replace="~{customer/product/fragment :: price_fragment(${product.price})}"></span>
+            <span th:replace="~{product/fragment :: price_fragment(${product.price})}"></span>
         </h5>
     </th:block>
 
     <th:block th:if="${product.discountPercent > 0}">
         <h5 class="new-price">
-            <span th:replace="~{customer/product/fragment :: price_fragment(${product.discountPrice})}"></span>
+            <span th:replace="~{product/fragment :: price_fragment(${product.discountPrice})}"></span>
         </h5>
         <del class="old-price">
-            <span th:replace="~{customer/product/fragment :: price_fragment(${product.price})}"></span>
+            <span th:replace="~{product/fragment :: price_fragment(${product.price})}"></span>
         </del>
     </th:block>
 </th:block>

@@ -80,6 +80,7 @@ public class AdminBrandController {
     @GetMapping("/brands/create")
     public  String newBrands(Model model){
         Brand brand = new Brand();
+
         List<Category> listCategory = adminCategoryService.listCategoriesUsedInForm();
 
         model.addAttribute("listCategory", listCategory);

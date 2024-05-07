@@ -28,7 +28,7 @@ public class SecurityConfig  {
         http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/customer").authenticated()
+                        .requestMatchers("/account_details").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
@@ -58,7 +58,7 @@ public class SecurityConfig  {
 
     @Bean
     WebSecurityCustomizer configureWebSecurity() throws Exception{
-        return (web) -> web.ignoring().requestMatchers("/customer/assets/**");
+        return (web) -> web.ignoring().requestMatchers("/assets/**");
     }
     @Bean
     UserDetailsService userDetailsServices(){

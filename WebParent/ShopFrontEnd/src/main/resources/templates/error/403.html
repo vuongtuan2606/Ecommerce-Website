@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{customer/common/common :: html_head('Error 500')}"></head>
+<head th:replace="~{common/common :: html_head('Error 403')}"></head>
 
 <body>
 
@@ -9,10 +9,9 @@
     <div class="container">
 
       <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
-        <h1>500</h1>
-        <h2>Sorry, the server has encountered an error while processing your request.</h2>
-        <a class="btn" th:href="@{/index}">Back to home</a>
-        <img src="assets/img/not-found.svg" class="img-fluid py-5" alt="Page Not Found">
+        <h1>403</h1>
+        <h2>Xin lỗi, bạn không có quyền truy cập trang này</h2>
+        <a class="btn" th:href="@{/}">Trở về trang chủ</a>
       </section>
 
     </div>
@@ -21,7 +20,7 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- ======= JS ======= -->
-  <span th:replace="~{customer/common/common :: script}"></span>
+  <span th:replace="~{common/common :: script}"></span>
 
 </body>
 

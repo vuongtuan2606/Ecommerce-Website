@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{customer/common/common :: html_head('Home Page')}"></head>
+<head th:replace="~{common/common :: html_head('Trang chủ')}"></head>
 
 <body>
     <!-- Preloader -->
-    <div th:replace="~{customer/common/common :: preLoader}"></div>
+    <div th:replace="~{common/common :: preLoader}"></div>
 
     <!-- Main header -->
-    <header th:replace="~{customer/common/common :: html_header}"></header>
+    <header th:replace="~{common/common :: html_header}"></header>
 
     <!-- Catagory menu -->
-    <div th:replace="~{customer/common/common :: catagory-menu}"></div>
+    <div th:replace="~{common/common :: catagory-menu}"></div>
 
     <!-- Offcanvas menu-->
-    <th:block th:replace="~{customer/common/common :: offcanvas_menu}"></th:block>
+    <th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
 
     <!-- banner area -->
     <section class="banner-slider">
@@ -100,7 +100,7 @@
                         <!-- single Collection -->
                         <div class="single-colection-inner overlay2 type2">
                             <div class="single-colection-img">
-                                <img th:src="@{customer/assets/img/add/collection-1.jpg}" alt="">
+                                <img th:src="@{assets/img/add/collection-1.jpg}" alt="">
                             </div>
                             <div class="single-colection">
                                 <h3>Trendy Items</h3>
@@ -114,7 +114,7 @@
                         <!-- single Collection -->
                         <div class="single-colection-inner overlay3 type2">
                             <div class="single-colection-img">
-                                <img th:src="@{customer/assets/img/add/collection-2.jpg}" alt="">
+                                <img th:src="@{assets/img/add/collection-2.jpg}" alt="">
                             </div>
                             <div class="single-colection">
                                 <h3>Top Sellers</h3>
@@ -128,7 +128,7 @@
                         <!-- single Collection -->
                         <div class="single-colection-inner overlay4 type2">
                             <div class="single-colection-img">
-                                <img th:src="@{customer/assets/img/add/collection-3.jpg}" alt="">
+                                <img th:src="@{assets/img/add/collection-3.jpg}" alt="">
                             </div>
                             <div class="single-colection">
                                 <h3>Hot Deals</h3>
@@ -166,8 +166,8 @@
                                 <!-- Product Image -->
                                 <div class="product-image">
                                     <a href='product/product-details.html'>
-                                        <img class='normal-state' data-rjs="2" th:src="@{customer/assets/img/product/product-1.jpg }" alt="">
-                                        <img class='hover-state' data-rjs="2" th:src="@{customer/assets/img/product/product-1b.jpg }" alt="">
+                                        <img class='normal-state' data-rjs="2" th:src="@{assets/img/product/product-1.jpg }" alt="">
+                                        <img class='hover-state' data-rjs="2" th:src="@{assets/img/product/product-1b.jpg }" alt="">
                                     </a>
                                 </div>
                                 <!-- End of Product Image -->
@@ -187,7 +187,7 @@
                                     <div class="addto-cart-btn">
                                         <div class="addto-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">Add To Cart</span>
                                             </a>
                                         </div>
@@ -196,7 +196,7 @@
                                     <div class="wishlist-btn">
                                         <div class="wishlist-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">See Wish List</span>
                                             </a>
                                         </div>
@@ -205,7 +205,7 @@
                                     <div class="copmare-btn">
                                         <div class="compare-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/compare.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/compare.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">Compare</span>
                                             </a>
                                         </div>
@@ -238,8 +238,8 @@
                                 <!-- Product Image -->
                                 <div class="product-image">
                                     <a href='product/product-details.html'>
-                                        <img class='normal-state' data-rjs="2" th:src="@{customer/assets/img/product/product-1.jpg }" alt="">
-                                        <img class='hover-state' data-rjs="2" th:src="@{customer/assets/img/product/product-1b.jpg }" alt="">
+                                        <img class='normal-state' data-rjs="2" th:src="@{assets/img/product/product-1.jpg }" alt="">
+                                        <img class='hover-state' data-rjs="2" th:src="@{assets/img/product/product-1b.jpg }" alt="">
                                     </a>
                                 </div>
                                 <!-- End of Product Image -->
@@ -259,7 +259,7 @@
                                     <div class="addto-cart-btn">
                                         <div class="addto-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">Add To Cart</span>
                                             </a>
                                         </div>
@@ -268,7 +268,7 @@
                                     <div class="wishlist-btn">
                                         <div class="wishlist-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">See Wish List</span>
                                             </a>
                                         </div>
@@ -277,7 +277,7 @@
                                     <div class="copmare-btn">
                                         <div class="compare-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/compare.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/compare.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">Compare</span>
                                             </a>
                                         </div>
@@ -310,8 +310,8 @@
                                 <!-- Product Image -->
                                 <div class="product-image">
                                     <a href='product/product-details.html'>
-                                        <img class='normal-state' data-rjs="2" th:src="@{customer/assets/img/product/product-1.jpg }" alt="">
-                                        <img class='hover-state' data-rjs="2" th:src="@{customer/assets/img/product/product-1b.jpg }" alt="">
+                                        <img class='normal-state' data-rjs="2" th:src="@{assets/img/product/product-1.jpg }" alt="">
+                                        <img class='hover-state' data-rjs="2" th:src="@{assets/img/product/product-1b.jpg }" alt="">
                                     </a>
                                 </div>
                                 <!-- End of Product Image -->
@@ -331,7 +331,7 @@
                                     <div class="addto-cart-btn">
                                         <div class="addto-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">Add To Cart</span>
                                             </a>
                                         </div>
@@ -340,7 +340,7 @@
                                     <div class="wishlist-btn">
                                         <div class="wishlist-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">See Wish List</span>
                                             </a>
                                         </div>
@@ -349,7 +349,7 @@
                                     <div class="copmare-btn">
                                         <div class="compare-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/compare.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/compare.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">Compare</span>
                                             </a>
                                         </div>
@@ -382,8 +382,8 @@
                                 <!-- Product Image -->
                                 <div class="product-image">
                                     <a href='product/product-details.html'>
-                                        <img class='normal-state' data-rjs="2" th:src="@{customer/assets/img/product/product-1.jpg }" alt="">
-                                        <img class='hover-state' data-rjs="2" th:src="@{customer/assets/img/product/product-1b.jpg }" alt="">
+                                        <img class='normal-state' data-rjs="2" th:src="@{assets/img/product/product-1.jpg }" alt="">
+                                        <img class='hover-state' data-rjs="2" th:src="@{assets/img/product/product-1b.jpg }" alt="">
                                     </a>
                                 </div>
                                 <!-- End of Product Image -->
@@ -403,7 +403,7 @@
                                     <div class="addto-cart-btn">
                                         <div class="addto-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">Add To Cart</span>
                                             </a>
                                         </div>
@@ -412,7 +412,7 @@
                                     <div class="wishlist-btn">
                                         <div class="wishlist-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">See Wish List</span>
                                             </a>
                                         </div>
@@ -421,7 +421,7 @@
                                     <div class="copmare-btn">
                                         <div class="compare-icon-btn">
                                             <a href="#">
-                                                <span class="product-icon"><img th:src="@{customer/assets/img/icons/compare.svg}" alt="" class="svg"></span>
+                                                <span class="product-icon"><img th:src="@{assets/img/icons/compare.svg}" alt="" class="svg"></span>
                                                 <span class="icon-title">Compare</span>
                                             </a>
                                         </div>
@@ -513,7 +513,7 @@
 
 
     <!-- footer  -->
-    <div th:replace="~{customer/common/common :: footer}"></div>
+    <div th:replace="~{common/common :: footer}"></div>
 
     <!-- back to top -->
     <div class="back-to-top">
@@ -524,10 +524,10 @@
         </a>
     </div>
 
-    <div th:replace="~{customer/common/modal :: modal_add_to_cart}"></div>
+    <div th:replace="~{common/modal :: modal_add_to_cart}"></div>
 
     <!-- JS Files -->
-    <th:block th:replace="~{customer/common/common :: script}"></th:block>
+    <th:block th:replace="~{common/common :: script}"></th:block>
 
 </body>
 </html>

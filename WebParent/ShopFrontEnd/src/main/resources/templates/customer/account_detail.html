@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{common/common :: html_head('Chi tiêt tài khoản')}"></head>
+
+<body>
+<!-- Preloader -->
+<div th:replace="~{common/common :: preLoader}"></div>
+<!-- End Of Preloader -->
+
+<!-- Main header -->
+<header th:replace="~{common/common :: header}"></header>
+<!-- End of main header -->
+
+<!-- Catagory menu -->
+<div th:replace="~{common/common :: catagory-menu}"></div>
+<!-- End of Catagory menu -->
+
+<!-- offcanvas menu-->
+<th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
+<!-- End of offcanvas menu-->
+
+
+    <!-- page title -->
+    <section class="page-title-inner" data-bg-img='assets/img/page-titlebg.png'>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- page title inner -->
+                    <div class="page-title-wrap">
+                        <div class="page-title-heading"><h1 class="h2">My Account<span>Profile</span></h1></div>
+                        <ul class="list-unstyled mb-0">
+                            <li><a href="index.html">home</a></li>
+                            <li><a href="#">Shop</a></li>
+                            <li class="active"><a href="#">Check Out</a></li>
+                        </ul>
+                    </div>
+                    <!-- End of page title inner -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of page title -->
+    
+    <!-- logout register wrap -->
+    <section class="pt-30 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <!-- dash board nav-->
+                    <div class="dashboard-inner">
+                        <nav>
+                            <ul class="nav-list nav">
+                                <li>
+                                    <a class="dashboard-nav-item active" id="nav-dasboard" data-toggle="tab"  href="#dashboard"><span><img src="assets/img/icons/dashboard.svg" class="svg" alt=""></span>Dashboard</a>
+                                </li>
+                                <li>
+                                    <a class="dashboard-nav-item" id="nav-order" data-toggle="tab"  href="#order"><span><img src="assets/img/icons/order.svg" class="svg" alt=""></span>Orders</a>
+                                </li>
+                                <li>
+                                    <a class="dashboard-nav-item" id='nav-adetails' data-toggle="tab" href="#adetails"><span><img src="assets/img/icons/account3.svg" class="svg" alt=""></span>Account Details</a>
+                                </li>
+                                <li>
+                                    <a class="dashboard-nav-item" href="logout.html"><span><img src="assets/img/icons/logout.svg" class="svg" alt=""></span>Log Out</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- End of dash board nav-->
+                </div>
+                <div class="col-lg-9">
+                    <!-- dashboard content -->
+                    <div class="deshboard-content-wrap">
+                        <div class="tab-content dashboad-tab-content">
+                            <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby='nav-dasboard'>
+                                <form th:object="${customer}" >
+                                    <div th:if="${message != null}" class=" alert alert-success text-center">
+                                        [[${message}]]
+                                    </div>
+                                    <!-- dashboard info -->
+                                    <div class="dashboard-tab-info">
+                                        <p>Hello [[${customer.fullName}]], <span>(Not [[${customer.fullName}]] ? <a href="#">Log out</a>)</span></p>
+                                        <p>Từ bảng điều khiển tài khoản của bạn, bạn có thể xem <a href="#">Xem những đơn đặt hàng gần đây</a>,  and <a href="#">Cập nhật thông tin tài khoản và thay đổi mật khẩu của bạn của bạn.</a></p>
+                                    </div>
+                                    <!--End of dashboard info -->
+                                </form>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby='nav-order'>
+                                <!-- dashboard order -->
+                                <div class="dashboard-tab-order">
+                                    <!-- dashboard order table -->
+                                    <table class="dashboard-order-table">
+                                        <tbody>
+                                            <tr>
+                                                <th>Order No</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                                <th>Total</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            <tr>
+                                                <td>#24567</td>
+                                                <td>20 August 2018</td>
+                                                <td>Processing</td>
+                                                <td>$458 .52 <span>(1 Items)</span></td>
+                                                <td><a href="#">View Details</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>#24567</td>
+                                                <td>20 August 2018</td>
+                                                <td>Processing</td>
+                                                <td>$458 .52 <span>(1 Items)</span></td>
+                                                <td><a href="#">View Details</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>#24567</td>
+                                                <td>20 August 2018</td>
+                                                <td>Processing</td>
+                                                <td>$458 .52 <span>(1 Items)</span></td>
+                                                <td><a href="#">View Details</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>#24567</td>
+                                                <td>20 August 2018</td>
+                                                <td>Processing</td>
+                                                <td>$458 .52 <span>(1 Items)</span></td>
+                                                <td><a href="#">View Details</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--End of dashboard order table -->
+                                </div>
+                                <!-- End of dashboard order -->
+                            </div>
+
+                            <div class="tab-pane fade" id="adetails" role="tabpanel" aria-labelledby='nav-adetails'>
+                                <!-- Account details-->
+                                <div class="account-details">
+                                    <form th:action="@{/update_account_details}" method="post"
+                                          th:object="${customer}" >
+                                        <input type="hidden" th:field="*{id}" />
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h5 style="font-weight: 700; margin: 7px 15px 20px">Thông tin tài khoản</h5>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="email" th:field="*{email}"  class="theme-input-style" readonly="readonly">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" th:field="*{firstName}" class="theme-input-style" placeholder="Họ" required="required" maxlength="45" minlength="2">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" th:field="*{lastName}"  class="theme-input-style" placeholder="Tên" required="required" maxlength="45" minlength="2">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" th:field="*{phoneNumber}"  class="theme-input-style" placeholder="Số điện thoại" required="required" maxlength="15" minlength="8">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" th:field="*{addressLine1}"  class="theme-input-style" placeholder="Địa chỉ" required="required" maxlength="64" minlength="3">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <!-- password change -->
+                                                <div class="passwrd-change-wrap">
+                                                    <th:block th:if="${customer.authenticationType.name() == 'DATABASE'}">
+                                                        <h5>Thay đổi mật khẩu</h5>
+                                                        <input class="theme-input-style" placeholder="Mật khẩu mới"
+                                                               type="password" th:field="*{password}"   maxlength="15" minlength="6"
+                                                               oninput="checkPasswordMatch(document.getElementById('confirmPassword'))">
+
+                                                        <input class="theme-input-style" placeholder="Xác nhận mật khẩu"
+                                                               type="password" id="confirmPassword" maxlength="15" minlength="6"
+                                                               oninput="checkPasswordMatch(this)">
+                                                    </th:block>
+                                                </div>
+                                                <!-- End of password change -->
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-fill-type ">Thay đổi</button>
+                                    </form>
+                                </div>
+                                <!-- End of Account details -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of dashboard content -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of logout register wrap -->
+
+   <!-- footer area -->
+   <div th:replace="~{common/common :: footer}"></div>
+
+    <!-- back to top -->
+    <div class="back-to-top">
+        <a href="#">
+            <div class="back-toop-tooltip"><span>Back To Top</span></div>
+            <div class="top-array"></div>
+            <div class="top-line"></div>
+        </a>
+    </div>
+    <!-- back to top -->
+
+    <!-- Modal -->
+    <div th:replace="~{common/modal :: modal_error}"></div>
+
+
+   <!-- JS Files -->
+   <th:block th:replace="~{common/common :: script}"></th:block>
+
+    <script type="text/javascript">
+        function checkPasswordMatch(confirmPassword) {
+            if (confirmPassword.value != $("#password").val()) {
+                confirmPassword.setCustomValidity("Mật khẩu không trùng khớp!");
+            } else {
+                confirmPassword.setCustomValidity("");
+            }
+        }
+    </script>
+
+    </body>
+</html>

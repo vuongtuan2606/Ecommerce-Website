@@ -11,7 +11,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -29,5 +29,11 @@ spring:
             scope:
               - email
               - profile
+          facebook:
+            client-id:
+            client-secret:
+            scope:
+              - email
+              - public_profile
 
 

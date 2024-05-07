@@ -73,9 +73,9 @@ public class ProductsController {
 
             model.addAttribute("category", category);
 
-            return "customer/product/shop-by-category";
+            return "product/shop-by-category";
         } catch (CategoryNotFoundException ex) {
-            return "customer/error/404";
+            return "error/404";
         }
     }
 
@@ -108,7 +108,7 @@ public class ProductsController {
             model.addAttribute("listProducts", listProducts);
             model.addAttribute("pageTitle","Shop");
 
-            return "customer/product/shop-all-product";
+            return "product/shop-all-product";
     }
 
 
@@ -129,9 +129,9 @@ public class ProductsController {
             model.addAttribute("listNoChildrenCategories", listNoChildrenCategories);
             model.addAttribute("pageTitle", product.getShortName());
 
-            return "customer/product/product-details";
+            return "product/product-details";
         } catch (ProductNotFoundException e) {
-            return "customer/error/404";
+            return "error/404";
         }
     }
 
@@ -167,6 +167,6 @@ public class ProductsController {
         model.addAttribute("searchKeyword", keyword);
         model.addAttribute("listResult", listResult);
 
-        return "customer/product/search-result";
+        return "product/search-result";
     }
 }

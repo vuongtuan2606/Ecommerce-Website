@@ -8,9 +8,11 @@ import java.util.Map;
 
 public class CustomerOAuth2User implements OAuth2User {
 
+	private String clientName;
 	private OAuth2User oauth2User;
-
-	public CustomerOAuth2User(OAuth2User oauth2User) {
+	private String fullName;
+	public CustomerOAuth2User(String clientName, OAuth2User oauth2User) {
+		this.clientName = clientName;
 		this.oauth2User = oauth2User;
 	}
 
@@ -38,7 +40,16 @@ public class CustomerOAuth2User implements OAuth2User {
 	}
 
 	public String getFullName() {
-		return oauth2User.getAttribute("name");
+		// Kiểm tra xem fullName có giá trị không.
+		// Nếu có, trả về fullName, nếu không, lấy tên từ thuộc tính của OAuth2 user.
+		return fullName != null ? fullName : oauth2User.getAttribute("name");
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	public String getClientName() {
+		return clientName;
 	}
 
 }

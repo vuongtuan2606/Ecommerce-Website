@@ -5,6 +5,7 @@ import com.qtsneaker.ShopFrontEnd.dao.CustomerRepository;
 import com.qtsneaker.ShopFrontEnd.services.CustomerService;
 import com.qtsneaker.common.entity.AuthenticationType;
 import com.qtsneaker.common.entity.Customer;
+import com.qtsneaker.common.exception.CustomerNotFoundException;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,14 +81,14 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void addNewCustomerUponOAuthLogin(String name, String email) {
+	public void addNewCustomerUponOAuthLogin(String name, String email, AuthenticationType authenticationType) {
 		Customer customer = new Customer();
 
 		customer.setEmail(email);
 		setName(name, customer);
 		customer.setEnabled(true);
 		customer.setCreatedTime(new Date());
-		customer.setAuthenticationType(AuthenticationType.GOOGLE);
+		customer.setAuthenticationType(authenticationType);
 		customer.setPassword("");
 		customer.setAddressLine1("");
 		customer.setPhoneNumber("");
@@ -113,5 +114,84 @@ public class CustomerServiceImpl implements CustomerService {
 			String lastName = name.replaceFirst(firstName + " ", "");
 			customer.setLastName(lastName);
 		}
+	}
+
+	@Override
+	public void update(Customer customerInForm) {
+		Customer customerInDB = customerRepository.findById(customerInForm.getId()).get();
+
+		// chỉ cập nhật Password khi khách hàng đăng nhập bằng tài khoản, mật khẩu
+		if (customerInDB.getAuthenticationType().equals(AuthenticationType.DATABASE)) {
+
+			if (!customerInForm.getPassword().isEmpty()) {
+				String encodedPassword = passwordEncoder.encode(customerInForm.getPassword());
+
+				customerInForm.setPassword(encodedPassword);
+
+			} else {
+				customerInForm.setPassword(customerInDB.getPassword());
+			}
+
+		} else {
+			customerInForm.setPassword(customerInDB.getPassword());
+		}
+
+		customerInForm.setEnabled(customerInDB.isEnabled());
+		customerInForm.setCreatedTime(customerInDB.getCreatedTime());
+		customerInForm.setVerificationCode(customerInDB.getVerificationCode());
+		customerInForm.setAuthenticationType(customerInDB.getAuthenticationType());
+		customerInForm.setResetPasswordToken(customerInDB.getResetPasswordToken());
+
+		customerRepository.save(customerInForm);
+	}
+
+	@Override
+	public String updateResetPasswordToken(String email) throws CustomerNotFoundException {
+
+		Customer customer = customerRepository.findByEmail(email);
+
+		// Kiểm tra xem khách hàng có tồn tại không
+		if (customer != null) {
+			// Tạo token ngẫu nhiên có độ dài 30 ký tự
+			String token = RandomString.make(30);
+
+			// Cập nhật ResetPasswordToken cho khách hàng
+			customer.setResetPasswordToken(token);
+
+			customerRepository.save(customer);
+
+			// Trả về token đã tạo
+			return token;
+		} else {
+			throw new CustomerNotFoundException("Không tìm thấy khách hàng có email: " + email);
+		}
+	}
+
+
+	@Override
+	public Customer getByResetPasswordToken(String token) {
+		// tìm khách hàng dựa trên ResetPasswordToken
+		return customerRepository.findByResetPasswordToken(token);
+	}
+
+	@Override
+	public void updatePassword(String token, String newPassword) throws CustomerNotFoundException {
+
+		// Tìm kiếm khách hàng dựa trên ResetPasswordToken
+		Customer customer = customerRepository.findByResetPasswordToken(token);
+
+		if (customer == null) {
+			throw new CustomerNotFoundException("Không tìm thấy khách hàng: token không hợp lệ");
+		}
+		// Cập nhật mật khẩu mới
+		customer.setPassword(newPassword);
+
+		// Đặt lại ResetPasswordToken về null
+		customer.setResetPasswordToken(null);
+
+		// Mã hóa mật khẩu
+		encodePassword(customer);
+
+		customerRepository.save(customer);
 	}
 }
