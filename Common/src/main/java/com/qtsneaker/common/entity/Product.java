@@ -66,6 +66,9 @@ public class Product extends IdBasedEntity {
 
     public Product() {}
 
+    public Product(Integer id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -223,8 +226,8 @@ public class Product extends IdBasedEntity {
     }
     @Transient
     public String getShortName() {
-        if (name.length() > 50) {
-            return name.substring(0, 50).concat("...");
+        if (name.length() > 30) {
+            return name.substring(0, 30).concat("...");
         }
         return name;
     }

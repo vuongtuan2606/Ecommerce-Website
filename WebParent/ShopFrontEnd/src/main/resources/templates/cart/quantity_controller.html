@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+   <th:block th:fragment="quantity_control(quantityValue, productId)">
+       <div class="product-quantity">
+            <span class="minus" th:pid="${productId}">
+                <img th:src="@{/assets/img/icons/minus.svg}" class="svg" alt="">
+            </span>
+
+           <input type="text" th:value="${quantityValue}" th:id="'quantity' + ${productId}"  class="product-quantity-list product-size">
+
+           <span class="plus" th:pid="${productId}">
+                <img th:src="@{/assets/img/icons/plus.svg}" class="svg" alt="">
+            </span>
+
+       </div>
+   </th:block>
+
+   <th:block th:fragment="quantity_control_cart(quantityValue, productId)">
+       <div class="product-quantity">
+            <span class="minus" th:pid="${productId}">
+                <img th:src="@{/assets/img/icons/minus.svg}" class="svg" alt="">
+            </span>
+
+           <input type="text" th:value="${quantityValue}" th:id="'quantity' + ${productId}"  >
+
+           <span class="plus" th:pid="${productId}">
+                <img th:src="@{/assets/img/icons/plus.svg}" class="svg" alt="">
+            </span>
+
+       </div>
+   </th:block>
+</body>
+</html>

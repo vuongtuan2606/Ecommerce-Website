@@ -27,9 +27,8 @@
             <div class="col-12">
                 <!-- page title inner -->
                 <div class="page-title-wrap">
-                    <div class="page-title-heading"><h1 class="h2">Đăng ký<span></span></h1></div>
                     <ul class="list-unstyled mb-0">
-                        <li><a th:href="@{/}">home</a></li>
+                        <li><a th:href="@{/}">Trang chủ</a></li>
                         <li  class="active"><a th:href="@{/register}">Đăng ký</a></li>
                     </ul>
                 </div>
@@ -165,17 +164,15 @@
             if (response == "OK") {
                 form.submit();
             } else if (response == "Duplicated") {
-                $("#errorBody").text("Email này đã tồn tại: " + customerEmail);
-                $('#errorModal').modal('show');
-
+                showErrorModal("Email này đã tồn tại: " + customerEmail);
             } else {
-                $("#errorBody").text("Không phản hồi từ máy chủ");
-                $('#errorModal').modal('show');
+                showErrorModal("Không phản hồi từ máy chủ");
             }
         });
         return false;
     }
 </script>
+<script type="text/javascript" th:src="@{/assets/js/common_modal.js}"></script>
 
 
 </body>

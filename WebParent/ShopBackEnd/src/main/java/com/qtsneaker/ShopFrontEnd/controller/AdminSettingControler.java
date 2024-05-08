@@ -122,7 +122,7 @@ public class AdminSettingControler {
 
         redirectAttributes.addFlashAttribute("message", "Cài đặt máy chủ mail đã được lưu");
 
-        return "redirect:/admin/setting#mailServer";
+        return "redirect:/admin/setting";
     }
     @PostMapping("/setting/save_mail_templates")
     public String saveMailTemplateSetttings(HttpServletRequest request, RedirectAttributes redirectAttributes) {
@@ -133,7 +133,7 @@ public class AdminSettingControler {
 
         redirectAttributes.addFlashAttribute("message", "Cài đặt mẫu gửi mail đã được lưu");
 
-        return "redirect:/admin/setting#mailTemplate";
+        return "redirect:/admin/setting";
     }
 
 

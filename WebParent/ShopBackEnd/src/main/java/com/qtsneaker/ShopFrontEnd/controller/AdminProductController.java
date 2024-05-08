@@ -125,13 +125,15 @@ public class AdminProductController {
                               @AuthenticationPrincipal AdminUserDetails loggedUser)
             throws IOException {
 
-        // kiểm tra xem người dùng hiện tại có vai trò "Salesperson" không
-        if(loggedUser.hasRole("Salesperson")){
-            // nếu có thì saveProductPrice
-            adminProductService.saveProductPrice(product);
 
-            redirectAttributes.addFlashAttribute("message", "Sản phảm đã được lưu thành công");
-            return "redirect:/admin/products";
+        // kiểm tra xem người dùng hiện tại có vai trò "Salesperson" khôn
+        if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Editor")) {
+            if (loggedUser.hasRole("Salesperson")) {
+                // nếu có thì saveProductPrice
+                adminProductService.saveProductPrice(product);
+                redirectAttributes.addFlashAttribute("message", "Sản phảm đã được lưu thành công");
+                return "redirect:/admin/products";
+            }
         }
 
         AdminProductSaveHelper.setMainImageName(mainImageMultipart, product);
@@ -190,7 +192,8 @@ public class AdminProductController {
     @GetMapping("/products/edit/{id}")
     public String editProduct(@PathVariable("id") Integer id,
                               Model model,
-                              RedirectAttributes redirectAttributes) {
+                              RedirectAttributes redirectAttributes,
+                              @AuthenticationPrincipal AdminUserDetails loggedUser) {
         try {
             Product product = adminProductService.get(id);
             List<Brand> listBrand = adminBrandService.listAll();
@@ -198,10 +201,18 @@ public class AdminProductController {
             // lấy số lượng ảnh hiện có
             Integer numberOfExistingExtraImages = product.getImages().size();
 
+            boolean isReadOnlyForSalesperson = false;
+
+            if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Editor")) {
+                if (loggedUser.hasRole("Salesperson")) {
+                    isReadOnlyForSalesperson = true;
+                }
+            }
             model.addAttribute("product", product);
             model.addAttribute("listBrand", listBrand);
             model.addAttribute("pageTitle", "Chỉnh sửa sản phẩm (ID: " + id + ")");
             model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);
+            model.addAttribute("isReadOnlyForSalesperson", isReadOnlyForSalesperson);
 
             return  "/product/product_form";
 

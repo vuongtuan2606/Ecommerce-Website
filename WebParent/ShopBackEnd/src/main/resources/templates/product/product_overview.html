@@ -5,66 +5,84 @@
 
     <div class="col-12 pb-3 ">
         <label  class="form-label">Tên sản phẩm</label>
-        <input type="text" class="form-control"
-               th:readonly="${#authorization.expression('hasAnyAuthority( ''Salesperson'')')}"
-               th:field="*{name}" required minlength="3" maxlength="255" >
+
+        <th:block th:if="${isReadOnlyForSalesperson}">
+            <input type="text" class="form-control"  th:field="*{name}" readonly="readonly">
+        </th:block>
+
+        <th:block th:unless="${isReadOnlyForSalesperson}">
+            <input type="text" class="form-control"  th:field="*{name}" required minlength="3" maxlength="255">
+        </th:block>
     </div>
 
     <div class="col-12 pb-3 ">
         <label  class="form-label">Bí danh</label>
-        <input type="text" class="form-control"  th:readonly="${#authorization.expression('hasAnyAuthority( ''Salesperson'')')}"
-               th:field="*{alias}"  placeholder="Default is product name (spaces are replaced by dashes)" >
+
+        <th:block th:if="${isReadOnlyForSalesperson}">
+            <input type="text" class="form-control" th:field="*{alias}"  readonly="readonly" >
+        </th:block>
+
+        <th:block th:unless="${isReadOnlyForSalesperson}">
+            <input type="text" class="form-control" th:field="*{alias}"  placeholder="Mặc định là tên sản phẩm (dấu cách được thay thế bằng dấu gạch ngang)" >
+        </th:block>
     </div>
 
     <div class="col-12 pb-3">
         <label class="form-label">Thương hiệu</label>
-        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-            <select th:field="*{brand}" class="form-control">
-                <option th:each="temp : ${listBrand}" th:value="${temp.id}" th:text="${temp.name}"   />
-            </select>
-        </th:block>
 
-        <th:block sec:authorize="hasAuthority('Salesperson')">
+        <th:block th:if="${isReadOnlyForSalesperson}">
             <input type="text" class="form-control" th:value="${product.brand.name}" readonly />
         </th:block>
 
+        <th:block th:unless="${isReadOnlyForSalesperson}">
+            <select th:field="*{brand}" class="form-control" required>
+                <option th:each="temp : ${listBrand}" th:value="${temp.id}" th:text="${temp.name}"   />
+            </select>
+        </th:block>
     </div>
 
     <div class="col-12 pb-3">
         <label class="form-label">Danh mục</label>
-        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 
+        <th:block th:if="${isReadOnlyForSalesperson}">
+            <input type="text" class="form-control" th:value="${product.category.name}" readonly />
+        </th:block>
+
+        <th:block th:unless="${isReadOnlyForSalesperson}">
             <th:block th:if="${product.category != null}">
                 <select th:field="*{category}" class="form-control">
-                    <option th:each="temp : ${product.brand.categories}" th:value="${temp.id}" th:text="${temp.name}"  />
+                    <option th:each="temp : ${product.brand.categories}" th:value="${temp.id}" th:text="${temp.name}" required  />
                 </select>
             </th:block>
 
             <th:block th:if="${product.category == null}">
-                <select th:field="*{category}" class="form-control"></select>
+                <select th:field="*{category}" class="form-control" required></select>
             </th:block>
         </th:block>
-
-        <th:block sec:authorize="hasAuthority('Salesperson')">
-            <input type="text" class="form-control" th:value="${product.category.name}" readonly />
-        </th:block>
-
     </div>
 
     <div class="col-12 pb-3">
         <label class="form-label">Trạng thái</label>
-        <input type="checkbox" class="form-check-input" style="margin-left: 5px"
-               th:disabled="${#authorization.expression('hasAuthority( ''Salesperson'')')}"
-               th:field="*{enabled}"
-               >
+
+        <th:block th:if="${isReadOnlyForSalesperson}">
+            <input type="checkbox" th:field="*{enabled}" disabled="disabled"  class="form-check-input" style="margin-left: 5px" >
+        </th:block>
+
+        <th:block th:unless="${isReadOnlyForSalesperson}">
+            <input type="checkbox" th:field="*{enabled}" class="form-check-input" style="margin-left: 5px" />
+        </th:block>
     </div>
 
     <div class="col-12 pb-3">
         <label class="form-label">Còn hàng</label>
-        <input type="checkbox" class="form-check-input" style="margin-left: 5px"
-               th:disabled="${#authorization.expression('hasAuthority( ''Salesperson'')')}"
-               th:field="*{inStock}"
-               >
+
+        <th:block th:if="${isReadOnlyForSalesperson}">
+            <input type="checkbox" th:field="*{inStock}" disabled="disabled" class="form-check-input" style="margin-left: 5px" />
+        </th:block>
+
+        <th:block th:unless="${isReadOnlyForSalesperson}">
+            <input type="checkbox" th:field="*{inStock}"  class="form-check-input" style="margin-left: 5px"/>
+        </th:block>
     </div>
 
     <div class="col-12 pb-3 ">

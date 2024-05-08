@@ -26,10 +26,9 @@
                 <div class="col-12">
                     <!-- page title inner -->
                     <div class="page-title-wrap">
-                        <div class="page-title-heading"><h1 class="h2">Shop Page<span>Shopping</span></h1></div>
                         <ul class="list-unstyled mb-0">
-                            <li><a href="index.html">home</a></li>
-                            <li class="active"><a href="#">Shop</a></li>
+                            <li><a th:href="@{/}">Trang chủ</a></li>
+                            <li class="active"><a href="#">Tìm kiếm</a></li>
                         </ul>
                     </div>
                     <!-- End of page title inner -->
@@ -51,7 +50,7 @@
                                 <div class="col-md-4 position-static">
                                     <div class="search-form position-relative search-page">
                                         <form th:action="@{/search}"  method="get">
-                                            <input type="search" name="keyword"  th:value="${searchKeyword}" placeholder="What you looking for" class="theme-input-style" required>
+                                            <input type="search" name="keyword"  th:value="${searchKeyword}" placeholder="Những gì bạn đang tìm kiếm" class="theme-input-style" required>
                                             <button type="submit"><img th:src="@{assets/img/icons/search-button3.svg}" class="svg" alt=""></button>
                                         </form>
                                     </div>
@@ -60,10 +59,12 @@
                                     <!-- product filter inner -->
                                     <div class="product-filter-inner">
                                         <!-- product found -->
-                                        <div class="product-found product-count">
-                                            <span>Showing 1–12 of 40 results</span>
+                                        <div class="product-found product-count"  th:if="${totalItems > 0}">
+                                            <span>Hiển thị : [[${endCount}]] trên tổng [[${totalItems}]] sản phẩm  </span>
                                         </div>
-                                        <!-- End of product found -->
+                                        <div class="product-found product-count"  th:unless="${totalItems > 0}">
+                                            <span>Không tìm thấy sản phẩm  </span>
+                                        </div>
 
                                         <!-- product filter -->
                                         <div class="product-filter catalog-filter">
@@ -185,8 +186,11 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="tab-content shop-tab-content">
-                                <div class="search-input-text text-center">
-                                    <h3 class="lato">Search results for - ‘ <span id="search-key"></span> ’</h3>  
+                                <div class="search-input-text text-center" th:if="${totalItems > 0}">
+                                    <h3 class="lato">Tìm kiếm kết quả cho - '[[${keyword}]]' </h3>
+                                </div>
+                                <div class="search-input-text text-center" th:unless="${totalItems > 0}">
+                                    <h3 class="lato">Không tìm thấy kết quả phù hợp cho - '[[${keyword}]]' </h3>
                                 </div>
                                 <div class="tab-pane fade show active" role="tabpanel" id="fourcol" aria-labelledby="nav-four-col">
                                     <div class="row">
@@ -259,22 +263,48 @@
                                 </div>
                         </div>
                     </div>
-                    <div class="row"> 
-                        <div class="col-12">
-                            <!-- blog pagination -->
-                            <div class="blog-pagination-wrap"> 
-                                <ul class="pagination blog-pagination list-unstyled"> 
-                                    <li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                                    <li><a href="#">01</a> </li>
-                                    <li class="active"><a href="#">02</a></li>
-                                    <li><a href="#">03</a></li>
-                                    <li><a href="#">04</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                </ul> 
+                        <!-- Page pagination -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div th:if="${totalPages > 1}">
+                                    <!-- blog pagination -->
+                                    <div class="blog-pagination-wrap">
+                                        <ul class="pagination blog-pagination list-unstyled">
+                                            <li th:class="${totalPages > 1  ? '' : ' disabled'}">
+                                                <a  th:href="@{'/search'+'/page/'
+                                            + ${totalPages -1}
+                                            +'?sortField='+${sortField}
+                                            +'&sortDir=' +${sortDir}
+                                            +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
+                                                    <i class="fa fa-angle-left">
+                                                    </i>
+                                                </a>
+
+                                            </li>
+
+                                            <li th:class="${currentPage != i ? '' : 'active'}"
+                                                th:each="i : ${#numbers.sequence(1, totalPages)}">
+                                                <a  th:href="@{'/search'+'/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
+                                            </li>
+
+                                            <li th:class="${currentPage < totalPages ? '' : 'disabled'}" >
+                                                <a th:href="@{'/search'+'/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                            <li th:class="${currentPage < totalPages ? '' : ' disabled'}">
+                                                <a  th:href="@{'/search'+'/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
+                                                    <i class="fa fa-angle-right">
+                                                    </i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- End of blog pagination -->
+                                </div>
                             </div>
-                            <!-- End of blog pagination -->
                         </div>
-                    </div>
+                        <!-- Page pagination -->
                 </div>
             </div>
         </div>
@@ -283,7 +313,7 @@
 
 <!-- footer area -->
 <div th:replace="~{common/common :: footer}"></div>
-<!-- End of footer area -->
+
 
 <!-- back to top -->
 <div class="back-to-top">
@@ -295,190 +325,6 @@
 </div>
 <!-- back to top -->
 
-
-
-<!-- Modal quick view-->
-<div class="modal-quickview-container">
-    <div class="quick-view-content-wrap">
-        <div class="modal-window-overlay"></div>
-        <div class="quick-view-content">
-            <div class="modal-window-close">
-                <img src="assets/img/icons/close-button.svg" class="svg" alt="">
-            </div>
-            <div class="quick-view-content-inner">
-                <div class="row align-items-center">
-                    <div class="col-lg-7">
-                        <!-- Start shop product slider -->
-                        <div class="shop-product-slider-wrap">
-                            <!-- Start shop slider top side -->
-                            <div class="swiper-container quick-product-gallery">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img class='' src="assets/img/shop/quick-view1.png" alt="" data-rjs="2" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img class='' src="assets/img/shop/quick-view2.png"  alt="" data-rjs="2" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img class='' src="assets/img/shop/quick-view3.png" alt="" data-rjs="2" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img class='' src="assets/img/shop/quick-view4.png" alt="" data-rjs="2" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End of shop slider top side -->
-
-                            <!-- Start shop slider bottom side -->
-                            <div class="swiper-container quick-product-thumbs">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img src="assets/img/shop/details-nav1.png" data-rjs="2" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="assets/img/shop/details-nav3.png" data-rjs="2" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="assets/img/shop/details-nav4.png" data-rjs="2" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="assets/img/shop/details-nav5.png" data-rjs="2" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End of shop slider bottom side -->
-                        </div>
-                        <!-- End of shop product slider -->
-                    </div>
-
-                    <div class="col-lg-5">
-                        <!-- product details inner -->
-                        <div class="product-details-inner">
-                            <!-- product info -->
-                            <div class="product-info">
-                                <div class="product-rating">
-                                    <div class="star-rating">
-                                        <span></span>
-                                    </div>
-                                </div>
-
-                                <!-- product title -->
-                                <div class="product-title">
-                                    <h2><a href="product-details.html">Woven Throw Pillow</a></h2>
-                                </div>
-                                <!-- end of product title -->
-
-                                <div class="product-price"><h3 class="new-price">$25</h3><h5 class="old-price">$30.1</h5></div>
-
-                                <div class="product-description">
-                                    <p>Ladyship it daughter securing procured or am moreover mr Put sir she exercise vicinity cheerful wondered.</p>
-                                </div>
-
-                                <!-- list product group -->
-                                <div class="list-product-group">
-                                    <ul class="mb-0 list-unstyled">
-                                        <li class="size-group group">
-                                            <span class="list-heading">size:</span>
-                                            <ul class="size-list mb-0 list-unstyled">
-                                                <li><a href="#" class="product-size"><span>L</span></a></li>
-                                                <li><a href="#" class="active product-size"><span>M</span></a></li>
-                                                <li><a href="#" class="product-size"><span>S</span></a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="quantity-group group">
-                                            <span class="list-heading">quantity:</span>
-                                            <div class="product-quantity">
-                                                <span class="minus"><img src="assets/img/icons/minus.svg" class="svg" alt=""></span>
-                                                <input type="text" value="0" class="product-quantity-list product-size">
-                                                <span class="plus"><img src="assets/img/icons/plus.svg" class="svg" alt=""></span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- End of list product group -->
-
-                                <!-- product details btns -->
-                                <div class="product-details-btns">
-                                    <div class="addto-bag-btn">
-                                        <a href="#" class="btn btn-fill-type">
-                                            <span><img src="assets/img/icons/add-bag.svg" alt="" class="svg"></span><span class="d-none d-lg-block mr-0">Add To Cart</span>
-                                        </a>
-                                    </div>
-                                    <div class="wish-btn">
-                                        <a href="#" class="btn btn-fill-type">
-                                            <span class=""><img src="assets/img/icons/wishlist.svg" alt="" class="svg"></span><span class="d-none d-lg-block mr-0"></span>
-                                        </a>
-                                    </div>
-                                    <div class="compare-btn">
-                                        <a href="#" class="btn btn-fill-type">
-                                            <span><img src="assets/img/icons/compare.svg" alt="" class="svg"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- product details btns -->
-
-                                <!-- more detailes -->
-                                <div class="more-details-button">
-                                    <a href="product-details.html" class="btn btn-line roboto">More Details</a>
-                                </div>
-                                <!-- End of more detailes -->
-
-                                <!-- product mata -->
-                                <div class="product_meta item-product-meta-info">
-                                            <span class="sku_wrapper">
-                                                <label>
-                                                    SKU:
-                                                    <span>N/A</span>
-                                                </label>
-                                            </span>
-                                    <span class="posted_in">
-                                                <span class="meta-item-list">
-                                                    <a href="#">accessories</a>,
-                                                    <a href="#">fashion</a>,
-                                                    <a href="#">summer</a>
-                                                </span>
-                                            </span>
-                                </div>
-                                <!-- End of product mata -->
-                            </div>
-                            <!-- End of product info -->
-                        </div>
-                        <!-- End of product details inner -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--End of Modal quick view-->
-
-<!-- add add to cart notifacition -->
-<div class="modal-add-notifacition">
-    <div class="add-notifacition-inner media align-items-center">
-        <div class="add-noti-image">
-            <img src="assets/img/product/add-note.jpg" alt="">
-        </div>
-        <div class="add-noti-text media-body">
-            <span>Cat Eye Reading Glasses</span>
-            <p>Added To Your Cart Successfully!</p>
-        </div>
-    </div>
-</div>
-<!-- add add to cart notifacition -->
-
-<!-- add add to cart notifacition -->
-<div class="modal-wish-notifacition">
-    <div class="wish-notifacition-inner media align-items-center">
-        <div class="wish-noti-image">
-            <img src="assets/img/product/add-note.jpg" alt="">
-        </div>
-        <div class="wish-noti-text media-body">
-            <span>Cat Eye Reading Glasses</span>
-            <p>Added To Your Wish Successfully!</p>
-        </div>
-    </div>
-</div>
-<!-- add add to cart notifacition -->
 
 <!-- JS Files -->
 <!-- JS Files -->

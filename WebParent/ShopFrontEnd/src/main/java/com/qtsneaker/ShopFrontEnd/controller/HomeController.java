@@ -1,7 +1,12 @@
 package com.qtsneaker.ShopFrontEnd.controller;
 
+import com.qtsneaker.ShopFrontEnd.services.CartService;
 import com.qtsneaker.ShopFrontEnd.services.CategoryService;
+import com.qtsneaker.common.entity.Cart;
 import com.qtsneaker.common.entity.Category;
+import com.qtsneaker.common.entity.Customer;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,12 +22,13 @@ public class HomeController {
     @Autowired
     private CategoryService categoryService;
 
+
     @GetMapping("/")
-    public String Home(Model model) {
+    public String Home(Model model, HttpSession session, HttpServletRequest request) {
 
         List<Category> listNoChildrenCategories = categoryService.listNoChildrenCategories();
+        session.setAttribute("listNoChildrenCategories",listNoChildrenCategories);
 
-        model.addAttribute("listNoChildrenCategories",listNoChildrenCategories);
 
         return "homePage";
     }

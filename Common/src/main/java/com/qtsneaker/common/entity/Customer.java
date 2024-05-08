@@ -41,6 +41,12 @@ public class Customer extends IdBasedEntity {
 
     @Column(name = "reset_password_token", length = 30)
     private String resetPasswordToken;
+
+    public Customer() {
+    }
+    public Customer(Integer id) {
+        this.id = id;
+    }
     public String getEmail() {
         return email;
     }

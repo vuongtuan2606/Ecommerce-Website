@@ -739,6 +739,13 @@ $('.catagory-menu-wrap ul li').on('click', function(){
 /*==============================================
     23: offcanvas wishlist
 ==============================================*/
+$('.wishlist-btn-off').on('click', function(event) {
+    event.preventDefault();
+    $('.offcanvas-overlay').css({
+        'opacity' : 1,
+        'visibility': "visible"
+    });
+});
 
 
 $('.offcanvas-overlay').on('click',function(){
@@ -865,12 +872,12 @@ if($(window).width() >= 768){
 /*==============================================
     28: offcanvas cart
 ==============================================*/
-$('.cart-btn').on('click',function(){
-    $('.offcanvas-cart-list').addClass('show')
-});
-$('.offcanvas-cancel').on('click',function(){
-    $('.offcanvas-cart-list').removeClass('show')
-});
+// $('.cart-btn').on('click',function(){
+//     $('.offcanvas-cart-list').addClass('show')
+// });
+// $('.offcanvas-cancel').on('click',function(){
+//     $('.offcanvas-cart-list').removeClass('show')
+// });
 
 /*==============================================
     29: offcanvas account
@@ -1115,26 +1122,28 @@ $('.modal-window-overlay').on('click', function(){
 /*======================================================================
     39: cart list remover
 ======================================================================*/
-$('.product-remove .remover-field').on('click', function(){
-        $(this).parents('.cart_item').fadeOut(300)
-    })
+// $('.product-remove .remover-field').on('click', function(){
+//         $(this).parents('.cart_item').fadeOut(300)
+//     })
 /*======================================================================
     40: cart list incriment/ product increment
 ======================================================================*/
- $('.product-quantity .plus').on('click',function(){
-    var $qty=$(this).parent().find('input');
-    var currentVal = parseInt($qty.val());
-    if (!isNaN(currentVal)) {
-        $qty.val(currentVal + 1);
-    }
-}); 
-$('.product-quantity .minus').on('click',function(){
-    var $qty=$(this).parent().find('input');
-    var currentVal = parseInt($qty.val());
-    if (!isNaN(currentVal) && currentVal > 1) {
-        $qty.val(currentVal - 1);
-    }
-});
+//
+//  $('.product-quantity .plus').on('click',function(){
+//     var $qty=$(this).parent().find('input');
+//     var currentVal = parseInt($qty.val());
+//     if (!isNaN(currentVal)) {
+//         $qty.val(currentVal + 1);
+//     }
+// });
+// $('.product-quantity .minus').on('click',function(){
+//     var $qty=$(this).parent().find('input');
+//     var currentVal = parseInt($qty.val());
+//     if (!isNaN(currentVal) && currentVal > 1) {
+//         $qty.val(currentVal - 1);
+//     }
+// });
+
 
  /* ============================================
         41: Search bar input text
@@ -1145,23 +1154,23 @@ $('.product-quantity .minus').on('click',function(){
 /*==================================================
      42: Wish list and add to cart ontifaction
 ==================================================*/
-    $( '.add-to-bag, .addto-icon-btn a, .wishlist-icon-btn a, wish-list, .main-menu-btn a'  ).on('click', function(e){
-        e.preventDefault();
-    });
-
-     $('.add-to-bag, .addto-icon-btn a').on('click', function(e){
-        $('.modal-add-notifacition').fadeTo(300, 1);
-         e.preventDefault();
-         $('.modal-add-notifacition').css({'opacity': "1", "visibility":"visible"}).delay(2000).fadeTo(300, 0);
-     });
-
-
-
-     $('.wish-list, .wishlist-icon-btn a').on('click', function(e){
-        $('.modal-wish-notifacition').fadeTo(300, 1);
-         e.preventDefault();
-         $('.modal-wish-notifacition').css({'opacity': "1", "visibility":"visible"}).delay(2000).fadeTo(300, 0);
-     })
+    // $( '.add-to-bag, .addto-icon-btn a, .wishlist-icon-btn a, wish-list, .main-menu-btn a'  ).on('click', function(e){
+    //     e.preventDefault();
+    // });
+    //
+    //  $('.add-to-bag, .addto-icon-btn a').on('click', function(e){
+    //     $('.modal-add-notifacition').fadeTo(300, 1);
+    //      e.preventDefault();
+    //      $('.modal-add-notifacition').css({'opacity': "1", "visibility":"visible"}).delay(2000).fadeTo(300, 0);
+    //  });
+    //
+    //
+    //
+    //  $('.wish-list, .wishlist-icon-btn a').on('click', function(e){
+    //     $('.modal-wish-notifacition').fadeTo(300, 1);
+    //      e.preventDefault();
+    //      $('.modal-wish-notifacition').css({'opacity': "1", "visibility":"visible"}).delay(2000).fadeTo(300, 0);
+    //  })
 
     /*===========================================
      43: title Text animation

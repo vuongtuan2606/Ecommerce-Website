@@ -46,6 +46,7 @@
         </div>
     </section>
 
+
     <!-- product shop wrapper -->
     <section class="pt-100 pb-40">
         <div class="container">
@@ -56,10 +57,10 @@
                         <div class="shop-toolbar-filter">
                             <div class="row align-items-center">
                                 <div class="col-md-4 position-static">
-                                    <div class="search-form position-relative">
-                                        <form action="#" method="post">
-                                            <input type="text" placeholder="What you looking for" class="theme-input-style" required>
-                                            <button type="submit"><img src="assets/img/icons/search-button3.svg" class="svg" alt=""></button>
+                                    <div class="search-form position-relative search-page">
+                                        <form th:action="@{/search}"  method="get">
+                                            <input type="search" name="keyword"  th:value="${searchKeyword}" placeholder="Những gì bạn đang tìm kiếm" class="theme-input-style" required>
+                                            <button type="submit"><img th:src="@{assets/img/icons/search-button3.svg}" class="svg" alt=""></button>
                                         </form>
                                     </div>
                                 </div>
@@ -67,13 +68,13 @@
                                     <!-- product filter inner -->
                                     <div class="product-filter-inner">
                                         <!-- product found -->
-                                        <div class="product-found product-count" th:if="${totalItem > 0}">
-                                            <span>Showing [[${startCount}]] to [[${endCount}]] of [[${totalItem}]] results</span>
+                                        <div class="product-found product-count"  th:if="${totalItems > 0}">
+                                            <span>Hiển thị : [[${endCount}]] trên tổng [[${totalItems}]] sản phẩm  </span>
                                         </div>
-                                        <div class="product-found product-count" th:unless="${totalItem > 0}">
-                                            <span >No query</span>
+                                        <!-- product found -->
+                                        <div class="product-found product-count"  th:unless="${totalItems > 0}">
+                                            <span>Không tìm thấy sản phẩm  </span>
                                         </div>
-                                        <!-- End of product found -->
 
                                         <!-- product filter -->
                                         <div class="product-filter catalog-filter">

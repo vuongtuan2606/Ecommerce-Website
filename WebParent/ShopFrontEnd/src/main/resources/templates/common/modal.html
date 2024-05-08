@@ -6,51 +6,57 @@
         <!-- add add to cart notifacition -->
         <div class="modal-add-notifacition">
             <div class="add-notifacition-inner media align-items-center">
-                <div class="add-noti-image">
-                    <img src="assets/img/product/add-note.jpg" alt="">
-                </div>
                 <div class="add-noti-text media-body">
-                    <span>Cat Eye Reading Glasses</span>
-                    <p>Added To Your Cart Successfully!</p>
+                    <span id="textTitle"></span>
+                    <p id="textBody"></p>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Modal Confirm -->
-    <div th:fragment="modal_dialog" class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
+    <div th:fragment="modal_dialog" class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Thông báo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <span id="confirmText"></span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
-                    <a href="" class="btn btn-success" id="confirmDelete">Xác Nhận</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <a href="#" class="btn btn-success" id="confirmDelete">Xác Nhận</a>
                 </div>
             </div>
         </div>
     </div><!-- End modal Confirm-->
 
+
     <!-- Modal error-->
-    <div th:fragment="modal_error" class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
+    <div th:fragment="modal_error"  id="errorModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Thông báo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">
+                        <span id="modalTitle"></span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <span id="errorBody"></span>
+                    <span id="modalBody"></span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
     </div><!-- End modal error-->
+
 </body>
 </html>

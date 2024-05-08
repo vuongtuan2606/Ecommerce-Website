@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ProductsServiceImpl implements ProductService {
@@ -48,6 +50,11 @@ public class ProductsServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNum - 1, SEARCH_RESULTS_PER_PAGE);
         return productRepository.search(keyword, pageable);
 
+    }
+
+    @Override
+    public List<Product> findTop4SimilarProducts(Integer categoryId, String alias) {
+        return productRepository.findTop4SimilarProducts(categoryId,alias);
     }
 
 

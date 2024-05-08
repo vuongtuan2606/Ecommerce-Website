@@ -16,14 +16,17 @@
     <th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
 
     <!-- page title -->
-    <section class="page-title-inner" th:ata-bg-img='@{images/slider_nike.jpg}'>
+    <section class="page-title-inner" >
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <!-- page title inner -->
-                    <div class="page-title-wrap" >
-                        <div class="page-title-heading"><h1 class="h2">Shop Page<span>Shopping</span></h1></div>
+                    <div class="page-title-wrap">
 
+                        <ul class="list-unstyled mb-0">
+                            <li><a th:href="@{/}">Trang chủ</a></li>
+                            <li class="active"><a href="#">Cửa hàng</a></li>
+                        </ul>
                     </div>
                     <!-- End of page title inner -->
                 </div>
@@ -42,10 +45,10 @@
                         <div class="shop-toolbar-filter">
                             <div class="row align-items-center">
                                 <div class="col-md-4 position-static">
-                                    <div class="search-form position-relative">
-                                        <form action="#" method="post">
-                                            <input type="text" placeholder="What you looking for" class="theme-input-style" required>
-                                            <button type="submit"><img src="assets/img/icons/search-button3.svg" class="svg" alt=""></button>
+                                    <div class="search-form position-relative search-page">
+                                        <form th:action="@{/search}"  method="get">
+                                            <input type="search" name="keyword"  th:value="${searchKeyword}" placeholder="Những gì bạn đang tìm kiếm" class="theme-input-style" required>
+                                            <button type="submit"><img th:src="@{/assets/img/icons/search-button3.svg}" class="svg" alt=""></button>
                                         </form>
                                     </div>
                                 </div>
@@ -53,10 +56,12 @@
                                     <!-- product filter inner -->
                                     <div class="product-filter-inner">
                                         <!-- product found -->
-                                        <div class="product-found product-count">
-                                            <span>Showing 1–12 of 40 results</span>
+                                        <div class="product-found product-count"  th:if="${totalItems > 0}">
+                                            <span>Hiển thị : [[${endCount}]] trên tổng [[${totalItems}]] sản phẩm  </span>
                                         </div>
-                                        <!-- End of product found -->
+                                        <div class="product-found product-count"  th:unless="${totalItems > 0}">
+                                            <span>Không tìm thấy sản phẩm  </span>
+                                        </div>
 
                                         <!-- product filter -->
                                         <div class="product-filter catalog-filter">
@@ -173,82 +178,7 @@
                                 <div class="tab-pane fade show active" role="tabpanel" id="fourcol" aria-labelledby="nav-four-col">
                                     <div class="row">
                                         <th:block th:each="product : ${listProducts}">
-                                            <div class="col-md-4 col-sm-12 col-lg-3">
-                                                <!-- single product -->
-                                                <div class="single-product">
-                                                    <div class="product-item">
-                                                        <div class="product-thumb">
-                                                            <!-- Product Image -->
-                                                            <div class="product-image">
-                                                                <a th:href="@{'/product/'+${product.alias}}">
-                                                                    <img class='normal-state' data-rjs="2" th:src="@{${product.mainImagePath}}" alt="">
-                                                                </a>
-                                                            </div>
-                                                            <!-- End of Product Image -->
-
-                                                            <!-- product button -->
-                                                            <div class="product-buttons">
-                                                                <div class="quick-btn">
-                                                                    <div class="quick-icon-btn">
-                                                                        <a href="#" class="quick_view">
-                                                                            <span class="product-icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                                                                            <span class="icon-title">Quick View</span>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-
-
-                                                                <div class="addto-cart-btn">
-                                                                    <div class="addto-icon-btn">
-                                                                        <a href="#">
-                                                                            <span class="product-icon"><img th:src="@{assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
-                                                                            <span class="icon-title">Add To Cart</span>
-                                                                        </a>
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="wishlist-btn">
-                                                                    <div class="wishlist-icon-btn">
-                                                                        <a href="#">
-                                                                            <span class="product-icon"><img th:src="@{assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
-                                                                            <span class="icon-title">See Wish List</span>
-                                                                        </a>
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="copmare-btn">
-                                                                    <div class="compare-icon-btn">
-                                                                        <a href="#">
-                                                                            <span class="product-icon"><img th:src="@{assets/img/icons/compare.svg}" alt="" class="svg"></span>
-                                                                            <span class="icon-title">Compare</span>
-                                                                        </a>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                            <!-- End of product button -->
-
-                                                            <!-- product title -->
-                                                            <div class="product-title">
-                                                                <h4><a href="product-details.html">[[${product.name}]]</a></h4>
-                                                            </div>
-                                                            <!-- end of product title -->
-                                                        </div>
-
-                                                        <!-- product info -->
-                                                        <div class="product-info">
-                                                            <div class="product-price"><h5>[[${product.price}]]</h5></div>
-                                                            <div class="product-rating">
-                                                                <div class="star-rating">
-                                                                    <span></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- End of product info -->
-                                                    </div>
-                                                </div>
-                                                <!-- End of single product -->
-                                            </div>
+                                            <div th:replace="~{product/fragment :: content}"></div>
                                         </th:block>
                                     </div>
                                 </div>

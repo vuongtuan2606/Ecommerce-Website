@@ -1,12 +1,16 @@
 package com.qtsneaker.ShopFrontEnd.controller;
 
 
+import com.qtsneaker.ShopFrontEnd.services.CartService;
 import com.qtsneaker.ShopFrontEnd.services.CategoryService;
 import com.qtsneaker.ShopFrontEnd.services.ProductService;
+import com.qtsneaker.common.entity.Cart;
 import com.qtsneaker.common.entity.Category;
+import com.qtsneaker.common.entity.Customer;
 import com.qtsneaker.common.entity.Product;
 import com.qtsneaker.common.exception.CategoryNotFoundException;
 import com.qtsneaker.common.exception.ProductNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -25,7 +29,11 @@ public class ProductsController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ControllerHelper controllerHelper;
 
+    @Autowired
+    private CartService cartService;
     @GetMapping("/categories/{category_alias}")
     public String viewCategoryFirstPage(@PathVariable("category_alias") String alias,
                                         Model model) {
@@ -88,8 +96,6 @@ public class ProductsController {
     public String viewAllProduct( @PathVariable("pageNum") int pageNum,
                                      Model model) {
 
-            List<Category> listNoChildrenCategories = categoryService.listNoChildrenCategories();
-
             Page<Product> pageProducts = productService.listAllProduct(pageNum);
             List<Product> listProducts = pageProducts.getContent();
 
@@ -99,7 +105,6 @@ public class ProductsController {
                 endCount = pageProducts.getTotalElements();
             }
 
-            model.addAttribute("listNoChildrenCategories",listNoChildrenCategories);
             model.addAttribute("currentPage", pageNum);
             model.addAttribute("totalPages", pageProducts.getTotalPages());
             model.addAttribute("startCount", startCount);
@@ -114,19 +119,23 @@ public class ProductsController {
 
     @GetMapping("/product/{product_alias}")
     public String viewProductDetail(@PathVariable("product_alias") String alias,
-                                    Model model ){
+                                    Model model , HttpServletRequest request){
 
         try {
-            List<Category> listNoChildrenCategories = categoryService.listNoChildrenCategories();
+            Customer customer = controllerHelper.getAuthenticatedCustomer(request);
+            List<Cart> cartItems = cartService.listCartItems(customer);
 
             Product product = productService.getProduct(alias);
-
             List<Category> listCategoryParents = categoryService.getCategoryParents(product.getCategory());
 
+            Integer categoryId = product.getCategory().getId();
+            List<Product> similarProducts = productService.findTop4SimilarProducts(categoryId, alias);
+
+            model.addAttribute("similarProducts", similarProducts);
             model.addAttribute("listCategoryParents", listCategoryParents);
             model.addAttribute("product", product);
+            model.addAttribute("cartItems",cartItems);
 
-            model.addAttribute("listNoChildrenCategories", listNoChildrenCategories);
             model.addAttribute("pageTitle", product.getShortName());
 
             return "product/product-details";

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/common :: html_head('Giỏ hàng')}"></head>
+
+<body>
+<!-- Preloader -->
+<div th:replace="~{common/common :: preLoader}"></div>
+
+<!-- Main header -->
+<header th:replace="~{common/common :: header}"></header>
+
+
+<!-- Catagory menu -->
+<div th:replace="~{common/common :: catagory-menu}"></div>
+
+
+<!-- offcanvas menu-->
+<th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
+
+
+<!-- page title -->
+    <section class="page-title-inner" data-bg-img='assets/img/page-titlebg.png'>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- page title inner -->
+                    <div class="page-title-wrap">
+                        <ul class="list-unstyled mb-0">
+                            <li><a th:href="@{/}">Trang chủ</a></li>
+                            <li class="active"><a href="#">Giỏ hàng</a></li>
+                        </ul>
+                    </div>
+                    <!-- End of page title inner -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of page title -->
+
+    <section class="pt-100 pb-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <!-- woocommerce -->
+                    <div class="woocommerce" >
+                        <form action="#" method="POST" class="woocommerce-cart-form">
+                            <!-- cart product wrap -->
+                            <div class="cart-product-wrap">
+                                <!-- cart table -->
+                                <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents">
+                                    <tbody>
+                                        <!-- first table row -->
+                                        <tr>
+                                            <td class="product-name">
+                                                Tên sản phẩm
+                                            </td>
+                                            <td class="">
+                                                Size
+                                            </td>
+                                            <td class="product-quantity">
+                                               Số lượng
+                                            </td>
+                                            <td class="product-quantity">
+                                                Giá
+                                            </td>
+                                            <td class="product-subtotal">
+                                                Tổng tiền
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <!-- End of first table row -->
+                                        <th:block th:each="item : ${cartItems}">
+                                            <!-- tr -->
+                                            <tr class="woocommerce-cart-form__cart-item cart_item" th:with="product = ${item.product}">
+                                                <!-- product thumbnail -->
+                                                <td class="product-thumbnail">
+                                                    <div class="product-details">
+                                                        <a href="#" class="porduct-image-wrap">
+                                                            <img th:src="@{${product.mainImagePath}}" alt="" style="max-width: 100px">
+                                                        </a>
+                                                        <a th:href="@{'/product/' + ${product.alias}}" th:title="${product.name}">
+                                                            [[${product.shortName}]]
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <!-- End of product thumbnail -->
+
+                                                <!-- Product size -->
+                                                <td>
+                                                    <div class="product-size">
+                                                        <span class="minus"><img src="assets/img/icons/minus.svg" class="svg" alt=""></span>
+                                                        <input type="text" value="L" class="product-size-list">
+                                                        <span class="plus"><img src="assets/img/icons/plus.svg" class="svg" alt=""></span>
+                                                    </div>
+                                                </td>
+                                                <!--End of Product Size -->
+
+                                                <!-- product quantity -->
+                                                <td>
+                                                    <th:block th:replace="~{/cart/quantity_controller :: quantity_control_cart(${item.quantity}, ${product.id})}"></th:block>
+                                                </td>
+
+                                                <!-- product price -->
+                                                <td>
+                                                    <div class="product-price">
+                                                        <th:block th:replace="~{product/fragment :: product_price}"></th:block>
+                                                    </div>
+                                                </td>
+
+                                                <!-- subtotal -->
+                                                <td>
+                                                    <span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" style="color: darkred">
+                                                        [[${CURRENCY_SYMBOL}]]
+                                                    </span>
+                                                    <span class="totalprice subtotal"  th:id="'subtotal' + ${product.id}" style="color: darkred">
+                                                        [[${#numbers.formatDecimal(item.subtotal,1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
+                                                    </span>
+                                                    <span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" style="color: darkred">
+                                                         [[${CURRENCY_SYMBOL}]]
+                                                    </span>
+                                                </td>
+
+                                                <!-- product remove -->
+                                                <td class="product-remove">
+                                                    <div class="remover-field">
+                                                       <a th:href="@{'/cart/remove/' + ${product.id}}" class="linkRemove">
+                                                           <img src="assets/img/icons/remove.svg" class='svg' alt="">
+                                                       </a>
+                                                    </div>
+                                                </td>
+                                                <!--End of  product remove -->
+                                            </tr>
+                                            <!--End of tr -->
+                                        </th:block>
+                                    </tbody>
+                                </table>
+                                <!--End of cart table -->
+
+                                <div class="cart-bottom-wrap" th:unless="${#lists.isEmpty(cartItems)}" >
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-5">
+                                            <div class="btn-cupon-wrap">
+                                                <!-- cart shoping button  -->
+                                                <div class="cart-shoping-button">
+                                                    <a th:href="@{/cart}" class="update-cart-btn btn btn-fill-type"><img src="assets/img/icons/update.svg" class="svg" alt="">Câp nhật giỏ hàng</a>
+                                                    <a th:href="@{/shop}" class="update-cart-btn btn btn-fill-type">Tiếp tục mua sắm</a>
+                                                </div>
+                                                <!-- End of cart shoping button  -->
+
+                                                <!-- coupon -->
+                                                <div class="coupon">
+                                                    <input type="text" class="theme-input-style" placeholder="Coupon Code" required>
+                                                    <button type="submit" class="btn">Áp dụng phiếu giảm giá</button>
+                                                </div>
+                                                <!-- End of coupon -->
+                                            </div>
+                                        </div>
+                                        <div class="offset-lg-2 col-lg-4 col-md-12">
+                                            <!-- shop total wrap -->
+                                            <div class="shop-total-wrap">
+                                                <table class="shop_table shop_table_responsive">
+                                                    <tbody>
+                                                        <tr class="cart-subtotal">
+                                                            <th>tạm tính</th>
+                                                            <td>
+                                                                <span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" style="color: darkred">
+                                                                    [[${CURRENCY_SYMBOL}]]
+                                                                </span>
+                                                                <span class="totalprice"  id="total" style="color: darkred">
+                                                                    [[${#numbers.formatDecimal(estimatedTotal,1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
+                                                                </span>
+                                                                <span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" style="color: darkred">
+                                                                     [[${CURRENCY_SYMBOL}]]
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="order-total">
+                                                            <th>Tất tiền</th>
+                                                            <td>
+                                                                <span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" style="color: darkred">
+                                                                    [[${CURRENCY_SYMBOL}]]
+                                                                </span>
+                                                                <span class="woocommerce-Price-amount amount"  id="total2" style="color: darkred">
+                                                                    [[${#numbers.formatDecimal(estimatedTotal,1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
+                                                                </span>
+                                                                <span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" style="color: darkred">
+                                                                     [[${CURRENCY_SYMBOL}]]
+                                                                </span>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="wc-proceed-to-checkout">
+                                                    <a href="#" class="update-cart-btn btn btn-fill-type" >Tiến hành thanh toán</a>
+                                                </div>
+                                            </div>
+                                            <!-- End of shop total wrap -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cart-bottom-wrap " id="cart-bottom-wrap" th:if="${#lists.isEmpty(cartItems)}">
+                                    <h3 style="text-align: center; margin-top: 50px">Bạn chưa chọn sản phẩm nào.</h3>
+                                </div>
+                            </div>
+                            <!-- cart product wrap -->
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>        
+    </section>
+
+    <!-- footer area -->
+    <div th:replace="~{common/common :: footer}"></div>
+
+    <!-- back to top -->
+    <div class="back-to-top">
+        <a href="#">
+            <div class="back-toop-tooltip"><span>Back To Top</span></div>
+            <div class="top-array"></div>
+            <div class="top-line"></div>
+        </a>
+    </div>
+
+    <div th:replace="~{common/modal ::modal_error }"></div>
+
+    <script type="text/javascript">
+        contextPath = "[[@{/}]]";
+        var csrfHeaderName = "[[${_csrf.headerName}]]";
+        var csrfValue = "[[${_csrf.token}]]";
+
+        decimalDigits = [[${DECIMAL_DIGITS}]];
+        decimalPointType = "[[${DECIMAL_POINT_TYPE}]]";
+        thousandsPointType = "[[${THOUSANDS_POINT_TYPE}]]";
+    </script>
+
+    <!-- JS Files -->
+    <th:block th:replace="~{common/common :: script}"></th:block>
+
+    <script type="text/javascript" th:src="@{/assets/js/jquery.number.min.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/shopping_cart.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/common_modal.js}"></script>
+
+</body>
+</html>

@@ -101,37 +101,35 @@
                                         <span class="list-heading " th:if="${product.inStock}">Còn hàng</span>
                                         <span class="list-heading" th:unless="${product.inStock}">Hết hàng</span>
                                     </li>
+                                    <th:block th:if="${product.inStock}">
+                                    <!--  quantity -->
                                     <li class="quantity-group group">
                                         <span class="list-heading">quantity:</span>
-                                        <div class="product-quantity">
-                                            <span class="minus">
-                                                <img th:src="@{/assets/img/icons/minus.svg}" class="svg" alt="">
-                                            </span>
-                                            <input type="text" value="0" class="product-quantity-list product-size">
-                                            <span class="plus">
-                                                <img th:src="@{/assets/img/icons/plus.svg}" class="svg" alt="">
-                                            </span>
-
-                                        </div>
+                                        <th:block th:replace="~{/cart/quantity_controller :: quantity_control(1, ${product.id})}"></th:block>
                                     </li>
-
+                                    <!-- product details btns -->
+                                    <div class="product-details-btns">
+                                        <div class="addto-bag-btn">
+                                            <a href="#" class="btn btn-fill-type" id="buttonAdd2Cart">
+                                                <span><img th:src="@{/assets/img/icons/add-bag.svg}" alt="" class="svg"></span><span class="d-none d-lg-block mr-0">Thêm vào giỏ</span>
+                                            </a>
+                                        </div>
+                                        <div class="wish-btn">
+                                            <a href="#" class="btn btn-fill-type">
+                                                <span class=""><img th:src="@{/assets/img/icons/wishlist.svg}" alt="" class="svg"></span><span class="d-none d-lg-block mr-0">Mua ngay</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    </th:block>
+                                    <th:block th:unless="${product.inStock}">
+                                        <div class="product-out-stock">
+                                            <h5>Sản phầm này hiện đang hết hàng</h5>
+                                        </div>
+                                    </th:block>
                                 </ul>
                             </div>
                             <!-- End of list product group -->
 
-                            <!-- product details btns -->
-                            <div class="product-details-btns">
-                                <div class="addto-bag-btn">
-                                    <a href="#" class="btn btn-fill-type">
-                                        <span><img th:src="@{/assets/img/icons/add-bag.svg}" alt="" class="svg"></span><span class="d-none d-lg-block mr-0">Add To Cart</span>
-                                    </a>
-                                </div>
-                                 <div class="wish-btn">
-                                    <a href="#" class="btn btn-fill-type">
-                                        <span class=""><img th:src="@{/assets/img/icons/wishlist.svg}" alt="" class="svg"></span><span class="d-none d-lg-block mr-0">Mua ngay</span>
-                                    </a>
-                                </div>
-                            </div>
                             <!-- product details btns -->
 
                             <!-- product mata -->
@@ -312,277 +310,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    <!--kinen related products heading -->
+
+                <div class="col-12" th:if="${similarProducts != null and not #lists.isEmpty(similarProducts)}">
+                    <!-- related products heading -->
                     <div class="related-product-heading text-center">
-                        <h2>Related Products</h2>
+                        <h2>Những sản phẩm tương tự</h2>
                     </div>
-                    <!--End of kinen related products heading -->
                 </div>
-                <div class="col-sm-6 col-12 col-lg-3">
-                    <!-- single product -->
-                    <div class="single-product">
-                        <div class="product-item">
-                            <div class="product-thumb">
-                                <!-- Product Image -->
-                                <div class="product-image">
-                                    <a href="#">
-                                        <img class='normal-state' data-rjs="2" th:src="@{/assets/img/product/product-1.jpg}" alt="">
-                                        <img class='hover-state' data-rjs="2" th:src="@{/assets/img/product/product-1b.jpg}" alt="">
-                                     </a>
-                                </div>
-                                <!-- End of Product Image -->
 
-                                <!-- product button -->
-                                <div class="product-buttons">
-                                    <div class="quick-btn">
-                                        <div class="quick-icon-btn">
-                                            <a href="#" class="quick_view">
-                                                <span class="product-icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                                                <span class="icon-title">Quick View</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="addto-cart-btn">
-                                        <div class="addto-icon-btn">
-                                            <a href="#">
-                                                <span class="product-icon"><img th:src="@{/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
-                                                <span class="icon-title">Add To Cart</span>
-                                            </a>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="wishlist-btn">
-                                        <div class="wishlist-icon-btn">
-                                            <a href="#">
-                                            <span class="product-icon"><img th:src="@{/assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
-                                                <span class="icon-title">See Wish List</span>
-                                            </a>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                <!-- End of product button -->
+                <th:block th:if="${similarProducts != null and not #lists.isEmpty(similarProducts)}" th:each="product : ${similarProducts}">
+                    <div th:replace="~{product/fragment :: content}"></div>
+                </th:block>
 
-                                <!-- product title -->
-                                <div class="product-title">
-                                    <h4><a href="product-details.html">Woven Throw Pillow</a></h4>
-                                </div>
-                                <!-- end of product title -->
-                            </div>
 
-                            <!-- product info -->
-                            <div class="product-info">
-                                <div class="product-price"><h5>$30.1</h5></div>
-                                <div class="product-rating">
-                                    <div class="star-rating">
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-                             <!-- End of product info -->
-                        </div>
-                    </div>
-                    <!-- End of single product -->
-                </div>
-                <div class="col-sm-6 col-12 col-lg-3">
-                    <!-- single product -->
-                    <div class="single-product">
-                        <div class="product-item">
-                            <div class="product-thumb">
-                                <!-- Product Image -->
-                                <div class="product-image">
-                                    <a href="#">
-                                        <img class='normal-state' data-rjs="2" th:src="@{/assets/img/product/product-1.jpg}" alt="">
-                                        <img class='hover-state' data-rjs="2" th:src="@{/assets/img/product/product-1b.jpg}" alt="">
-                                    </a>
-                                </div>
-                                <!-- End of Product Image -->
-
-                                <!-- product button -->
-                                <div class="product-buttons">
-                                    <div class="quick-btn">
-                                        <div class="quick-icon-btn">
-                                            <a href="#" class="quick_view">
-                                                <span class="product-icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                                                <span class="icon-title">Quick View</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="addto-cart-btn">
-                                        <div class="addto-icon-btn">
-                                            <a href="#">
-                                                <span class="product-icon"><img th:src="@{/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
-                                                <span class="icon-title">Add To Cart</span>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                    <div class="wishlist-btn">
-                                        <div class="wishlist-icon-btn">
-                                            <a href="#">
-                                                <span class="product-icon"><img th:src="@{/assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
-                                                <span class="icon-title">See Wish List</span>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <!-- End of product button -->
-
-                                <!-- product title -->
-                                <div class="product-title">
-                                    <h4><a href="product-details.html">Woven Throw Pillow</a></h4>
-                                </div>
-                                <!-- end of product title -->
-                            </div>
-
-                            <!-- product info -->
-                            <div class="product-info">
-                                <div class="product-price"><h5>$30.1</h5></div>
-                                <div class="product-rating">
-                                    <div class="star-rating">
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End of product info -->
-                        </div>
-                    </div>
-                    <!-- End of single product -->
-                </div>
-                <div class="col-sm-6 col-12 col-lg-3">
-                    <!-- single product -->
-                    <div class="single-product">
-                        <div class="product-item">
-                            <div class="product-thumb">
-                                <!-- Product Image -->
-                                <div class="product-image">
-                                    <a href="#">
-                                        <img class='normal-state' data-rjs="2" th:src="@{/assets/img/product/product-1.jpg}" alt="">
-                                        <img class='hover-state' data-rjs="2" th:src="@{/assets/img/product/product-1b.jpg}" alt="">
-                                    </a>
-                                </div>
-                                <!-- End of Product Image -->
-
-                                <!-- product button -->
-                                <div class="product-buttons">
-                                    <div class="quick-btn">
-                                        <div class="quick-icon-btn">
-                                            <a href="#" class="quick_view">
-                                                <span class="product-icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                                                <span class="icon-title">Quick View</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="addto-cart-btn">
-                                        <div class="addto-icon-btn">
-                                            <a href="#">
-                                                <span class="product-icon"><img th:src="@{/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
-                                                <span class="icon-title">Add To Cart</span>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                    <div class="wishlist-btn">
-                                        <div class="wishlist-icon-btn">
-                                            <a href="#">
-                                                <span class="product-icon"><img th:src="@{/assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
-                                                <span class="icon-title">See Wish List</span>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <!-- End of product button -->
-
-                                <!-- product title -->
-                                <div class="product-title">
-                                    <h4><a href="product-details.html">Woven Throw Pillow</a></h4>
-                                </div>
-                                <!-- end of product title -->
-                            </div>
-
-                            <!-- product info -->
-                            <div class="product-info">
-                                <div class="product-price"><h5>$30.1</h5></div>
-                                <div class="product-rating">
-                                    <div class="star-rating">
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End of product info -->
-                        </div>
-                    </div>
-                    <!-- End of single product -->
-                </div>
-                <div class="col-sm-6 col-12 col-lg-3">
-                    <!-- single product -->
-                    <div class="single-product">
-                        <div class="product-item">
-                            <div class="product-thumb">
-                                <!-- Product Image -->
-                                <div class="product-image">
-                                    <a href="#">
-                                        <img class='normal-state' data-rjs="2" th:src="@{/assets/img/product/product-1.jpg}" alt="">
-                                        <img class='hover-state' data-rjs="2" th:src="@{/assets/img/product/product-1b.jpg}" alt="">
-                                    </a>
-                                </div>
-                                <!-- End of Product Image -->
-
-                                <!-- product button -->
-                                <div class="product-buttons">
-                                    <div class="quick-btn">
-                                        <div class="quick-icon-btn">
-                                            <a href="#" class="quick_view">
-                                                <span class="product-icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                                                <span class="icon-title">Quick View</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="addto-cart-btn">
-                                        <div class="addto-icon-btn">
-                                            <a href="#">
-                                                <span class="product-icon"><img th:src="@{/assets/img/icons/add-bag.svg}" alt="" class="svg"></span>
-                                                <span class="icon-title">Add To Cart</span>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                    <div class="wishlist-btn">
-                                        <div class="wishlist-icon-btn">
-                                            <a href="#">
-                                                <span class="product-icon"><img th:src="@{/assets/img/icons/wishlist.svg}" alt="" class="svg"></span>
-                                                <span class="icon-title">See Wish List</span>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <!-- End of product button -->
-
-                                <!-- product title -->
-                                <div class="product-title">
-                                    <h4><a href="product-details.html">Woven Throw Pillow</a></h4>
-                                </div>
-                                <!-- end of product title -->
-                            </div>
-
-                            <!-- product info -->
-                            <div class="product-info">
-                                <div class="product-price"><h5>$30.1</h5></div>
-                                <div class="product-rating">
-                                    <div class="star-rating">
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End of product info -->
-                        </div>
-                    </div>
-                    <!-- End of single product -->
-                </div>
             </div>
         </div>
     </section>
@@ -600,10 +340,20 @@
             <div class="top-line"></div>
         </a>
     </div>
-
+    <div th:replace="~{common/modal ::modal_add_to_cart }"></div>
+    <div th:replace="~{common/modal ::modal_error }"></div>
 
     <!-- JS Files -->
     <th:block th:replace="~{common/common :: script}"></th:block>
-    
+    <script type="text/javascript">
+        contextPath = "[[@{/}]]";
+        productId = "[[${product.id}]]";
+        var csrfHeaderName = "[[${_csrf.headerName}]]";
+        var csrfValue = "[[${_csrf.token}]]";
+
+    </script>
+    <script type="text/javascript" th:src="@{/assets/js/quantity_control.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/add_to_cart.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/common_modal.js}"></script>
     </body>
 </html>
