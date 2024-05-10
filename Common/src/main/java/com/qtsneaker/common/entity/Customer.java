@@ -22,10 +22,6 @@ public class Customer extends IdBasedEntity {
     @Column(name = "phone_number",  length = 15)
     private String phoneNumber;
 
-    @Column(name = "address_line_1", length = 64)
-    private String addressLine1;
-    @Column(name = "address_line_2", length = 64)
-    protected String addressLine2;
     private boolean enabled;
 
     @Column(name = "created_time")
@@ -87,13 +83,6 @@ public class Customer extends IdBasedEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddressLine1() {
-        return addressLine1;
-    }
-
-    public void setAddressLine1(String addressLine1) {
-        this.addressLine1 = addressLine1;
-    }
 
     public boolean isEnabled() {
         return enabled;
@@ -127,13 +116,6 @@ public class Customer extends IdBasedEntity {
         this.authenticationType = authenticationType;
     }
 
-    public String getAddressLine2() {
-        return addressLine2;
-    }
-
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
-    }
 
     public String getResetPasswordToken() {
         return resetPasswordToken;

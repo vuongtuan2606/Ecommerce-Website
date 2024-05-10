@@ -5,18 +5,14 @@ import com.qtsneaker.ShopFrontEnd.exception.CartException;
 import com.qtsneaker.ShopFrontEnd.services.CartService;
 import com.qtsneaker.ShopFrontEnd.services.CustomerService;
 import com.qtsneaker.ShopFrontEnd.util.Utility;
-import com.qtsneaker.common.entity.Cart;
 import com.qtsneaker.common.entity.Customer;
 import com.qtsneaker.common.exception.CustomerNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class CartRestController {

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/common :: html_head(${pageTitle})}"></head>
+
+<body>
+<!-- Preloader -->
+<div th:replace="~{common/common :: preLoader}"></div>
+<!-- End Of Preloader -->
+
+<!-- Main header -->
+<header th:replace="~{common/common :: header}"></header>
+<!-- End of main header -->
+
+<!-- Catagory menu -->
+<div th:replace="~{common/common :: catagory-menu}"></div>
+<!-- End of Catagory menu -->
+
+<!-- offcanvas menu-->
+<th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
+<!-- End of offcanvas menu-->
+
+
+    <!-- page title -->
+    <section class="page-title-inner" data-bg-img='assets/img/page-titlebg.png'>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- page title inner -->
+                    <div class="page-title-wrap">
+                        <ul class="list-unstyled mb-0">
+                            <li><a th:href="@{/}">Trang chủ</a></li>
+                            <li ><a th:href="@{/account_details}">Tài khoản</a></li>
+                            <li class="active"><a ></a>Thêm địa chỉ</li>
+                        </ul>
+                    </div>
+                    <!-- End of page title inner -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of page title -->
+    
+    <!-- logout register wrap -->
+    <section class="pt-30 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 m-auto">
+                    <!-- dashboard content -->
+                    <div class="deshboard-content-wrap">
+                        <div class="dashboard-tab-address">
+                            <form th:action="@{/account_details/address_book/save}" method="post"
+                                  th:object="${address}" >
+                                <input type="hidden" th:field="*{id}" />
+                                <input type="hidden" th:field="*{defaultForShipping}" />
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 style="font-weight: 700; margin: 7px 0px 20px">Thêm địa chỉ mới</h5>
+                                    </div>
+                                    <div class="col-12 mb-2">
+                                        <input type="text" th:field="*{firstName}" class="theme-input-style" placeholder="Họ tên đệm" required="required" maxlength="45" minlength="2">
+                                    </div>
+                                    <div class="col-12 mb-2">
+                                        <input type="text" th:field="*{lastName}"  class="theme-input-style" placeholder="Tên" required="required" maxlength="45" minlength="2">
+                                    </div>
+                                    <div class="col-12 mb-2 ">
+                                        <input type="text" th:field="*{phoneNumber}"  class="theme-input-style" placeholder="Số điện thoại" required="required" maxlength="15" minlength="8">
+                                    </div>
+                                    <div class="col-12 mb-2">
+                                        <label>Tỉnh /  thành phố</label>
+                                        <select class="form-control" th:field="*{province}">
+                                            <th:block th:each="province : ${listProvince}">
+                                                <option th:value="${province.id}">[[${province.name}]]</option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12 mb-2">
+                                        <input type="text" th:field="*{district}"  class="theme-input-style" maxlength="64" minlength="3" list="listDistrict" >
+                                        <datalist id="listDistrict"></datalist>
+                                    </div>
+
+                                    <div class="col-12 mb-5">
+                                        <input type="text" th:field="*{addressLine1}"  class="theme-input-style" placeholder="địa chỉ" required="required" maxlength="64" minlength="3">
+                                    </div>
+
+                                    <button  type="submit" class="btn btn-fill-type m-auto ">Lưu </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- footer area -->
+   <div th:replace="~{common/common :: footer}"></div>
+
+    <!-- back to top -->
+    <div class="back-to-top">
+        <a href="#">
+            <div class="back-toop-tooltip"><span>Back To Top</span></div>
+            <div class="top-array"></div>
+            <div class="top-line"></div>
+        </a>
+    </div>
+
+    <!-- Modal -->
+    <div th:replace="~{common/modal :: modal_error}"></div>
+
+   <!-- JS Files -->
+   <th:block th:replace="~{common/common :: script}"></th:block>
+    </body>
+
+    <script type="text/javascript">
+        contextPath = "[[@{/}]]";
+    </script>
+    <script type="text/javascript" th:src="@{/assets/js/common_customer.js}"></script>
+</html>

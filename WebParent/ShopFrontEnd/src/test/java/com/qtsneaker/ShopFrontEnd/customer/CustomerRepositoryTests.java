@@ -37,7 +37,6 @@ public class CustomerRepositoryTests {
 		customer.setPassword("nguyenvana");
 		customer.setEmail("nguyenvana@gmail.com");
 		customer.setPhoneNumber("0899275363");
-		customer.setAddressLine1("Bac Tu liem - Ha Noi");
 		customer.setCreatedTime(new Date());
 		Customer savedCustomer = customerRepository.save(customer);
 		assertThat(savedCustomer).isNotNull();
@@ -51,7 +50,6 @@ public class CustomerRepositoryTests {
 		customer.setPassword("nguyenvanb");
 		customer.setEmail("nguyenvanb@gmail.com");
 		customer.setPhoneNumber("0899275362");
-		customer.setAddressLine1("Nam Tu liem - Ha Noi");
 		customer.setCreatedTime(new Date());
 		Customer savedCustomer = customerRepository.save(customer);
 		assertThat(savedCustomer).isNotNull();

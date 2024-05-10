@@ -1,13 +1,17 @@
 package com.qtsneaker.ShopFrontEnd.controller;
 
 
+import com.qtsneaker.ShopFrontEnd.dao.ProvinceRepository;
 import com.qtsneaker.ShopFrontEnd.security.CustomerUserDetails;
 import com.qtsneaker.ShopFrontEnd.security.oauth.CustomerOAuth2User;
+import com.qtsneaker.ShopFrontEnd.services.AddressService;
 import com.qtsneaker.ShopFrontEnd.services.CustomerService;
 import com.qtsneaker.ShopFrontEnd.services.SettingService;
 import com.qtsneaker.ShopFrontEnd.setting.EmailSettingBag;
 import com.qtsneaker.ShopFrontEnd.util.Utility;
+import com.qtsneaker.common.entity.Address;
 import com.qtsneaker.common.entity.Customer;
+import com.qtsneaker.common.entity.Province;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,18 +25,20 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 @Controller
 public class CustomerController {
-    @Autowired
-    private CustomerService customerService;
-
-    @Autowired
-    private SettingService settingService;
+    @Autowired private CustomerService customerService;
+    @Autowired private SettingService settingService;
+    @Autowired private ControllerHelper controllerHelper;
+    @Autowired private AddressService addressService;
+    @Autowired private ProvinceRepository provinceRepository;
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
@@ -109,13 +115,14 @@ public class CustomerController {
     @GetMapping("/account_details")
     public String viewAccountDetails(Model model, HttpServletRequest request) {
         // Lấy địa chỉ email của khách hàng đã xác thực từ request
-        String email = Utility.getEmailOfAuthenticatedCustomer(request);
+        Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 
-        // Lấy thông tin khách hàng dựa trên địa chỉ email
-        Customer customer = customerService.getCustomerByEmail(email);
+        // Lấy danh sách địa chỉ của khách hàng tương ứng
+        List<Address> listAddresses = addressService.listAddressBook(customer);
 
         model.addAttribute("customer", customer);
-
+        model.addAttribute("listAddresses", listAddresses);
+        model.addAttribute("pageTitle", "Thông tin tài khoản");
         return "customer/account_detail";
     }
 
@@ -133,7 +140,6 @@ public class CustomerController {
 
         return "redirect:/account_details";
     }
-
     /**
      * Cập nhật tên cho khách hàng đã xác thực.
      *
@@ -197,5 +203,78 @@ public class CustomerController {
         return userDetails;
     }
 
+
+    /*Addresses*/
+    @GetMapping("/account_details/address_book/new")
+    public String newAddress(Model model) {
+        List<Province> listProvince = provinceRepository.findAllByOrderByNameAsc();
+
+        model.addAttribute("listProvince", listProvince);
+        model.addAttribute("address", new Address());
+        model.addAttribute("pageTitle", "Thêm địa chỉ mới");
+
+        return "customer/address_form";
+    }
+
+    @PostMapping("/account_details/address_book/save")
+    public String saveAddress(Address address,
+                              HttpServletRequest request,
+                              RedirectAttributes ra) {
+
+        Customer customer = controllerHelper.getAuthenticatedCustomer(request);
+
+        address.setCustomer(customer);
+        addressService.save(address);
+
+        ra.addFlashAttribute("message", "Địa chỉ của bạn đã được lưu thành công !.");
+
+        return "redirect:/account_details";
+    }
+    @GetMapping("/account_details/address_book/edit/{id}")
+    public String editAddress(@PathVariable("id") Integer addressId,
+                              Model model,
+                              HttpServletRequest request) {
+
+        Customer customer = controllerHelper.getAuthenticatedCustomer(request);
+
+        List<Province> listProvince = provinceRepository.findAllByOrderByNameAsc();
+
+        Address address = addressService.get(addressId, customer.getId());
+
+        model.addAttribute("address", address);
+        model.addAttribute("listProvince", listProvince);
+        model.addAttribute("pageTitle", "Chỉnh sửa địa chỉ (ID: " + addressId + ")");
+
+        return "customer/address_form";
+    }
+
+    @GetMapping("/account_details/address_book/delete/{id}")
+    public String deleteAddress(@PathVariable("id") Integer addressId,
+                                RedirectAttributes ra,
+                                HttpServletRequest request) {
+
+        Customer customer = controllerHelper.getAuthenticatedCustomer(request);
+
+        addressService.delete(addressId, customer.getId());
+
+        ra.addFlashAttribute("message", "Địa chỉ có id: " + addressId + " đã được xóa thành công.");
+
+         return "redirect:/account_details";
+    }
+
+    @GetMapping("/account_details/address_book/default/{id}")
+    public String setDefaultAddress(@PathVariable("id") Integer addressId,
+                                    RedirectAttributes ra,
+                                    HttpServletRequest request) {
+
+        Customer customer = controllerHelper.getAuthenticatedCustomer(request);
+        // Lấy danh sách địa chỉ của khách hàng tương ứng
+        List<Address> listAddresses = addressService.listAddressBook(customer);
+
+        addressService.setDefaultAddress(addressId, customer.getId());
+        ra.addFlashAttribute("message", "Đã thay đổi địa chỉ mặc định.");
+        return "redirect:/account_details";
+
+    }
 }
 

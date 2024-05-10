@@ -1,7 +1,6 @@
 package com.qtsneaker.ShopFrontEnd.dao;
 
 
-import com.qtsneaker.common.entity.Category;
 import com.qtsneaker.common.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

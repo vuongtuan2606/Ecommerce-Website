@@ -70,3 +70,8 @@
     position: relative;
     z-index: 1;
 }
+
+/*address*/
+.address_default{
+    background-color: #dfdfdf;
+}

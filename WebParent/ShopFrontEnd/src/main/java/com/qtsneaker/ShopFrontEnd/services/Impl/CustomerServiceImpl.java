@@ -90,7 +90,6 @@ public class CustomerServiceImpl implements CustomerService {
 		customer.setCreatedTime(new Date());
 		customer.setAuthenticationType(authenticationType);
 		customer.setPassword("");
-		customer.setAddressLine1("");
 		customer.setPhoneNumber("");
 
 		customerRepository.save(customer);

@@ -14,12 +14,13 @@
         </div>
     </div>
 
+
     <!-- Modal Confirm -->
-    <div th:fragment="modal_dialog" class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div  th:fragment="modal_dialog" class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Thông báo</h5>
+                    <h5 class="modal-title" id="confirmModalLabel">Thông báo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -33,7 +34,9 @@
                 </div>
             </div>
         </div>
-    </div><!-- End modal Confirm-->
+    </div>
+    <!-- End Modal Confirm -->
+
 
 
     <!-- Modal error-->

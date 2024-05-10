@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{common/common :: html_head('Chi tiêt tài khoản')}"></head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/common :: html_head(${pageTitle})}"></head>
 
 <body>
 <!-- Preloader -->
@@ -30,7 +29,7 @@
                     <div class="page-title-wrap">
                         <ul class="list-unstyled mb-0">
                             <li><a th:href="@{/}">Trang chủ</a></li>
-                            <li class="active"><a href="#">Tài khoản của tôi</a></li>
+                            <li class="active"><a href="#">Tài khoản </a></li>
                         </ul>
                     </div>
                     <!-- End of page title inner -->
@@ -50,13 +49,16 @@
                         <nav>
                             <ul class="nav-list nav">
                                 <li>
-                                    <a class="dashboard-nav-item active" id="nav-dasboard" data-toggle="tab"  href="#dashboard"><span><img src="assets/img/icons/dashboard.svg" class="svg" alt=""></span>Dashboard</a>
+                                    <a class="dashboard-nav-item active" id="nav-dasboard" data-toggle="tab"  href="#dashboard"><span><img src="assets/img/icons/dashboard.svg" class="svg" alt=""></span>Bảng điều khiển</a>
                                 </li>
                                 <li>
-                                    <a class="dashboard-nav-item" id="nav-order" data-toggle="tab"  href="#order"><span><img src="assets/img/icons/order.svg" class="svg" alt=""></span>Orders</a>
+                                    <a class="dashboard-nav-item" id="nav-order" data-toggle="tab"  href="#order"><span><img src="assets/img/icons/order.svg" class="svg" alt=""></span>Đơn hàng</a>
                                 </li>
                                 <li>
-                                    <a class="dashboard-nav-item" id='nav-adetails' data-toggle="tab" href="#adetails"><span><img src="assets/img/icons/account3.svg" class="svg" alt=""></span>Account Details</a>
+                                    <a class="dashboard-nav-item" id="nav-address" data-toggle="tab" href="#address"><span><img src="assets/img/icons/address.svg" class="svg" alt=""></span>Địa chỉ </a>
+                                </li>
+                                <li>
+                                    <a class="dashboard-nav-item" id='nav-adetails' data-toggle="tab" href="#adetails"><span><img src="assets/img/icons/account3.svg" class="svg" alt=""></span>Thông tin tài khoản</a>
                                 </li>
                                 <li>
                                     <a class="dashboard-nav-item" href="logout.html"><span><img src="assets/img/icons/logout.svg" class="svg" alt=""></span>Log Out</a>
@@ -71,10 +73,10 @@
                     <div class="deshboard-content-wrap">
                         <div class="tab-content dashboad-tab-content">
                             <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby='nav-dasboard'>
+                                <div th:if="${message != null}" class=" alert alert-success text-center">
+                                    [[${message}]]
+                                </div>
                                 <form th:object="${customer}" >
-                                    <div th:if="${message != null}" class=" alert alert-success text-center">
-                                        [[${message}]]
-                                    </div>
                                     <!-- dashboard info -->
                                     <div class="dashboard-tab-info">
                                         <p>Hello [[${customer.fullName}]], <span>(Not [[${customer.fullName}]] ? <a href="#">Log out</a>)</span></p>
@@ -133,6 +135,49 @@
                                 <!-- End of dashboard order -->
                             </div>
 
+                            <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby='nav-address'>
+                                <div class="dashboard-tab-address">
+                                    <div>
+                                        <a class=" btn btn-fill-type" style="border: 1px solid #8c8c8c" th:href="@{/account_details/address_book/new}">Thêm địa chỉ mới</a>
+                                    </div>
+                                    <table class="dashboard-order-table">
+                                        <tbody>
+                                        <tr>
+                                            <th>Stt</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Trạng thái</th>
+                                            <th>Tùy chọn</th>
+                                        </tr>
+                                       <th:block th:each="address, status: ${listAddresses}">
+                                        <tr >
+                                            <td th:text="${status.count}"></td>
+                                            <td th:text="${address.toString()}"></td>
+
+                                            <td>
+                                                <div th:if="${address.defaultForShipping}">
+                                                    <span class="text-danger" style="font-weight: bold">Mặc định</span >
+                                                </div>
+
+                                                <div th:unless="${address.defaultForShipping}">
+                                                    <a th:href="@{'/account_details/address_book/default/' + ${address.id}}">Đặt địa chỉ mặc định</a>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <a th:href="@{'/account_details/address_book/edit/' + ${address.id}}" title="Edit this address">sửa | </a>
+                                                <a th:href="@{'/account_details/address_book/delete/' + ${address.id}}" th:entityId="${address.toString()}" class="linkDelete" title="delete this address">Xóa</a>
+                                            </td>
+
+                                        </tr>
+                                       </th:block>
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
                             <div class="tab-pane fade" id="adetails" role="tabpanel" aria-labelledby='nav-adetails'>
                                 <!-- Account details-->
                                 <div class="account-details">
@@ -155,9 +200,6 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <input type="text" th:field="*{phoneNumber}"  class="theme-input-style" placeholder="Số điện thoại" required="required" maxlength="15" minlength="8">
-                                            </div>
-                                            <div class="col-md-12">
-                                                <input type="text" th:field="*{addressLine1}"  class="theme-input-style" placeholder="Địa chỉ" required="required" maxlength="64" minlength="3">
                                             </div>
 
                                         </div>
@@ -208,21 +250,11 @@
     <!-- back to top -->
 
     <!-- Modal -->
-    <div th:replace="~{common/modal :: modal_error}"></div>
-
+    <div th:replace="~{common/modal :: modal_dialog}"></div>
 
    <!-- JS Files -->
-   <th:block th:replace="~{common/common :: script}"></th:block>
-
-    <script type="text/javascript">
-        function checkPasswordMatch(confirmPassword) {
-            if (confirmPassword.value != $("#password").val()) {
-                confirmPassword.setCustomValidity("Mật khẩu không trùng khớp!");
-            } else {
-                confirmPassword.setCustomValidity("");
-            }
-        }
-    </script>
+    <th:block th:replace="~{common/common :: script}"></th:block>
+    <script type="text/javascript" th:src="@{/assets/js/common_customer.js}"></script>
 
     </body>
 </html>
