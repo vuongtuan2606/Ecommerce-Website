@@ -145,14 +145,6 @@
                                                     <a th:href="@{/cart}" class="update-cart-btn btn btn-fill-type"><img src="assets/img/icons/update.svg" class="svg" alt="">Câp nhật giỏ hàng</a>
                                                     <a th:href="@{/shop}" class="update-cart-btn btn btn-fill-type">Tiếp tục mua sắm</a>
                                                 </div>
-                                                <!-- End of cart shoping button  -->
-
-                                                <!-- coupon -->
-                                                <div class="coupon">
-                                                    <input type="text" class="theme-input-style" placeholder="Coupon Code" required>
-                                                    <button type="submit" class="btn">Áp dụng phiếu giảm giá</button>
-                                                </div>
-                                                <!-- End of coupon -->
                                             </div>
                                         </div>
                                         <div class="offset-lg-2 col-lg-4 col-md-12">
@@ -160,22 +152,8 @@
                                             <div class="shop-total-wrap">
                                                 <table class="shop_table shop_table_responsive">
                                                     <tbody>
-                                                        <tr class="cart-subtotal">
-                                                            <th>tạm tính</th>
-                                                            <td>
-                                                                <span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" style="color: darkred">
-                                                                    [[${CURRENCY_SYMBOL}]]
-                                                                </span>
-                                                                <span class="totalprice"  id="total" style="color: darkred">
-                                                                    [[${#numbers.formatDecimal(estimatedTotal,1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
-                                                                </span>
-                                                                <span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" style="color: darkred">
-                                                                     [[${CURRENCY_SYMBOL}]]
-                                                                </span>
-                                                            </td>
-                                                        </tr>
                                                         <tr class="order-total">
-                                                            <th>Tất tiền</th>
+                                                            <th>Cộng giỏ hàng</th>
                                                             <td>
                                                                 <span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" style="color: darkred">
                                                                     [[${CURRENCY_SYMBOL}]]
@@ -187,12 +165,11 @@
                                                                      [[${CURRENCY_SYMBOL}]]
                                                                 </span>
                                                             </td>
-
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                                 <div class="wc-proceed-to-checkout">
-                                                    <a href="#" class="update-cart-btn btn btn-fill-type" >Tiến hành thanh toán</a>
+                                                    <a th:href="@{/checkout}" class="update-cart-btn btn btn-fill-type" >Tiến hành thanh toán</a>
                                                 </div>
                                             </div>
                                             <!-- End of shop total wrap -->

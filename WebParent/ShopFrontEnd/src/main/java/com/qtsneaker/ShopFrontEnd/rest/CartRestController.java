@@ -2,8 +2,8 @@ package com.qtsneaker.ShopFrontEnd.rest;
 
 import com.qtsneaker.ShopFrontEnd.controller.ControllerHelper;
 import com.qtsneaker.ShopFrontEnd.exception.CartException;
-import com.qtsneaker.ShopFrontEnd.services.CartService;
-import com.qtsneaker.ShopFrontEnd.services.CustomerService;
+import com.qtsneaker.ShopFrontEnd.services.Cart.CartService;
+import com.qtsneaker.ShopFrontEnd.services.Customer.CustomerService;
 import com.qtsneaker.ShopFrontEnd.util.Utility;
 import com.qtsneaker.common.entity.Customer;
 import com.qtsneaker.common.exception.CustomerNotFoundException;

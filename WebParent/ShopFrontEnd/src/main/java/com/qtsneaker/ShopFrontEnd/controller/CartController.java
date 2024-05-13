@@ -1,6 +1,7 @@
 package com.qtsneaker.ShopFrontEnd.controller;
 
-import com.qtsneaker.ShopFrontEnd.services.CartService;
+import com.qtsneaker.ShopFrontEnd.services.Address.AddressService;
+import com.qtsneaker.ShopFrontEnd.services.Cart.CartService;
 import com.qtsneaker.common.entity.Cart;
 import com.qtsneaker.common.entity.Customer;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +20,9 @@ public class CartController {
 
     @Autowired private CartService cartService;
 
+    @Autowired private AddressService addressService;
+
+
     @GetMapping("/cart")
     public String viewCart(Model model, HttpServletRequest request) {
 
@@ -33,6 +37,7 @@ public class CartController {
         }
 
         model.addAttribute("cartItems", cartItems);
+
         model.addAttribute("estimatedTotal", estimatedTotal);
 
         return "cart/cart_list";

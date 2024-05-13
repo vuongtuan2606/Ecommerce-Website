@@ -1,6 +1,6 @@
 package com.qtsneaker.ShopFrontEnd.controller;
 
-import com.qtsneaker.ShopFrontEnd.services.CategoryService;
+import com.qtsneaker.ShopFrontEnd.services.Category.CategoryService;
 import com.qtsneaker.common.entity.Category;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

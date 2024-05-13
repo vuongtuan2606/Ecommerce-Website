@@ -1,6 +1,6 @@
 package com.qtsneaker.ShopBackEnd.controller;
 import com.qtsneaker.ShopBackEnd.exception.UserNotFoundException;
-import com.qtsneaker.ShopBackEnd.services.AdminUserService;
+import com.qtsneaker.ShopBackEnd.services.User.AdminUserService;
 import com.qtsneaker.ShopBackEnd.util.FileUploadUtil;
 import com.qtsneaker.ShopBackEnd.util.UserExcelExporter;
 import com.qtsneaker.ShopBackEnd.util.UserPdfExporter;

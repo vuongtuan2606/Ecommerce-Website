@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{common/common :: html_head(' Chi tiết đơn hàng')}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Quản lý đơn hàng</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/orders}">Danh sách đơn hàng</a> / [[${pageTitle}]]</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section admin-user">
+        <div class="row">
+            <!-- columns form -->
+            <div class="col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form class="row g-3" th:object="${order}">
+                            <!-- Bordered Tabs -->
+                            <ul class="nav nav-tabs nav-tabs-bordered">
+
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#Overview">Tổng quan</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#products">Sản phẩm</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#shipping">Vận chuyển</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#track">Theo dõi đơn hàng</a>
+                                </li>
+
+                            </ul>
+                            <div class="tab-content pt-2">
+
+                                <div class="tab-pane fade show active pt-3  " id="Overview">
+
+                                    <div class="col-12 pb-3 ">
+                                        <label  class="form-label">Mã đơn hàng: </label>
+                                        <span>[[${order.id}]]</span>
+                                    </div>
+
+                                    <div class="col-12 pb-3 ">
+                                        <label  class="form-label">Khách hàng: </label>
+                                        <span>[[${order.customer.fullName}]]</span>
+                                    </div>
+
+                                    <div class="col-12 pb-3">
+                                        <label class="form-label">Tổng phụ: </label>
+                                        <span th:replace="~{common/fragments :: format_currency(${order.subtotal})}"></span>
+                                    </div>
+
+                                    <div class="col-12 pb-3">
+                                        <label class="form-label">Phí vận chuyển: </label>
+                                        <span th:replace="~{common/fragments :: format_currency(${order.shippingCost})}"></span>
+                                    </div>
+
+                                    <div class="col-12 pb-3">
+                                        <label class="form-label">Tổng tiền: </label>
+                                        <span th:replace="~{common/fragments :: format_currency(${order.total})}"></span>
+                                    </div>
+
+                                    <div class="col-12 pb-3 ">
+                                        <label  class="form-label">Thanh toán: </label>
+                                        <span>[[${order.paymentMethod}]]</span>
+                                    </div>
+                                    <div class="col-12 pb-3 ">
+                                        <label  class="form-label">Trạng thái: </label>
+                                        <span>[[${order.status.vietnameseName}]]</span>
+                                    </div>
+                                    <div class="col-12 pb-3 ">
+                                        <label  class="form-label">Thời gian đặt hàng: </label>
+                                        <div th:replace="~{common/fragments :: format_time(${order.orderTime})}"></div>
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-pane fade  pt-3" id="products">
+                                    <th:block th:each="detail, status : ${order.orderDetails}">
+                                        <div class="row border rounded p-1" th:with="product = ${detail.product}">
+                                            <div class="col-sm-1">
+                                                <div class="div-count">[[${status.count}]]</div>
+                                            </div>
+                                            <div class="col-sm-3"><img th:src="@{${product.mainImagePath}}" class="img-fluid" /></div>
+                                            <div class="col-sm-8">
+                                                <div class="text-wrap">
+                                                    <b>[[${product.name}]]</b>
+                                                </div>
+                                                <div class="d-flex">
+                                                    Tổng tiền: [[${detail.quantity}]] X
+                                                     <div th:replace="~{common/fragments :: format_currency(${detail.unitPrice})}" />
+                                                    =
+                                                    <div th:replace="~{common/fragments :: format_currency(${detail.subtotal})}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th:block>
+
+                                </div>
+
+                                <div class="tab-pane fade pt-3" id="shipping">
+
+                                    <div class="row pt-3" >
+                                        <div class="col-12 pb-3 ">
+                                            <label  class="form-label">Họ tên đệm: </label>
+                                            <span>[[${order.firstName}]]</span>
+                                        </div>
+                                        <div class="col-12 pb-3 ">
+                                            <label  class="form-label">Tên:</label>
+                                            <span>[[${order.lastName}]]</span>
+                                        </div>
+                                        <div class="col-12 pb-3 ">
+                                            <label  class="form-label">Số điện thoại:</label>
+                                            <span>[[${order.phoneNumber}]]</span>
+                                        </div>
+                                        <div class="col-12 pb-3 ">
+                                            <label  class="form-label">Điạ chỉ:</label>
+                                            <span>[[${order.addressLine1}]]</span>
+
+                                        </div>
+                                        <div class="col-12 pb-3 ">
+                                            <label  class="form-label">Huyện:</label>
+                                            <span>[[${order.district}]]</span>
+
+                                        </div>
+                                        <div class="col-12 pb-3 ">
+                                            <label  class="form-label">Tỉnh / thành phố:</label>
+                                            <span>[[${order.province}]]</span>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade pt-3" id="track">
+                                    <div class="row pt-3" >
+                                        <div class="col-lg-12 col-sm-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="table-wrapper">
+                                                        <table class="table table-hover table-responsive ">
+                                                            <thead class="thead-dark">
+                                                            <tr>
+                                                                <th>Time</th>
+                                                                <th>Status</th>
+                                                                <th>Notes</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="track : ${order.orderTracks}">
+                                                                    <td>[[${track.updatedTime}]]</td>
+                                                                    <td>[[${track.status.vietnameseName}]]</td>
+                                                                    <td><i>[[${track.notes}]]</i></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- End Bordered Tabs -->
+                        </form>
+                    </div>
+                </div>
+            </div><!-- End columns table-->
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer th:replace="~{common/common :: footer}" ></footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- ======= JS ======= -->
+<span th:replace="~{common/common :: js}"></span>
+
+<script type="text/javascript">
+
+    moduleURL = "[[@{/admin/orders}]]";
+
+</script>
+<script th:src="@{/js/common_form.js}"></script>
+
+
+
+</body>
+
+</html>

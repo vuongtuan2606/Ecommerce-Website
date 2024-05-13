@@ -2,7 +2,7 @@ package com.qtsneaker.ShopBackEnd.category;
 
 
 import com.qtsneaker.ShopBackEnd.dao.AdminCategoryRepository;
-import com.qtsneaker.ShopBackEnd.services.Impl.AdminCategoryServiceImpl;
+import com.qtsneaker.ShopBackEnd.services.Category.AdminCategoryServiceImpl;
 import com.qtsneaker.common.entity.Category;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

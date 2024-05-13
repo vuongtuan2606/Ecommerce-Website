@@ -51,7 +51,6 @@ public class AdminProductRepositoryTests {
         product.setCategory(category);
 
         product.setPrice(200);
-        product.setCost(150);
         product.setEnabled(true);
         product.setInStock(true);
 

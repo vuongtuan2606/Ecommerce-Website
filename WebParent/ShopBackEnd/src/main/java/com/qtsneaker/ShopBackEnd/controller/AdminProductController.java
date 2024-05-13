@@ -1,9 +1,9 @@
 package com.qtsneaker.ShopBackEnd.controller;
 
 import com.qtsneaker.ShopBackEnd.security.AdminUserDetails;
-import com.qtsneaker.ShopBackEnd.services.AdminBrandService;
-import com.qtsneaker.ShopBackEnd.services.AdminCategoryService;
-import com.qtsneaker.ShopBackEnd.services.AdminProductService;
+import com.qtsneaker.ShopBackEnd.services.Brand.AdminBrandService;
+import com.qtsneaker.ShopBackEnd.services.Category.AdminCategoryService;
+import com.qtsneaker.ShopBackEnd.services.Product.AdminProductService;
 import com.qtsneaker.ShopBackEnd.util.FileUploadUtil;
 import com.qtsneaker.common.entity.Brand;
 import com.qtsneaker.common.entity.Category;

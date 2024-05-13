@@ -1,8 +1,8 @@
 package com.qtsneaker.ShopBackEnd.controller;
 
 import com.qtsneaker.ShopBackEnd.exception.BrandNotFoundException;
-import com.qtsneaker.ShopBackEnd.services.AdminBrandService;
-import com.qtsneaker.ShopBackEnd.services.AdminCategoryService;
+import com.qtsneaker.ShopBackEnd.services.Brand.AdminBrandService;
+import com.qtsneaker.ShopBackEnd.services.Category.AdminCategoryService;
 import com.qtsneaker.ShopBackEnd.util.BrandExcelExporter;
 import com.qtsneaker.ShopBackEnd.util.FileUploadUtil;
 import com.qtsneaker.common.entity.Brand;

@@ -201,6 +201,21 @@
                                             <div class="col-md-6">
                                                 <input type="text" th:field="*{phoneNumber}"  class="theme-input-style" placeholder="Số điện thoại" required="required" maxlength="15" minlength="8">
                                             </div>
+                                            <div class="col-md-12 mb-2">
+                                                <label>Tỉnh /  thành phố</label>
+                                                <select class="form-control" th:field="*{province}">
+                                                    <th:block th:each="province : ${listProvince}">
+                                                        <option th:value="${province.id}">[[${province.name}]]</option>
+                                                    </th:block>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12 mb-2">
+                                                <input type="text" th:field="*{district}"  class="theme-input-style" maxlength="64" minlength="3" list="listDistrict" >
+                                                <datalist id="listDistrict"></datalist>
+                                            </div>
+                                            <div class="col-md-12 mb-2">
+                                                <input type="text" th:field="*{addressLine1}"  class="theme-input-style" placeholder="địa chỉ" required="required" maxlength="64" minlength="3">
+                                            </div>
 
                                         </div>
 
@@ -254,6 +269,10 @@
 
    <!-- JS Files -->
     <th:block th:replace="~{common/common :: script}"></th:block>
+
+    <script type="text/javascript">
+        contextPath = "[[@{/}]]";
+    </script>
     <script type="text/javascript" th:src="@{/assets/js/common_customer.js}"></script>
 
     </body>

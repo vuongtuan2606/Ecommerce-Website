@@ -4043,7 +4043,7 @@ label input[type=radio] {
     margin-bottom: 0;
     line-height: 1;
     font-weight: 700;
-    color: darkred;
+    color: #ff7353;
 }
 .product-image .hover-state {
     opacity: 0;

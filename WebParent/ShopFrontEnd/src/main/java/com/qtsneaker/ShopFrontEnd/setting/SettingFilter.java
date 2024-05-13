@@ -2,7 +2,7 @@ package com.qtsneaker.ShopFrontEnd.setting;
 
 
 
-import com.qtsneaker.ShopFrontEnd.services.SettingService;
+import com.qtsneaker.ShopFrontEnd.services.Setting.SettingService;
 import com.qtsneaker.common.entity.setting.Setting;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

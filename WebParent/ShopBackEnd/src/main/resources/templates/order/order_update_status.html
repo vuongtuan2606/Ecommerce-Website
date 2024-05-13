@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{common/common :: html_head(' Chi tiết đơn hàng')}"></head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{common/common :: header}" ></header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{common/common :: sidebar}" ></aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Quản lý đơn hàng</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item active"><a th:href="@{/admin/orders}">Danh sách đơn hàng</a> / [[${pageTitle}]]</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section ">
+        <div class="row pt-3">
+            <div class="col-12 pb-3 ">
+                <label  class="form-label">Họ tên: </label>
+                <span>[[${order.recipientName}]]</span>
+            </div>
+            <div class="col-12 pb-3 ">
+                <label  class="form-label">Số điện thoại:</label>
+                <span>[[${order.phoneNumber}]]</span>
+            </div>
+            <div class="col-12 pb-3 ">
+                <label  class="form-label">Điạ chỉ:</label>
+                <span>[[${order.recipientAddress}]]</span>
+            </div>
+        </div>
+        <div class="row">
+            <div
+                    th:replace="~{order/order_status_fragment :: content(${order.processing}, 'PROCESSING', 'fa-retweet')}">
+            </div>
+            <div
+                    th:replace="~{order/order_status_fragment :: content(${order.packaged}, 'PACKAGED', 'fa-box-open')}">
+            </div>
+            <div
+                    th:replace="~{order/order_status_fragment :: content(${order.shipping}, 'SHIPPING', 'fa-shipping-fast')}">
+            </div>
+            <div
+                    th:replace="~{order/order_status_fragment :: content(${order.delivered}, 'DELIVERED', 'fa-file-invoice-dollar')}">
+            </div>
+        </div>
+        <!-- Modal Confirm -->
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông báo</h5>
+                    </div>
+                    <div class="modal-body">
+                        <span id="confirmText"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
+                        <a href="" class="btn btn-success" id="confirmSuccess">Xác Nhận</a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End modal Confirm-->
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer th:replace="~{common/common :: footer}" ></footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- ======= JS ======= -->
+<span th:replace="~{common/common :: js}"></span>
+
+<script type="text/javascript">
+
+    moduleURL = "[[@{/admin/orders}]]";
+    var csrfHeaderName = "[[${_csrf.headerName}]]";
+    var csrfValue = "[[${_csrf.token}]]";
+</script>
+<script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/orders_status.js}"></script>
+
+
+</body>
+
+</html>

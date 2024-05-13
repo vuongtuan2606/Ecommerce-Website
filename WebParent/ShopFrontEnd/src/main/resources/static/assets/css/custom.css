@@ -75,3 +75,19 @@
 .address_default{
     background-color: #dfdfdf;
 }
+
+/*checkout*/
+.address-header h3{
+    argin-bottom: 40px;
+    font-size: 16px;
+    color: #333333;
+    font-weight: 700;
+    font-family: 'Roboto Condensed', sans-serif;
+    border-bottom: 1px solid #eaeaea;
+    padding: 7.5px;
+}
+.address-content{
+    border-bottom: 1px solid #eaeaea;
+    padding: 7.5px;
+    margin: 10px;
+}

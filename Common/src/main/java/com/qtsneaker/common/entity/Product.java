@@ -31,8 +31,6 @@ public class Product extends IdBasedEntity {
     @Column(name = "in_stock")
     private boolean inStock;
 
-    private float cost;
-
     private float price;
 
     @Column(name = "discount_percent")
@@ -57,12 +55,7 @@ public class Product extends IdBasedEntity {
         this.images.add(new ProductImage(imageName, this));
     }
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductDetail> details = new ArrayList<>();
 
-    public void addDetail(String detailName, String value){
-        this.details.add(new ProductDetail(detailName,value, this));
-    }
 
     public Product() {}
 
@@ -133,13 +126,6 @@ public class Product extends IdBasedEntity {
         this.inStock = inStock;
     }
 
-    public float getCost() {
-        return cost;
-    }
-
-    public void setCost(float cost) {
-        this.cost = cost;
-    }
 
     public float getPrice() {
         return price;
@@ -189,13 +175,6 @@ public class Product extends IdBasedEntity {
         this.images = images;
     }
 
-    public List<ProductDetail> getDetails() {
-        return details;
-    }
-
-    public void setDetails(List<ProductDetail> details) {
-        this.details = details;
-    }
 
     @Transient
     public String getMainImagePath() {

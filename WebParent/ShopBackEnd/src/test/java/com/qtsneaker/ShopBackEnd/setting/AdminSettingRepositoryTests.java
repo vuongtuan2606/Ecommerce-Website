@@ -63,13 +63,17 @@ public class AdminSettingRepositoryTests {
 		Setting smtp_secured = new Setting("SMTP_SECURED", "true",SettingCategory.MAIL_SERVER);
 		Setting mailForm = new Setting("MAIL_FROM", "qtsneaker@gmail.com",SettingCategory.MAIL_SERVER);
 		Setting mailSenderName = new Setting("MAIL_SENDER_NAME", "qt sneaker company",SettingCategory.MAIL_SERVER);
-		Setting customerVerifySubject = new Setting("CUSTOMER_VERIFY_SUBJECT", "Email subject",SettingCategory.MAIL_TEMPLATES);
+		Setting customerVerifySubject = new Setting("CUSTOMER_VERIFY_SUBJECT", "Xác minh tài khỏan",SettingCategory.MAIL_TEMPLATES);
 		Setting customerVerifyContent = new Setting("CUSTOMER_VERIFY_CONTENT", "Email content",SettingCategory.MAIL_TEMPLATES);
-
 		repo.saveAll(List.of(mailHot,mailPort,mailUserName,mailPassWord,
 				mailForm,smtp_auth,smtp_secured,mailSenderName,customerVerifySubject,customerVerifyContent));
 	}
-
+	@Test
+	public  void testCreateMailSettingForOrderOrderVerifySubject(){
+		Setting OrderVerifySubject = new Setting("ORDER_CONFIRMATION_SUBJECT", "Xác minh đơn hàng",SettingCategory.MAIL_TEMPLATES);
+		Setting OrderVerifyContent = new Setting("ORDER_CONFIRMATION_CONTENT", "Email content",SettingCategory.MAIL_TEMPLATES);
+		repo.saveAll(List.of(OrderVerifySubject,OrderVerifyContent));
+	}
 
 	@Test
 	public void testListSettingsByCategory() {

@@ -1,7 +1,7 @@
 package com.qtsneaker.ShopBackEnd.rest;
 
 
-import com.qtsneaker.ShopBackEnd.services.AdminUserService;
+import com.qtsneaker.ShopBackEnd.services.User.AdminUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PostMapping;

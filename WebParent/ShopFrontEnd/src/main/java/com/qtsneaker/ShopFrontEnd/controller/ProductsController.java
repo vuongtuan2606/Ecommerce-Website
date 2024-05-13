@@ -1,9 +1,9 @@
 package com.qtsneaker.ShopFrontEnd.controller;
 
 
-import com.qtsneaker.ShopFrontEnd.services.CartService;
-import com.qtsneaker.ShopFrontEnd.services.CategoryService;
-import com.qtsneaker.ShopFrontEnd.services.ProductService;
+import com.qtsneaker.ShopFrontEnd.services.Cart.CartService;
+import com.qtsneaker.ShopFrontEnd.services.Category.CategoryService;
+import com.qtsneaker.ShopFrontEnd.services.Product.ProductService;
 import com.qtsneaker.common.entity.Cart;
 import com.qtsneaker.common.entity.Category;
 import com.qtsneaker.common.entity.Customer;

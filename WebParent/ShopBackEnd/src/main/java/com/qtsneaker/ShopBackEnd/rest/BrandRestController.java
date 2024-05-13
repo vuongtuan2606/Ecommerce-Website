@@ -5,7 +5,7 @@ package com.qtsneaker.ShopBackEnd.rest;
 import com.qtsneaker.ShopBackEnd.dto.CategoryDTO;
 import com.qtsneaker.ShopBackEnd.exception.BrandNotFoundException;
 import com.qtsneaker.ShopBackEnd.exception.BrandNotFoundRestException;
-import com.qtsneaker.ShopBackEnd.services.AdminBrandService;
+import com.qtsneaker.ShopBackEnd.services.Brand.AdminBrandService;
 import com.qtsneaker.common.entity.Brand;
 import com.qtsneaker.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,9 +4,9 @@ package com.qtsneaker.ShopFrontEnd.controller;
 import com.qtsneaker.ShopFrontEnd.dao.ProvinceRepository;
 import com.qtsneaker.ShopFrontEnd.security.CustomerUserDetails;
 import com.qtsneaker.ShopFrontEnd.security.oauth.CustomerOAuth2User;
-import com.qtsneaker.ShopFrontEnd.services.AddressService;
-import com.qtsneaker.ShopFrontEnd.services.CustomerService;
-import com.qtsneaker.ShopFrontEnd.services.SettingService;
+import com.qtsneaker.ShopFrontEnd.services.Address.AddressService;
+import com.qtsneaker.ShopFrontEnd.services.Customer.CustomerService;
+import com.qtsneaker.ShopFrontEnd.services.Setting.SettingService;
 import com.qtsneaker.ShopFrontEnd.setting.EmailSettingBag;
 import com.qtsneaker.ShopFrontEnd.util.Utility;
 import com.qtsneaker.common.entity.Address;
@@ -72,6 +72,7 @@ public class CustomerController {
 
         // Chuẩn bị mail sender
         JavaMailSenderImpl mailSender = Utility.prepareMailSender(emailSettings);
+        mailSender.setDefaultEncoding("utf-8");
 
         // Trích xuất thông tin email
         String toAddress = customer.getEmail();
@@ -117,11 +118,14 @@ public class CustomerController {
         // Lấy địa chỉ email của khách hàng đã xác thực từ request
         Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 
+        List<Province> listProvince = customerService.listAllProvince();
+
         // Lấy danh sách địa chỉ của khách hàng tương ứng
         List<Address> listAddresses = addressService.listAddressBook(customer);
 
         model.addAttribute("customer", customer);
         model.addAttribute("listAddresses", listAddresses);
+        model.addAttribute("listProvince",listProvince);
         model.addAttribute("pageTitle", "Thông tin tài khoản");
         return "customer/account_detail";
     }
@@ -223,7 +227,24 @@ public class CustomerController {
 
         Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 
+        // Lấy danh sách các địa chỉ của khách hàng
+        List<Address> customerAddresses = addressService.listAddressBook(customer);
+
+        // Kiểm tra xem đã có địa chỉ mặc định nào được thiết lập cho khách hàng trước đó hay chưa
+        boolean hasDefaultAddress = customerAddresses.stream()
+                .anyMatch(Address::isDefaultForShipping);
+
+        // Kiểm tra xem có phải là địa chỉ mới hay không
+        boolean isNewAddress = address.getId() == null;
+
+        // Nếu là địa chỉ mới và chưa có địa chỉ mặc định nào được thiết lập trước đó
+        if (isNewAddress && !hasDefaultAddress) {
+            // Thiết lập địa chỉ mặc định cho vận chuyển
+            address.setDefaultForShipping(true);
+        }
+
         address.setCustomer(customer);
+
         addressService.save(address);
 
         ra.addFlashAttribute("message", "Địa chỉ của bạn đã được lưu thành công !.");

@@ -1,6 +1,6 @@
 package com.qtsneaker.ShopFrontEnd.security.oauth;
 
-import com.qtsneaker.ShopFrontEnd.services.CustomerService;
+import com.qtsneaker.ShopFrontEnd.services.Customer.CustomerService;
 import com.qtsneaker.common.entity.AuthenticationType;
 import com.qtsneaker.common.entity.Customer;
 import jakarta.servlet.ServletException;

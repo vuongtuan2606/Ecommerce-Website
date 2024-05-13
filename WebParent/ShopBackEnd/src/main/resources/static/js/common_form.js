@@ -11,9 +11,9 @@ $(document).ready(function (){
 
         var entityName = link.attr("entityName");
 
-        $("#confirmDelete").attr("href", link.attr("href"));
+        $("#confirmSuccess").attr("href", link.attr("href"));
 
-        $("#confirmText").text("Bạn có muốn xóa "+entityName+" có tên: " + entityId + "  ? ");
+        $("#confirmText").text("Bạn có muốn xóa "+entityName+" : " + entityId + "  ? ");
 
     });
 

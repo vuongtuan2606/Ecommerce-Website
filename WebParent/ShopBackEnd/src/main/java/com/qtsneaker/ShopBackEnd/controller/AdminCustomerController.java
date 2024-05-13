@@ -1,6 +1,6 @@
 package com.qtsneaker.ShopBackEnd.controller;
 
-import com.qtsneaker.ShopBackEnd.services.AdminCustomerService;
+import com.qtsneaker.ShopBackEnd.services.Customer.AdminCustomerService;
 import com.qtsneaker.common.entity.Customer;
 
 import com.qtsneaker.common.exception.CustomerNotFoundException;

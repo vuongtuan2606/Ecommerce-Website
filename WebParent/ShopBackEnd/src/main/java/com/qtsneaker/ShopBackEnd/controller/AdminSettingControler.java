@@ -2,7 +2,7 @@ package com.qtsneaker.ShopBackEnd.controller;
 
 
 import com.qtsneaker.ShopBackEnd.dao.AdminCurrencyRepository;
-import com.qtsneaker.ShopBackEnd.services.AdminSettingService;
+import com.qtsneaker.ShopBackEnd.services.Setting.AdminSettingService;
 import com.qtsneaker.ShopBackEnd.setting.GeneralSettingBag;
 import com.qtsneaker.ShopBackEnd.util.FileUploadUtil;
 import com.qtsneaker.common.entity.Currency;
@@ -136,6 +136,15 @@ public class AdminSettingControler {
         return "redirect:/admin/setting";
     }
 
+    @PostMapping("/settings/save_payment")
+    public String savePaymentSetttings(HttpServletRequest request, RedirectAttributes ra) {
+        List<Setting> paymentSettings = settingService.getPaymentSettings();
+        updateSettingValuesFromForm(request, paymentSettings);
+
+        ra.addFlashAttribute("message", "Cài đặt thanh toán đã được lưu");
+
+        return "redirect:/admin/setting";
+    }
 
 
 }

@@ -1,7 +1,7 @@
 package com.qtsneaker.ShopFrontEnd.controller;
 
 
-import com.qtsneaker.ShopFrontEnd.services.CustomerService;
+import com.qtsneaker.ShopFrontEnd.services.Customer.CustomerService;
 import com.qtsneaker.ShopFrontEnd.util.Utility;
 import com.qtsneaker.common.entity.Customer;
 import jakarta.servlet.http.HttpServletRequest;

@@ -267,7 +267,7 @@
         <th:block sec:authorize="hasAuthority('Admin')">
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                    <i class="bi bi-person-lines-fill"></i><span>Quản lý nhân viên</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-person-lines-fill icon-green"></i><span>Quản lý nhân viên</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -297,6 +297,20 @@
                     </li>
                 </ul>
             </li><!-- End User Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#order-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                    <i class="bi bi-clipboard-check"></i><span>Quản lý đơn hàng</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="order-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a th:href="@{/admin/orders}">
+                            <i class="bi bi-circle"></i><span>Danh sách đơn hàng</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Order Nav -->
+
         </th:block>
 
         <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
@@ -358,15 +372,14 @@
         <th:block sec:authorize="hasAuthority('Admin')">
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#setting-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                    <i class="bi bi-gear"></i><span>Setting</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-gear"></i><span>Cài đặt hệ thống</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="setting-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a th:href="@{/admin/setting}">
-                            <i class="bi bi-circle"></i><span>General</span>
+                            <i class="bi bi-circle"></i><span>Tổng quan</span>
                         </a>
                     </li>
-
                 </ul>
             </li><!-- End Setting Nav -->
         </th:block>

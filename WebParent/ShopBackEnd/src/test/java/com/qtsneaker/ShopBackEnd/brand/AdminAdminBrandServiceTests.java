@@ -2,7 +2,7 @@ package com.qtsneaker.ShopBackEnd.brand;
 
 
 import com.qtsneaker.ShopBackEnd.dao.AdminBrandRepository;
-import com.qtsneaker.ShopBackEnd.services.Impl.AdminBrandServiceImpl;
+import com.qtsneaker.ShopBackEnd.services.Brand.AdminBrandServiceImpl;
 import com.qtsneaker.common.entity.Brand;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

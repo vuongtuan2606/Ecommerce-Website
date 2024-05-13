@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/common :: html_head('checkout')}"></head>
+
+<body>
+<!-- Preloader -->
+<div th:replace="~{common/common :: preLoader}"></div>
+
+<!-- Main header -->
+<header th:replace="~{common/common :: header}"></header>
+
+
+<!-- Catagory menu -->
+<div th:replace="~{common/common :: catagory-menu}"></div>
+
+
+<!-- offcanvas menu-->
+<th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
+
+
+<!-- page title -->
+<section class="page-title-inner" data-bg-img='assets/img/page-titlebg.png'>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- page title inner -->
+                <div class="page-title-wrap">
+                    <ul class="list-unstyled mb-0">
+                        <li><a th:href="@{/}">Trang chủ</a></li>
+                        <li><a th:href="@{/cart}">Giỏ hàng</a> </li>
+                        <li class="active"><a href="#">Thủ tục thanh toán </a></li>
+                    </ul>
+                </div>
+                <!-- End of page title inner -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End of page title -->
+    
+    <!-- check out wrap -->
+    <section class=" pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- billing details wrap -->
+                    <div class="billing-details-wrap">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <!-- billing details form-->
+                                <div class="billing-details">
+                                    <div class="billing-heading">
+                                        <h3>Chi tiết thanh toán</h3>
+                                    </div>
+                                    <div class="address-header">
+                                        <h3 >Địa chỉ</h3>
+                                        <div class="address-content">
+                                            <p>[[${defaultAddress.toString()}]]</p>
+                                        </div>
+                                        <div class="address-footer">
+                                           <a th:href="@{/account_details}">Thay đổi địa chỉ khác</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <!-- your order -->
+                                <div class="checkout-review-order-wrap">
+                                    <!-- checkout-review-order -->
+                                    <div class="woocommerce-checkout-review-order">
+                                        <div class="review-order-header">
+                                            <h3>Thông tin sản phẩm</h3>
+                                        </div>
+                                        <table class="review-order-table">
+                                            <tbody>
+                                                <tr>
+                                                    <th style="padding: 0px;">Tên sản phẩm</th>
+                                                    <th>Giá tiền</th>
+                                                </tr>
+                                                <th:block th:each="item : ${cartItems}">
+                                                    <th:block th:with="product = ${item.product}">
+                                                        <tr >
+                                                            <td> [[${product.shortName}]]<span> x [[${item.quantity}]]</span></td>
+                                                            <td>
+                                                                <div class="product-price">
+                                                                    <th:block th:replace="~{product/fragment :: product_price}"></th:block>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </th:block>
+                                                </th:block>
+                                                <tr>
+                                                   <td>Tổng phụ</td>
+                                                    <td>
+                                                        <div th:replace="~{product/fragment :: format_currency(${checkoutInfo.productTotal})}"></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- checkout-review-order -->
+                                    <!-- check Shipping warp -->
+                                    <div class="check-shipping-wrap">
+                                        <div class="check-shipping-heading">
+                                            <h5>Phí vận chuyển</h5>
+                                        </div>
+                                        <table class="check-shipping-table">
+                                            <tbody>
+                                            <tr>
+                                            <tr>
+                                                <td>
+                                                    <label>
+                                                        Phí vận chuyển:<div th:replace="~{product/fragment :: format_currency(${checkoutInfo.shippingCostTotal})}"></div>
+                                                    </label>
+                                                </td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            </tr>
+                                            <tr>
+                                                <td>Tổng tiền</td>
+                                                <td> <div th:replace="~{product/fragment :: format_currency(${checkoutInfo.paymentTotal})}"></div></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- payment system -->
+                                    <div class="payment-system-wrap">
+                                        <div class="payment-system-heading">
+                                            <h5>Hệ thống thanh toán</h5>
+                                        </div>
+                                        <form th:action="@{/place_order}" method="post">
+                                            <table class="payment-system-table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <label>
+                                                                <input  type="radio" name="paymentMethod" id="radioCOD" value="COD"  >Thanh toán khi nhận hàng
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="terms-and-conditions-wrapper text-center">
+                                                <button type="submit" id="ButtonSubmit" class="billing-submit-button btn btn-fill-type d-none">Đặt hàng</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!--End of payment system -->
+                                </div>
+                                <!--End of your order -->
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End of billing details wrap -->
+                </div>
+            </div>
+        </div>        
+    </section>
+    <!--End of check out wrap -->
+
+<!-- footer area -->
+<div th:replace="~{common/common :: footer}"></div>
+
+<!-- back to top -->
+<div class="back-to-top">
+    <a href="#">
+        <div class="back-toop-tooltip"><span>Back To Top</span></div>
+        <div class="top-array"></div>
+        <div class="top-line"></div>
+    </a>
+</div>
+
+<div th:replace="~{common/modal ::modal_error }"></div>
+
+<script type="text/javascript">
+    contextPath = "[[@{/}]]";
+    var csrfHeaderName = "[[${_csrf.headerName}]]";
+    var csrfValue = "[[${_csrf.token}]]";
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lấy danh sách các input radio trong form
+        var radioInputs = document.querySelectorAll('input[type="radio"][name="paymentMethod"]');
+
+        // Lặp qua từng input radio
+        radioInputs.forEach(function(input) {
+            // Thêm sự kiện "click" cho mỗi input radio
+            input.addEventListener("click", function() {
+                // Lấy button "Đặt hàng"
+                var submitButton = document.getElementById("ButtonSubmit");
+
+                // Hiển thị button "Đặt hàng" nếu input radio được chọn
+                if (input.checked) {
+                    submitButton.classList.remove("d-none");
+                } else {
+                    submitButton.classList.add("d-none");
+                }
+            });
+        });
+    });
+
+    decimalDigits = [[${DECIMAL_DIGITS}]];
+    decimalPointType = "[[${DECIMAL_POINT_TYPE}]]";
+    thousandsPointType = "[[${THOUSANDS_POINT_TYPE}]]";
+</script>
+
+<!-- JS Files -->
+<th:block th:replace="~{common/common :: script}"></th:block>
+
+<script type="text/javascript" th:src="@{/assets/js/jquery.number.min.js}"></script>
+<script type="text/javascript" th:src="@{/assets/js/shopping_cart.js}"></script>
+<script type="text/javascript" th:src="@{/assets/js/common_modal.js}"></script>
+
+</body>
+</html>

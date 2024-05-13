@@ -2,7 +2,7 @@ package com.qtsneaker.ShopBackEnd.controller;
 
 
 import com.qtsneaker.ShopBackEnd.dto.CategoryPageInfo;
-import com.qtsneaker.ShopBackEnd.services.AdminCategoryService;
+import com.qtsneaker.ShopBackEnd.services.Category.AdminCategoryService;
 import com.qtsneaker.ShopBackEnd.util.CategoryExcelExporter;
 import com.qtsneaker.ShopBackEnd.util.FileUploadUtil;
 import com.qtsneaker.common.entity.Category;

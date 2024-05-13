@@ -22,7 +22,7 @@ public class SecurityConfig  {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/admin/users/**","/admin/setting/**").hasAuthority("Admin")
 
-                .requestMatchers("/admin/customers/**").hasAnyAuthority("Admin","Salesperson")
+                .requestMatchers("/admin/customers/**","/admin/order/**").hasAnyAuthority("Admin","Salesperson")
 
                 .requestMatchers("/admin/categories/**", "/admin/brands/**").hasAnyAuthority("Admin","Editor")
 
@@ -30,7 +30,7 @@ public class SecurityConfig  {
 
                 .requestMatchers("/admin/products/edit/**", "/admin/products/save/**","/products/check_unique/**").hasAnyAuthority("Admin","Editor","Salesperson")
 
-                .requestMatchers("/admin/products/**").hasAnyAuthority("Admin","Editor","Salesperson","Shipper")
+                .requestMatchers("/admin/products/**").hasAnyAuthority("Admin","Editor","Salesperson")
 
                 .anyRequest().authenticated()
                 )

@@ -1,7 +1,7 @@
 package com.qtsneaker.ShopFrontEnd.rest;
 
 
-import com.qtsneaker.ShopFrontEnd.services.CustomerService;
+import com.qtsneaker.ShopFrontEnd.services.Customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PostMapping;
