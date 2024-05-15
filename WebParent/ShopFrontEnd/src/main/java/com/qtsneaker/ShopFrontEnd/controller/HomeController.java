@@ -1,7 +1,9 @@
 package com.qtsneaker.ShopFrontEnd.controller;
 
 import com.qtsneaker.ShopFrontEnd.services.Category.CategoryService;
+import com.qtsneaker.ShopFrontEnd.services.Product.ProductService;
 import com.qtsneaker.common.entity.Category;
+import com.qtsneaker.common.entity.Product;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ public class HomeController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired private ProductService productService;
 
     @GetMapping("/")
     public String Home(Model model, HttpSession session, HttpServletRequest request) {
@@ -26,6 +29,8 @@ public class HomeController {
         List<Category> listNoChildrenCategories = categoryService.listNoChildrenCategories();
         session.setAttribute("listNoChildrenCategories",listNoChildrenCategories);
 
+        List<Product> listProductNewHomePage = productService.productNewHomePage();
+        model.addAttribute("listProduct",listProductNewHomePage);
 
         return "homePage";
     }

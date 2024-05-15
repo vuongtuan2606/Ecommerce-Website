@@ -23,6 +23,7 @@
     <!-- Liên kết tới Font Awesome từ CDN -->
     <link  th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
 
+    <link th:href="@{/assets/css/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
     <!-- Owl Carusel css file -->
     <link  th:href="@{/assets/plugins/owl-carousel/owl.carousel.min.css}" rel="stylesheet">
 
@@ -101,7 +102,7 @@
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="#">Page</a>
+                                                <a th:href="@{/SaleOf}">Sale of</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -141,6 +142,7 @@
                                         <th:block sec:authorize="isAuthenticated()">
                                             <div class="dropdown-menu dropdown_setting">
                                                 <a th:href="@{/account_details}" class="dropdown-item" sec:authentication="principal.fullName"></a>
+                                                <a th:href="@{/orders}" class="dropdown-item" >Lịch sử mua hàng</a>
                                                 <a  id="logoutLink"  href="" class="dropdown-item" >Đăng xuất </a>
                                             </div>
                                         </th:block>

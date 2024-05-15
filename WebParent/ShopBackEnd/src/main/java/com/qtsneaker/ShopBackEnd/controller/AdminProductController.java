@@ -4,12 +4,14 @@ import com.qtsneaker.ShopBackEnd.security.AdminUserDetails;
 import com.qtsneaker.ShopBackEnd.services.Brand.AdminBrandService;
 import com.qtsneaker.ShopBackEnd.services.Category.AdminCategoryService;
 import com.qtsneaker.ShopBackEnd.services.Product.AdminProductService;
+import com.qtsneaker.ShopBackEnd.services.Product.AdminSizeServices;
 import com.qtsneaker.ShopBackEnd.util.FileUploadUtil;
 import com.qtsneaker.common.entity.Brand;
 import com.qtsneaker.common.entity.Category;
 import com.qtsneaker.common.entity.Product;
 
 
+import com.qtsneaker.common.entity.Size;
 import com.qtsneaker.common.exception.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +42,8 @@ public class AdminProductController {
 
     @Autowired
     private AdminCategoryService adminCategoryService;
-
+    @Autowired
+    private AdminSizeServices adminSizeServices;
     @GetMapping("/products")
     public String listFirstPage(Model model) {
         return listByPage( "name", "asc", null,1, model,0);
@@ -102,13 +105,14 @@ public class AdminProductController {
     @GetMapping("/products/create")
     public String createProduct(Model model) {
         List<Brand> listBrand = adminBrandService.listAll();
-
+        List<Size> listSize =adminSizeServices.getListAll();
         Product product = new Product();
         product.setEnabled(true);
         product.setInStock(true);
 
         model.addAttribute("product", product);
         model.addAttribute("listBrand", listBrand);
+        model.addAttribute("listSize", listSize);
         model.addAttribute("pageTitle", "Thêm mới");
         model.addAttribute("numberOfExistingExtraImages", 0);
 
@@ -197,7 +201,7 @@ public class AdminProductController {
         try {
             Product product = adminProductService.get(id);
             List<Brand> listBrand = adminBrandService.listAll();
-
+            List<Size> listSize =adminSizeServices.getListAll();
             // lấy số lượng ảnh hiện có
             Integer numberOfExistingExtraImages = product.getImages().size();
 
@@ -208,6 +212,7 @@ public class AdminProductController {
                     isReadOnlyForSalesperson = true;
                 }
             }
+            model.addAttribute("listSize", listSize);
             model.addAttribute("product", product);
             model.addAttribute("listBrand", listBrand);
             model.addAttribute("pageTitle", "Chỉnh sửa sản phẩm (ID: " + id + ")");

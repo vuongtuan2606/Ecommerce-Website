@@ -119,6 +119,42 @@
     defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
     checkUniqueUrl = "[[@{/products/check_unique}]]";
 
+    $(document).ready(function () {
+        // th:field="*{categories}"
+        dropdownSizes= $("#sizes");
+        divChosenSizes = $("#chosenSizes");
+
+        dropdownSizes.change(function () {
+            divChosenSizes.empty();
+            showChosenSizes();
+        });
+
+        showChosenSizes();
+    });
+
+    function showChosenSizes() {
+        dropdownSizes.children("option:selected").each(function () {
+            selectedSize = $(this);
+            sizeId = selectedSize.val();
+            sizeName = selectedSize.text().replace(/-/g, "");
+
+            // Tạo nút xóa cho mỗi mục đã chọn và gắn sự kiện click
+            var closeButton = $("<button type='button' class='btn-close' aria-label='Close' style='color:#868cbf;border: 1px solid #868cbf;border-radius: 100%; margin-left: 5px '></button>");
+            closeButton.click(function() {
+                // Xóa mục đã chọn khi nút xóa được click
+                selectedSize.prop('selected', false);
+                closeButton.parent().remove(); // Xóa nút xóa và mục đã chọn khỏi danh sách
+            });
+
+            // Tạo phần tử span chứa mục đã chọn và nút xóa
+            var sizeElement = $("<span class='badge badge-secondary m-1' style='font-size: 13px; color: #012970;border: 1px solid #868cbf; background-color: #e4edff;'></span>");
+            sizeElement.text(sizeName);
+            sizeElement.append(closeButton);
+
+            // Thêm phần tử chứa mục đã chọn và nút xóa vào div chosenCategories
+            divChosenSizes.append(sizeElement);
+        });
+    }
 </script>
 <script th:src="@{/js/common_form.js}"></script>
 <script th:src="@{/js/product_form_overview.js}"></script>

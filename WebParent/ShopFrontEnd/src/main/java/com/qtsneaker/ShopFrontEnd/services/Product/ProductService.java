@@ -17,4 +17,8 @@ public interface ProductService {
     Page<Product> search(String keyword, int pageNum);
     List<Product> findTop4SimilarProducts(Integer categoryId, String alias);
 
+    List<Product> productNewHomePage();
+
+    Page<Product> listProductSaleOf(int pageNum);
+
 }

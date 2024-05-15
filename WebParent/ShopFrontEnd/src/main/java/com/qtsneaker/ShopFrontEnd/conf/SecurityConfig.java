@@ -29,7 +29,7 @@ public class SecurityConfig  {
 
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/account_details","/account_details/**",
-                                        "/update_account_details","/cart","/checkout","/place_order").authenticated()
+                                        "/update_account_details","/cart","/checkout","/place_order","/orders").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form

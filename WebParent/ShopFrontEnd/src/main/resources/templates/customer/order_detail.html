@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/common :: html_head(${pageTitle})}"></head>
+
+<body>
+<!-- Preloader -->
+<div th:replace="~{common/common :: preLoader}"></div>
+<!-- End Of Preloader -->
+
+<!-- Main header -->
+<header th:replace="~{common/common :: header}"></header>
+<!-- End of main header -->
+
+<!-- Catagory menu -->
+<div th:replace="~{common/common :: catagory-menu}"></div>
+<!-- End of Catagory menu -->
+
+<!-- offcanvas menu-->
+<th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
+<!-- End of offcanvas menu-->
+
+
+    <!-- page title -->
+    <section class="page-title-inner" data-bg-img='assets/img/page-titlebg.png'>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- page title inner -->
+                    <div class="page-title-wrap">
+                        <ul class="list-unstyled mb-0">
+                            <li><a th:href="@{/}">Trang chủ</a></li>
+                            <li ><a th:href="@{/orders}">Lịch sử mua hàng</a></li>
+                            <li class="active"><a ></a>Chi tiết đơn hàng</li>
+                        </ul>
+                    </div>
+                    <!-- End of page title inner -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of page title -->
+    
+    <!-- logout register wrap -->
+    <section class="pt-30 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-12 ">
+                    <!-- dashboard content -->
+                    <div class="deshboard-content-wrap">
+                        <div class="dashboard-tab-address">
+                            <div class="row">
+                                <!-- columns form -->
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <form class="row g-3" th:object="${order}">
+                                                <!-- Bordered Tabs -->
+                                                <ul class="nav nav-tabs nav-tabs-bordered col-12">
+
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" data-toggle="tab" href="#Overview">Tổng quan</a>
+                                                    </li>
+
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#products">Sản phẩm</a>
+                                                    </li>
+
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#shipping">Vận chuyển</a>
+                                                    </li>
+
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#track">Theo dõi đơn hàng</a>
+                                                    </li>
+
+                                                </ul>
+
+                                                <div class="tab-content pt-2 col-12">
+
+                                                    <div class="tab-pane fade show active pt-3" id="Overview">
+
+                                                        <div class="col-12 pb-3 ">
+                                                            <label class="form-label">Mã đơn hàng: </label>
+                                                            <span>[[${order.id}]]</span>
+                                                        </div>
+
+                                                        <div class="col-12 pb-3 ">
+                                                            <label  class="form-label">Khách hàng: </label>
+                                                            <span>[[${order.customer.fullName}]]</span>
+                                                        </div>
+
+                                                        <div class="col-12 pb-3">
+                                                            <label class="form-label">Tổng phụ: </label>
+                                                            <span th:replace="~{common/fragment :: format_currency(${order.subtotal})}"></span>
+                                                        </div>
+
+                                                        <div class="col-12 pb-3">
+                                                            <label class="form-label">Phí vận chuyển: </label>
+                                                            <span th:replace="~{common/fragment :: format_currency(${order.shippingCost})}"></span>
+                                                        </div>
+
+                                                        <div class="col-12 pb-3">
+                                                            <label class="form-label">Tổng tiền: </label>
+                                                            <span th:replace="~{common/fragment :: format_currency(${order.total})}"></span>
+                                                        </div>
+
+                                                        <div class="col-12 pb-3 ">
+                                                            <label  class="form-label">Thanh toán: </label>
+                                                            <span>[[${order.paymentMethod}]]</span>
+                                                        </div>
+                                                        <div class="col-12 pb-3 ">
+                                                            <label  class="form-label">Trạng thái: </label>
+                                                            <span>[[${order.status.vietnameseName}]]</span>
+                                                        </div>
+                                                        <div class="col-12 pb-3 ">
+                                                            <label  class="form-label">Thời gian đặt hàng: </label>
+                                                            <div th:replace="~{common/fragment :: format_time(${order.orderTime})}"></div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="tab-pane fade pt-3" id="products">
+                                                        <th:block th:each="detail, status : ${order.orderDetails}">
+                                                            <div class="row border rounded p-1" th:with="product = ${detail.product}">
+                                                                <div class="col-sm-1">
+                                                                    <div class="div-count">[[${status.count}]]</div>
+                                                                </div>
+                                                                <div class="col-sm-3"><img th:src="@{${product.mainImagePath}}" class="img-fluid" /></div>
+                                                                <div class="col-sm-8">
+                                                                    <div class="text-wrap">
+                                                                        <b>[[${product.name}]]</b>
+                                                                    </div>
+                                                                    <div class="d-flex">
+                                                                        Tổng tiền: [[${detail.quantity}]] X
+                                                                        <div th:replace="~{common/fragment :: format_currency(${detail.unitPrice})}" />
+                                                                        =
+                                                                        <div th:replace="~{common/fragment :: format_currency(${detail.subtotal})}" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </th:block>
+                                                    </div>
+                                                    <div class="tab-pane fade pt-3" id="shipping">
+
+                                                        <div class="row pt-3" >
+                                                            <div class="col-12 pb-3 ">
+                                                                <label  class="form-label">Họ tên đệm: </label>
+                                                                <span>[[${order.firstName}]]</span>
+                                                            </div>
+                                                            <div class="col-12 pb-3 ">
+                                                                <label  class="form-label">Tên:</label>
+                                                                <span>[[${order.lastName}]]</span>
+                                                            </div>
+                                                            <div class="col-12 pb-3 ">
+                                                                <label  class="form-label">Số điện thoại:</label>
+                                                                <span>[[${order.phoneNumber}]]</span>
+                                                            </div>
+                                                            <div class="col-12 pb-3 ">
+                                                                <label  class="form-label">Điạ chỉ:</label>
+                                                                <span>[[${order.addressLine1}]]</span>
+
+                                                            </div>
+                                                            <div class="col-12 pb-3 ">
+                                                                <label  class="form-label">Huyện:</label>
+                                                                <span>[[${order.district}]]</span>
+
+                                                            </div>
+                                                            <div class="col-12 pb-3 ">
+                                                                <label  class="form-label">Tỉnh / thành phố:</label>
+                                                                <span>[[${order.province}]]</span>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade pt-3" id="track">
+                                                        <div class="row pt-3" >
+                                                            <div class="col-lg-12 col-sm-12">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <table class="table table-hover  ">
+                                                                            <thead class="thead-dark col-12">
+                                                                            <tr>
+                                                                                <th>Time</th>
+                                                                                <th>Status</th>
+                                                                                <th>Notes</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr th:each="track : ${order.orderTracks}">
+                                                                                <td>[[${track.updatedTime}]]</td>
+                                                                                <td>[[${track.status.vietnameseName}]]</td>
+                                                                                <td><i>[[${track.notes}]]</i></td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- End Bordered Tabs -->
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div><!-- End columns table-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- footer area -->
+   <div th:replace="~{common/common :: footer}"></div>
+
+    <!-- back to top -->
+    <div class="back-to-top">
+        <a href="#">
+            <div class="back-toop-tooltip"><span>Back To Top</span></div>
+            <div class="top-array"></div>
+            <div class="top-line"></div>
+        </a>
+    </div>
+
+   <!-- JS Files -->
+   <th:block th:replace="~{common/common :: script}"></th:block>
+    <script type="text/javascript">
+
+    </script>
+    </body>
+</html>

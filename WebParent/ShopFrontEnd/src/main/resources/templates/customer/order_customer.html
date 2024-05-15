@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/common :: html_head(${pageTitle})}"></head>
+
+<body>
+<!-- Preloader -->
+<div th:replace="~{common/common :: preLoader}"></div>
+<!-- End Of Preloader -->
+
+<!-- Main header -->
+<header th:replace="~{common/common :: header}"></header>
+<!-- End of main header -->
+
+<!-- Catagory menu -->
+<div th:replace="~{common/common :: catagory-menu}"></div>
+<!-- End of Catagory menu -->
+
+<!-- offcanvas menu-->
+<th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
+<!-- End of offcanvas menu-->
+
+
+    <!-- page title -->
+    <section class="page-title-inner" data-bg-img='assets/img/page-titlebg.png'>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- page title inner -->
+                    <div class="page-title-wrap">
+                        <ul class="list-unstyled mb-0">
+                            <li><a th:href="@{/}">Trang chủ</a></li>
+                            <li ><a th:href="@{/account_details}">Tài khoản</a></li>
+                            <li class="active"><a ></a>Lịch sử mua hàng</li>
+                        </ul>
+                    </div>
+                    <!-- End of page title inner -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of page title -->
+    
+    <!-- logout register wrap -->
+    <section class="pt-30 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-12">
+                    <!-- dashboard content -->
+                    <div class="dashboard-tab-address">
+                        <div class="row">
+                            <div class=" col-12  dashboard-tab-order  ">
+                                <!-- dashboard order table -->
+                                <table class="dashboard-order-table">
+                                    <tbody>
+                                        <tr>
+                                            <th th:replace="~{common/fragment :: column_link('id', 'ID')}">
+                                            <th th:replace="~{common/fragment :: column_link('orderTime', 'Thời gian đặt hàng')}">
+                                            <th  style="color: black">Sản phẩm</th>
+                                            <th th:replace="~{common/fragment :: column_link('total', 'Tổng tiền')}">
+                                            <th th:replace="~{common/fragment :: column_link('status', 'Trạng thái')}">
+                                            <th></th>
+                                        </tr>
+                                        <th:block  th:each="order : ${listOrders}">
+                                            <tr >
+                                                <td th:text="${order.id}"></td>
+                                                <td >
+                                                    <div th:replace="~{common/fragment :: format_time(${order.orderTime})}"></div>
+                                                </td>
+                                                <td  th:utext="${order.productNames}"></td>
+                                                <td>
+                                                    <div th:replace="~{common/fragment :: format_currency(${order.total})}"></div>
+                                                </td>
+                                                <td>
+                                                <span th:class="'textOrderStatus' + ${order.id}">
+                                                    [[${order.status.vietnameseName}]]
+                                                </span>
+                                                </td>
+                                                <td> <a th:href="@{'/orders/detail/' + ${order.id}}" >Chi tiết đơn hàng</a></td>
+
+                                            </tr>
+                                        </th:block>
+
+                                    </tbody>
+                                </table>
+                                <!--End of dashboard order table -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- footer area -->
+   <div th:replace="~{common/common :: footer}"></div>
+
+    <!-- back to top -->
+    <div class="back-to-top">
+        <a href="#">
+            <div class="back-toop-tooltip"><span>Back To Top</span></div>
+            <div class="top-array"></div>
+            <div class="top-line"></div>
+        </a>
+    </div>
+
+   <!-- JS Files -->
+   <th:block th:replace="~{common/common :: script}"></th:block>
+    <script type="text/javascript">
+        moduleURL = "[[@{/orders}]]";
+        contextPath = "[[@{/}]]";
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const form = document.querySelector('.search-form');
+
+            form.addEventListener('submit', function(event) {
+
+                const keywordInput = document.querySelector('input[name="keyword"]');
+
+                if (keywordInput.value.trim() === '') {
+
+                    // Nếu trường keyword rỗng, chuyển hướng đến trang moduleURL
+                    window.location.href = moduleURL;
+
+                    event.preventDefault();
+                }
+            });
+        });
+
+    </script>
+    </body>
+</html>

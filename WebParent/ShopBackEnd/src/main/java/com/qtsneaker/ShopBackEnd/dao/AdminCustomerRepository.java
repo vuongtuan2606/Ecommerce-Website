@@ -8,7 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 
 @Repository
 public interface AdminCustomerRepository extends JpaRepository<Customer, Integer>, PagingAndSortingRepository<Customer,Integer> {
@@ -21,5 +24,15 @@ public interface AdminCustomerRepository extends JpaRepository<Customer, Integer
 	@Modifying
 	public void updateEnabledStatus(Integer id, boolean enabled);
 
-	public Long countById(Integer id);	
+	public Long countById(Integer id);
+
+	@Query("SELECT COUNT(c) FROM Customer c WHERE DAY(c.createdTime) = DAY(:date)")
+	public Long countCustomersByDay(@Param("date") Date date);
+
+	@Query("SELECT COUNT(c) FROM Customer c WHERE MONTH(c.createdTime) = MONTH(:date)")
+	public Long countCustomersByMonth(@Param("date") Date date);
+
+	@Query("SELECT COUNT(c) FROM Customer c WHERE YEAR(c.createdTime) = YEAR(:date)")
+	public Long countCustomersByYear(@Param("date") Date date);
+
 }

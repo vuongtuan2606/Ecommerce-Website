@@ -42,7 +42,7 @@ public enum OrderStatus {
 		public String defaultDescription() {
 			return "Khách hàng đã nhận được sản phẩm";
 		}
-	};
+	},;
 
 	private final String vietnameseName;
 

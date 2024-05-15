@@ -116,6 +116,35 @@ public class ProductsController {
             return "product/shop-all-product";
     }
 
+    @GetMapping("/SaleOf")
+    public String viewAllProductSaleOf(Model model) {
+
+        return viewAllProductSaleOf(1,model);
+    }
+    @GetMapping("/SaleOf/page/{pageNum}")
+    public String viewAllProductSaleOf( @PathVariable("pageNum") int pageNum,
+                                  Model model) {
+
+        Page<Product> pageProducts = productService.listProductSaleOf(pageNum);
+        List<Product> listProducts = pageProducts.getContent();
+
+        long startCount = (pageNum - 1) * ProductService.PRODUCT_PER_PAGE + 1;
+        long endCount = startCount + ProductService.PRODUCT_PER_PAGE - 1;
+        if (endCount > pageProducts.getTotalElements()) {
+            endCount = pageProducts.getTotalElements();
+        }
+
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", pageProducts.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", pageProducts.getTotalElements());
+        model.addAttribute("listProducts", listProducts);
+        model.addAttribute("pageTitle","Sản phẩm giảm giá");
+
+        return "product/shop-sale-of";
+    }
+
 
     @GetMapping("/product/{product_alias}")
     public String viewProductDetail(@PathVariable("product_alias") String alias,

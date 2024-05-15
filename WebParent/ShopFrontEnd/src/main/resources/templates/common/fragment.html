@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <!-- ======= User Column ======-->
+    <th scope="col" th:fragment="column_link(fieldName, columnLabel)" >
+        <a  style="color: black"
+            th:href="@{${moduleURL}
+                           +'/page/'+ ${currentPage}
+                           + '?sortField='+${fieldName}
+                           + '&sortDir='+ ${sortField != fieldName ? sortDir: reverseSortDir }
+                           + ${keyword != null ? '&keyword=' + keyword : ' '}}">
+            [[${columnLabel}]]
+        </a>
+        <span th:if="${sortField == fieldName}"
+              th:class="${sortDir == 'asc' ? 'bi bi-sort-alpha-down' : 'bi bi-sort-alpha-down-alt'}">
+                </span>
+    </th>
+
+    <div th:fragment="format_time(dateTime)" th:remove="tag">
+        <span th:text="${#dates.format(dateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+    </div>
+
+    <div th:fragment="format_currency(amount)" th:remove="tag">
+		<span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}"th:remove="tag">
+            [[${CURRENCY_SYMBOL}]]
+        </span>
+        [[${#numbers.formatDecimal(amount,1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
+        <span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" th:remove="tag">
+            [[${CURRENCY_SYMBOL}]]
+        </span>
+    </div>
+
+    <div th:fragment="search_form()" class="search-form position-relative search-page">
+        <form  th:action="@{${moduleURL} + '/page/1'}" >
+            <input type="hidden" name="sortField" th:value="${sortField}" />
+            <input type="hidden" name="sortDir" th:value="${sortDir}" />
+            <input type="search" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm đơn hàng" class="theme-input-style" >
+
+            <button type="submit"><img th:src="@{assets/img/icons/search-button3.svg}" class="svg" alt=""></button>
+        </form>
+    </div>
+
+</body>
+</html>

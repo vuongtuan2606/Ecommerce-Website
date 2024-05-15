@@ -43,7 +43,7 @@
 
     <th:block th:fragment="product_price" >
         <th:block th:if="${product.discountPercent <= 0}">
-            <h5 class="old-price">
+            <h5 class="new-price">
                 <span th:replace="~{product/fragment :: price_fragment(${product.price})}"></span>
             </h5>
         </th:block>

@@ -30,4 +30,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, Pagi
 			nativeQuery = true)
 	public Page<Product> search(String keyword, Pageable pageable);
 
+	@Query("SELECT p FROM Product p WHERE p.enabled =true  ORDER BY p.createdTime DESC LIMIT 4")
+	public List<Product> findTop4ProductNew();
+
+	@Query("SELECT p FROM Product p WHERE p.enabled =true and p.discountPercent != 0")
+	public Page<Product> listProductSaleOf(Pageable pageable);
+
 }

@@ -38,7 +38,6 @@
         </div>
     </section>
     <!-- End of page title -->
-    
     <!-- logout register wrap -->
     <section class="pt-30 pb-100">
         <div class="container">
@@ -52,17 +51,12 @@
                                     <a class="dashboard-nav-item active" id="nav-dasboard" data-toggle="tab"  href="#dashboard"><span><img src="assets/img/icons/dashboard.svg" class="svg" alt=""></span>Bảng điều khiển</a>
                                 </li>
                                 <li>
-                                    <a class="dashboard-nav-item" id="nav-order" data-toggle="tab"  href="#order"><span><img src="assets/img/icons/order.svg" class="svg" alt=""></span>Đơn hàng</a>
-                                </li>
-                                <li>
                                     <a class="dashboard-nav-item" id="nav-address" data-toggle="tab" href="#address"><span><img src="assets/img/icons/address.svg" class="svg" alt=""></span>Địa chỉ </a>
                                 </li>
                                 <li>
                                     <a class="dashboard-nav-item" id='nav-adetails' data-toggle="tab" href="#adetails"><span><img src="assets/img/icons/account3.svg" class="svg" alt=""></span>Thông tin tài khoản</a>
                                 </li>
-                                <li>
-                                    <a class="dashboard-nav-item" href="logout.html"><span><img src="assets/img/icons/logout.svg" class="svg" alt=""></span>Log Out</a>
-                                </li>
+
                             </ul>
                         </nav>
                     </div>
@@ -79,61 +73,14 @@
                                 <form th:object="${customer}" >
                                     <!-- dashboard info -->
                                     <div class="dashboard-tab-info">
-                                        <p>Hello [[${customer.fullName}]], <span>(Not [[${customer.fullName}]] ? <a href="#">Log out</a>)</span></p>
-                                        <p>Từ bảng điều khiển tài khoản của bạn, bạn có thể xem <a href="#">Xem những đơn đặt hàng gần đây</a>,  and <a href="#">Cập nhật thông tin tài khoản và thay đổi mật khẩu của bạn của bạn.</a></p>
+                                        <p>Hello [[${customer.fullName}]]</p>
+                                        <p>Từ bảng điều khiển tài khoản của bạn, bạn có thể cập nhật thông tin tài khoản và thay đổi mật khẩu của bạn của bạn.</a></p>
                                     </div>
                                     <!--End of dashboard info -->
                                 </form>
 
                             </div>
 
-                            <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby='nav-order'>
-                                <!-- dashboard order -->
-                                <div class="dashboard-tab-order">
-                                    <!-- dashboard order table -->
-                                    <table class="dashboard-order-table">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order No</th>
-                                                <th>Date</th>
-                                                <th>Status</th>
-                                                <th>Total</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            <tr>
-                                                <td>#24567</td>
-                                                <td>20 August 2018</td>
-                                                <td>Processing</td>
-                                                <td>$458 .52 <span>(1 Items)</span></td>
-                                                <td><a href="#">View Details</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#24567</td>
-                                                <td>20 August 2018</td>
-                                                <td>Processing</td>
-                                                <td>$458 .52 <span>(1 Items)</span></td>
-                                                <td><a href="#">View Details</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#24567</td>
-                                                <td>20 August 2018</td>
-                                                <td>Processing</td>
-                                                <td>$458 .52 <span>(1 Items)</span></td>
-                                                <td><a href="#">View Details</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#24567</td>
-                                                <td>20 August 2018</td>
-                                                <td>Processing</td>
-                                                <td>$458 .52 <span>(1 Items)</span></td>
-                                                <td><a href="#">View Details</a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <!--End of dashboard order table -->
-                                </div>
-                                <!-- End of dashboard order -->
-                            </div>
 
                             <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby='nav-address'>
                                 <div class="dashboard-tab-address">

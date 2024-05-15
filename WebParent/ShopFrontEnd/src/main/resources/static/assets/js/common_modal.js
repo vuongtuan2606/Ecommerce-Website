@@ -3,6 +3,8 @@ function showModalDialog(title, message) {
 	$("#modalBody").text(message);
 	$('#errorModal').modal('show');
 }
+
+
 function showErrorModal(message) {
 	showModalDialog("Thông báo lỗi", message);
 }

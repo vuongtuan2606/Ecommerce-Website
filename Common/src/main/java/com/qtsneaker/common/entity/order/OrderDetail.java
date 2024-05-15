@@ -15,6 +15,7 @@ public class OrderDetail extends IdBasedEntity {
 	private float shippingCost;
 	private float unitPrice;
 	private float subtotal;
+	private  int size;
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
@@ -71,6 +72,12 @@ public class OrderDetail extends IdBasedEntity {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-	
-	
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
 }

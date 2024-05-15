@@ -10,6 +10,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Repository
 public interface AdminOrderRepository  extends JpaRepository<Order,Integer>, PagingAndSortingRepository<Order,Integer> {
     @Query("SELECT o FROM Order o " +
@@ -20,4 +22,13 @@ public interface AdminOrderRepository  extends JpaRepository<Order,Integer>, Pag
 
 
     public Long countById(Integer id);
+
+    @Query("SELECT COUNT(c) FROM Order c WHERE DAY(c.orderTime) = DAY(:date)")
+    public Long countOrderByDay(@Param("date") Date date);
+
+    @Query("SELECT COUNT(c) FROM Order c WHERE MONTH(c.orderTime) = MONTH(:date)")
+    public Long countOrderByMonth(@Param("date") Date date);
+
+    @Query("SELECT COUNT(c) FROM Order c WHERE YEAR(c.orderTime) = YEAR(:date)")
+    public Long countOrderByYear(@Param("date") Date date);
 }

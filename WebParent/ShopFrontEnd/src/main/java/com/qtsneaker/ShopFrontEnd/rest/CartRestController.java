@@ -9,10 +9,7 @@ import com.qtsneaker.common.entity.Customer;
 import com.qtsneaker.common.exception.CustomerNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CartRestController {
@@ -29,14 +26,15 @@ public class CartRestController {
 	@PostMapping("/cart/add/{productId}/{quantity}")
 	public String addProductToCart(@PathVariable("productId") Integer productId,
 								   @PathVariable("quantity") Integer quantity,
+								   @RequestParam("sizeId") Integer sizeId,
 								   HttpServletRequest request) {
-		
+
 		try {
 			// Lấy thông tin khách hàng đã xác thực từ request
 			Customer customer = getAuthenticatedCustomer(request);
 
 			//Gọi method addProducts để thêm sản phẩm vào giỏ hàng của khách hàng
-			Integer updatedQuantity = cartService.addProducts(productId, quantity, customer);
+			Integer updatedQuantity = cartService.addProducts(productId, quantity, customer,sizeId);
 
 			// Trả về thông báo về số lượng sản phẩm được thêm vào giỏ hàng
 			return updatedQuantity + " mặt hàng của sản phẩm này đã được thêm vào giỏ hàng của bạn.";
@@ -73,13 +71,14 @@ public class CartRestController {
 	@PostMapping("/cart/update/{productId}/{quantity}")
 	public String updateQuantity(@PathVariable("productId") Integer productId,
 								 @PathVariable("quantity") Integer quantity,
+								 @RequestParam("sizeId") Integer sizeId,
 								 HttpServletRequest request) {
 		try {
 			// Lấy thông tin khách hàng đã xác thực từ request
 			Customer customer = getAuthenticatedCustomer(request);
 
 			//Gọi method updateQuantity để cập nhật số lượng của sản phẩm trong giỏ hàng
-			float subtotal = cartService.updateQuantity(productId, quantity, customer);
+			float subtotal = cartService.updateQuantity(productId, quantity, customer,sizeId);
 
 			// Trả về tổng cộng giá trị của sản phẩm sau khi cập nhật số lượng
 			return String.valueOf(subtotal);
@@ -104,7 +103,7 @@ public class CartRestController {
 
 			// Trả về thông báo xóa thành công
 			return "Sản phẩm đã bị xóa khỏi giỏ hàng của bạn.";
-			
+
 		} catch (CustomerNotFoundException e) {
 
 			// Trả về thông báo lỗi nếu không tìm thấy thông tin khách hàng đã xác thực

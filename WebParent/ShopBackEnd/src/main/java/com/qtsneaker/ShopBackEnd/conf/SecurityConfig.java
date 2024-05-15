@@ -26,11 +26,15 @@ public class SecurityConfig  {
 
                 .requestMatchers("/admin/categories/**", "/admin/brands/**").hasAnyAuthority("Admin","Editor")
 
+
                 .requestMatchers("/admin/products/create/**", "/admin/products/delete/**").hasAnyAuthority("Admin","Editor")
 
                 .requestMatchers("/admin/products/edit/**", "/admin/products/save/**","/products/check_unique/**").hasAnyAuthority("Admin","Editor","Salesperson")
 
-                .requestMatchers("/admin/products/**").hasAnyAuthority("Admin","Editor","Salesperson")
+                .requestMatchers("/admin/products", "/admin/products/", "/admin/products/detail/**", "/admin/products/page/**")
+                                .hasAnyAuthority("Admin", "Editor", "Salesperson")
+
+                .requestMatchers("/admin/products/**").hasAnyAuthority("Admin","Editor")
 
                 .anyRequest().authenticated()
                 )

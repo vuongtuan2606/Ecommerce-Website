@@ -167,6 +167,10 @@ public class Order  extends AbstractAddress {
     }
 
     @Transient
+    public boolean isCancelled() {
+        return hasStatus(OrderStatus.CANCELLED);
+    }
+    @Transient
     public boolean isProcessing() {
         return hasStatus(OrderStatus.PROCESSING);
     }
@@ -184,7 +188,6 @@ public class Order  extends AbstractAddress {
     public boolean isDelivered() {
         return hasStatus(OrderStatus.DELIVERED);
     }
-
 
 
     public boolean hasStatus(OrderStatus status) {
@@ -212,6 +215,20 @@ public class Order  extends AbstractAddress {
         if (province != null && !province.isEmpty()) address += ", " + province;
 
         return address;
+    }
+    @Transient
+    public String getProductNames() {
+        String productNames = "";
+
+        productNames = "<ul>";
+
+        for (OrderDetail detail : orderDetails) {
+            productNames += "<li>" + detail.getProduct().getShortName() + "</li>";
+        }
+
+        productNames += "</ul>";
+
+        return productNames;
     }
 
 }

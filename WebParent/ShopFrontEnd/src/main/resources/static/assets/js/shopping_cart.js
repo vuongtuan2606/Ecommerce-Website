@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     $('.product-quantity .minus').on('click', function () {
         decreaseQuantity($(this));
@@ -20,10 +19,12 @@ function decreaseQuantity(link) {
     productId = link.attr("pid");
     quantityInput = $("#quantity" + productId);
     newQuantity = parseInt(quantityInput.val()) - 1;
-
+    // Tìm input chứa giá trị productSize gần nhất
+    var productSizeInput = link.closest('tr').find('.product-size-list');
+    var sizeId = productSizeInput.attr('value');
     if (newQuantity > 0) {
         quantityInput.val(newQuantity);
-        updateQuantity(productId, newQuantity);
+        updateQuantity(productId, newQuantity,sizeId);
     }
 }
 
@@ -31,10 +32,12 @@ function increaseQuantity(link) {
     productId = link.attr("pid");
     quantityInput = $("#quantity" + productId);
     newQuantity = parseInt(quantityInput.val()) + 1;
-
+    // Tìm input chứa giá trị productSize gần nhất
+    var productSizeInput = link.closest('tr').find('.product-size-list');
+    var sizeId = productSizeInput.attr('value');
     if (newQuantity <= 5) {
         quantityInput.val(newQuantity);
-        updateQuantity(productId, newQuantity);
+        updateQuantity(productId, newQuantity,sizeId);
     } else {
         showWarningModal("Số lượng tối đa là 5")
     }
@@ -42,12 +45,16 @@ function increaseQuantity(link) {
 
 
 /*Cập nhật số lượng của một sản phẩm trong giỏ hàng*/
-function updateQuantity(productId, quantity) {
+function updateQuantity(productId, quantity,sizeId) {
     url = contextPath + "cart/update/" + productId + "/" + quantity;
 
+    var data = {
+        sizeId: sizeId
+    };
     $.ajax({
         type: "POST",
         url: url,
+        data:data,
         beforeSend: function(xhr) {
             // Thiết lập tiêu đề mã CSRF trước khi gửi yêu cầu
             xhr.setRequestHeader(csrfHeaderName, csrfValue);

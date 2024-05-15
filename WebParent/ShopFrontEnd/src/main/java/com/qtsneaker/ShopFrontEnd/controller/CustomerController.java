@@ -6,6 +6,7 @@ import com.qtsneaker.ShopFrontEnd.security.CustomerUserDetails;
 import com.qtsneaker.ShopFrontEnd.security.oauth.CustomerOAuth2User;
 import com.qtsneaker.ShopFrontEnd.services.Address.AddressService;
 import com.qtsneaker.ShopFrontEnd.services.Customer.CustomerService;
+import com.qtsneaker.ShopFrontEnd.services.Order.OrderService;
 import com.qtsneaker.ShopFrontEnd.services.Setting.SettingService;
 import com.qtsneaker.ShopFrontEnd.setting.EmailSettingBag;
 import com.qtsneaker.ShopFrontEnd.util.Utility;
@@ -39,6 +40,7 @@ public class CustomerController {
     @Autowired private ControllerHelper controllerHelper;
     @Autowired private AddressService addressService;
     @Autowired private ProvinceRepository provinceRepository;
+    @Autowired private OrderService orderService;
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {

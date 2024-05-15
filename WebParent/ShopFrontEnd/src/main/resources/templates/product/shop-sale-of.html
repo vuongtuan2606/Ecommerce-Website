@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{common/common :: html_head(${pageTitle})}"></head>
+
+<body>
+    <!-- Preloader -->
+    <div th:replace="~{common/common :: preLoader}"></div>
+
+    <!-- Main header -->
+    <header th:replace="~{common/common :: header}"></header>
+
+    <!-- Catagory menu -->
+    <div th:replace="~{common/common :: catagory-menu}"></div>
+
+    <!-- offcanvas menu-->
+    <th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
+
+    <!-- page title -->
+    <section class="page-title-inner" data-bg-img='assets/img/page-titlebg.png'>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- page title inner -->
+                    <div class="page-title-wrap">
+
+                        <ul class="list-unstyled mb-0">
+                            <li><a th:href="@{/}">Trang chủ</a></li>
+                            <li class="active"><a href="#">Sản phẩm giảm giá</a></li>
+                        </ul>
+                    </div>
+                    <!-- End of page title inner -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of page title -->
+    
+    <!-- product shop wrapper -->
+    <section class="pt-100 pb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- shop toolbar wrap -->
+                    <div class="shop-toolbar-wrap type2">
+                        <div class="shop-toolbar-filter">
+                            <div class="row align-items-center">
+                                <div class="col-md-4 position-static">
+                                    <div class="search-form position-relative search-page">
+                                        <form th:action="@{/search}"  method="get">
+                                            <input type="search" name="keyword"  th:value="${searchKeyword}" placeholder="Những gì bạn đang tìm kiếm" class="theme-input-style" required>
+                                            <button type="submit"><img th:src="@{/assets/img/icons/search-button3.svg}" class="svg" alt=""></button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-lg-7 col-xl-6 offset-xl-2 offset-lg-1 position-static">
+                                    <!-- product filter inner -->
+                                    <div class="product-filter-inner">
+                                        <!-- product found -->
+                                        <div class="product-found product-count"  th:if="${totalItems > 0}">
+                                            <span>Hiển thị : [[${endCount}]] trên tổng [[${totalItems}]] sản phẩm  </span>
+                                        </div>
+                                        <div class="product-found product-count"  th:unless="${totalItems > 0}">
+                                            <span>Không tìm thấy sản phẩm  </span>
+                                        </div>
+
+                                        <!-- product filter -->
+                                        <div class="product-filter catalog-filter">
+                                            <div class="product-filter-mobile">
+                                                <a href="#" class="d-lg-none d-block"><i class="fa fa-sliders"></i></a>
+                                            </div>
+                                            <a href="#" class="d-none d-lg-block product-filter-btn"><i class="fa fa-filter"></i><span>Filter</span><i class="fa fa-angle-down"></i></a>
+                                            
+                                            <!-- product filter menu -->
+                                            <div class="product-filter-menu">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="woocommerce-products-header">
+                                                            <div class="shope-filter-item">
+                                                                <ul>
+                                                                    <li>
+                                                                        <a href="#">Category by</a>
+                                                                        <ul class="category-list">
+                                                                            <li><a href="#" class="active">Prints (5)</a></li>
+                                                                            <li><a href="#">Illustrations (4)</a></li>
+                                                                            <li><a href="#">Type (8)</a></li>
+                                                                            <li><a href="#">Decoration (9)</a></li>
+                                                                            <li><a href="#">Graphics (6)</a></li>
+                                                                            <li><a href="#">Posters (5)</a></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">By Price</a>
+                                                                        <ul class="price-list">
+                                                                            <li><a href="#" class="active">$0.00 - $50.00</a></li>
+                                                                            <li><a href="#">$51.00 - $100.00</a></li>
+                                                                            <li><a href="#">$101.00 - $300.00</a></li>
+                                                                            <li><a href="#">$301.00 - $800.00</a></li>
+                                                                            <li><a href="#">$801.00 - $1500.00</a></li>
+                                                                            <li><a href="#">$1501.00 - $3000.00</a></li>
+                                                                            <li><a href="#">$3001.00 +</a></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">By Color</a>
+                                                                        <ul class="color-list">
+                                                                            <li><a href="#" class="color color1 active"></a></li>
+                                                                            <li><a href="#" class="color color2"></a></li>
+                                                                            <li><a href="#" class="color color3"></a></li>
+                                                                            <li><a href="#" class="color color4"></a></li>
+                                                                            <li><a href="#" class="color color5"></a></li>
+                                                                            <li><a href="#" class="color color6"></a></li>
+                                                                            <li><a href="#" class="color color7"></a></li>
+                                                                            <li><a href="#" class="color color8"></a></li>
+                                                                            <li><a href="#" class="color color9"></a></li>
+                                                                            <li><a href="#" class="color color10"></a></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">By Size</a>
+                                                                        <ul class="size-list">
+                                                                            <li><a href="#" class="active"><span class="product-size">L</span></a></li>
+                                                                            <li><a href="#"><span class="product-size">M</span></a></li>
+                                                                            <li><a href="#"><span class="product-size">S</span></a></li>
+                                                                            <li><a href="#"><span class="product-size">30</span></a></li>
+                                                                            <li><a href="#"><span class="product-size">40</span></a></li>
+                                                                        </ul> 
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">Tags</a>
+                                                                        <ul class="tag-list">
+                                                                            <li><a href="#">bags</a>,</li>
+                                                                            <li><a href="#">chair</a>,</li>
+                                                                            <li><a href="#">clock</a>,</li>
+                                                                            <li><a href="#">comestic</a>,</li>
+                                                                            <li><a href="#">fashion</a>,</li>
+                                                                            <li><a href="#">furniture</a>,</li>
+                                                                            <li><a href="#">holder</a>,</li>
+                                                                            <li><a href="#">men</a>,</li>
+                                                                            <li><a href="#">oil</a></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End of product filter menu -->
+                                        </div>
+                                        <!--End of product filter -->
+
+                                        <!-- sort by newest -->
+                                        <div class="newest-product">
+                                            <a href="#" id="dropdownnewest" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-sort-amount-desc"></i><span>Sort by <span class="sort-by">newest</span></span><i class="fa fa-angle-down"></i></a>
+                                            <ul class="newest-product-option dropdown-menu-right dropdown-menu" aria-labelledby="dropdownnewest">
+                                                <li><a href="#">Default</a></li>
+                                                <li><a href="#">Popularity</a></li>
+                                                <li><a href="#">Rating</a></li>
+                                                <li><a href="#">Newest</a></li>
+                                                <li><a href="#">Price: Low to Hogh</a></li>
+                                                <li><a href="#">Price: High to Low</a></li>
+                                            </ul>
+                                        </div>
+                                        <!-- End of sort by newest -->
+
+                                        <!-- End of product grid view -->
+                                    </div>
+                                    <!-- product filter inner -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of shop toolbar wrap -->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="tab-content shop-tab-content">
+                                <div class="tab-pane fade show active" role="tabpanel" id="fourcol" aria-labelledby="nav-four-col">
+                                    <div class="row">
+                                        <th:block th:each="product : ${listProducts}">
+                                            <div th:replace="~{product/fragment :: content}"></div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Page pagination -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div th:if="${totalPages > 1}">
+                                <!-- blog pagination -->
+                                <div class="blog-pagination-wrap">
+                                    <ul class="pagination blog-pagination list-unstyled">
+                                        <li th:class="${totalPages > 1  ? '' : ' disabled'}">
+                                            <a  th:href="@{'/shop'+'/page/'
+                                            + ${totalPages -1}
+                                            +'?sortField='+${sortField}
+                                            +'&sortDir=' +${sortDir}
+                                            +${keyword != null ? '&keyword=' + keyword : ' '} }" aria-label="Previous">
+                                                <i class="fa fa-angle-left">
+                                                </i>
+                                            </a>
+
+                                        </li>
+
+                                        <li th:class="${currentPage != i ? '' : 'active'}"
+                                            th:each="i : ${#numbers.sequence(1, totalPages)}">
+                                            <a  th:href="@{'/shop'+'/page/'+ ${i} +'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}">[[${i}]]</a>
+                                        </li>
+
+                                        <li th:class="${currentPage < totalPages ? '' : 'disabled'}" >
+                                            <a th:href="@{'/shop'+'/page/'+ ${currentPage + 1 }+'?sortField='+${sortField} +'&sortDir=' +${sortDir} +${keyword != null ? '&keyword=' + keyword : ' '}}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                        <li th:class="${currentPage < totalPages ? '' : ' disabled'}">
+                                            <a  th:href="@{'/shop'+'/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
+                                                <i class="fa fa-angle-right">
+                                                </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- End of blog pagination -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Page pagination -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of product shop wrapper -->
+
+    <!-- footer area -->
+    <div th:replace="~{common/common :: footer}"></div>
+    <!-- End of footer area -->
+    
+    <!-- back to top -->
+    <div class="back-to-top">
+            <a href="#">
+                <div class="back-toop-tooltip"><span>Back To Top</span></div>
+                <div class="top-array"></div>
+                <div class="top-line"></div>
+            </a>
+        </div>
+
+    <!-- JS Files -->
+    <th:block th:replace="~{common/common :: script}"></th:block>
+    </body>
+</html>

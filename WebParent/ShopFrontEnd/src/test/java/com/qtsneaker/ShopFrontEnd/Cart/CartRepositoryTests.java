@@ -100,8 +100,9 @@ public class CartRepositoryTests {
         Integer customerId = 1;
         Integer productId = 18;
         Integer quantity = 4;
+        Integer size = 36;
 
-        cartRepository.updateQuantity(quantity, customerId, productId);
+        cartRepository.updateQuantity(quantity, customerId, productId,size);
 
         Cart item = cartRepository.findByCustomerAndProduct(new Customer(customerId), new Product(productId));
 

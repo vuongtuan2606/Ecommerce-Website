@@ -20,44 +20,40 @@ public class CartServiceImpl implements CartService {
 
     @Autowired private ProductRepository productRepository;
 
-    /* Thêm sản phẩm vào giỏ hàng*/
     @Override
-    public Integer addProducts(Integer productId, Integer quantity, Customer customer) throws CartException {
-        // Khởi tạo  updatedQuantity với giá trị ban đầu là quantity
+    public Integer addProducts(Integer productId, Integer quantity, Customer customer, Integer sizeId) throws CartException {
+        // Khởi tạo updatedQuantity với giá trị ban đầu là quantity
         Integer updatedQuantity = quantity;
 
         // Tạo đối tượng Product từ productId
         Product product = new Product(productId);
 
-        // Tìm kiếm cartItem tương ứng trong cơ sở dữ liệu dựa trên customer và product
-        Cart cartItem = cartRepository.findByCustomerAndProduct(customer, product);
+        // Tìm kiếm cartItem tương ứng trong cơ sở dữ liệu dựa trên customer, product và sizeId
+        Cart cartItem = cartRepository.findByCustomerAndProductAndProductSize(customer, product, sizeId);
 
         // Nếu mục cartItem đã tồn tại
         if (cartItem != null) {
-
             // Cập nhật số lượng mới bằng tổng của số lượng hiện tại và số lượng được thêm vào
             updatedQuantity = cartItem.getQuantity() + quantity;
 
             // Kiểm tra nếu tổng số lượng mới vượt quá giới hạn cho phép
             if (updatedQuantity > 5) {
                 // Ném ra một ngoại lệ CartException với thông báo phù hợp
-                throw new CartException("Giỏ hàng của bạn đã đạt đến số lượng tối đa " + cartItem.getQuantity() + " mặt hàng,"
-                                       + " Số lượng tối đa cho phép là 5.");
+                throw new CartException("Giỏ hàng của bạn đã đạt đến số lượng tối đa " + cartItem.getQuantity() + " mặt hàng, Số lượng tối đa cho phép là 5.");
             }
-        } else {
 
+            // Cập nhật số lượng của cartItem hiện tại
+            cartItem.setQuantity(updatedQuantity);
+        } else {
             // Nếu cartItem chưa tồn tại, tạo cartItem mới
             cartItem = new Cart();
-
-            // Thiết lập customer và product cho cartItem
             cartItem.setCustomer(customer);
             cartItem.setProduct(product);
+            cartItem.setProductSize(sizeId);
+            cartItem.setQuantity(quantity);
         }
 
-        // Thiết lập số lượng được cập nhật cho cartItem
-        cartItem.setQuantity(updatedQuantity);
-
-        // Lưu vào cơ sở dữ liệu
+        // Lưu cartItem vào cơ sở dữ liệu
         cartRepository.save(cartItem);
 
         // Trả về số lượng được cập nhật
@@ -72,10 +68,9 @@ public class CartServiceImpl implements CartService {
 
    /* Cập nhật số lượng của một sản phẩm trong giỏ hàng*/
     @Override
-    public float updateQuantity(Integer productId, Integer quantity, Customer customer) {
-
+    public float updateQuantity(Integer productId, Integer quantity, Customer customer, Integer sizeId) {
         // Cập nhật số lượng của sản phẩm trong giỏ hàng
-        cartRepository.updateQuantity(quantity, customer.getId(), productId);
+        cartRepository.updateQuantity(quantity, customer.getId(), productId,sizeId);
 
         // Lấy thông tin sản phẩm từ productRepository dựa trên productId
         Product product = productRepository.findById(productId).get();

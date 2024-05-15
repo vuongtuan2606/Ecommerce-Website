@@ -2,6 +2,7 @@ package com.qtsneaker.common.entity;
 
 import jakarta.persistence.*;
 
+
 import java.util.*;
 
 @Entity
@@ -55,7 +56,21 @@ public class Product extends IdBasedEntity {
         this.images.add(new ProductImage(imageName, this));
     }
 
+    @ManyToMany
+    @JoinTable(
+            name = "tbl_Product_Size",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "size_id")
+    )
+    private Set<Size> sizes = new HashSet<>();
 
+    public Set<Size> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(Set<Size> sizes) {
+        this.sizes = sizes;
+    }
 
     public Product() {}
 
@@ -205,8 +220,8 @@ public class Product extends IdBasedEntity {
     }
     @Transient
     public String getShortName() {
-        if (name.length() > 30) {
-            return name.substring(0, 30).concat("...");
+        if (name.length() > 50) {
+            return name.substring(0, 50).concat("...");
         }
         return name;
     }

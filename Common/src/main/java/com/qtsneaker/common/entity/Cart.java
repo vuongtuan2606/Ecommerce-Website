@@ -18,6 +18,15 @@ public class Cart extends IdBasedEntity {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
+	@Column(name = "product_size")
+	private Integer productSize;
+	public Integer getProductSize() {
+		return productSize;
+	}
+
+	public void setProductSize(Integer productSize) {
+		this.productSize = productSize;
+	}
 	public Customer getCustomer() {
 		return customer;
 	}

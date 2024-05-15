@@ -91,10 +91,10 @@
                                 <ul class="mb-0 list-unstyled">
                                     <li class="size-group group">
                                         <span class="list-heading">size:</span>
-                                        <ul class="size-list mb-0 list-unstyled">
-                                            <li><a href="#" class="product-size"><span>36</span></a></li>
-                                            <li><a href="#" class="active product-size"><span>37</span></a></li>
-                                            <li><a href="#" class="product-size"><span>38</span></a></li>
+                                        <ul class="size-list mb-0 list-unstyled" >
+                                            <th:block th:each="temp : ${product.sizes}">
+                                                <li><a href="#" class="product-size"  th:data-size-id="${temp.id}"><span>[[${temp.name}]]</span></a></li>
+                                            </th:block>
                                         </ul>
                                     </li>
                                     <li class="available-group group">
