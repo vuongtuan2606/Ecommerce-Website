@@ -16,7 +16,7 @@
     <th:block th:replace="~{common/common :: offcanvas_menu}"></th:block>
 
     <!-- page title -->
-    <section class="page-title-inner" >
+    <section class="page-title-inner" data-bg-img='assets/img/page-titlebg.png'>
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -101,43 +101,11 @@
                                                                         </ul>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#">By Color</a>
-                                                                        <ul class="color-list">
-                                                                            <li><a href="#" class="color color1 active"></a></li>
-                                                                            <li><a href="#" class="color color2"></a></li>
-                                                                            <li><a href="#" class="color color3"></a></li>
-                                                                            <li><a href="#" class="color color4"></a></li>
-                                                                            <li><a href="#" class="color color5"></a></li>
-                                                                            <li><a href="#" class="color color6"></a></li>
-                                                                            <li><a href="#" class="color color7"></a></li>
-                                                                            <li><a href="#" class="color color8"></a></li>
-                                                                            <li><a href="#" class="color color9"></a></li>
-                                                                            <li><a href="#" class="color color10"></a></li>
-                                                                        </ul>
-                                                                    </li>
-                                                                    <li>
                                                                         <a href="#">By Size</a>
                                                                         <ul class="size-list">
                                                                             <li><a href="#" class="active"><span class="product-size">L</span></a></li>
-                                                                            <li><a href="#"><span class="product-size">M</span></a></li>
-                                                                            <li><a href="#"><span class="product-size">S</span></a></li>
-                                                                            <li><a href="#"><span class="product-size">30</span></a></li>
                                                                             <li><a href="#"><span class="product-size">40</span></a></li>
                                                                         </ul> 
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#">Tags</a>
-                                                                        <ul class="tag-list">
-                                                                            <li><a href="#">bags</a>,</li>
-                                                                            <li><a href="#">chair</a>,</li>
-                                                                            <li><a href="#">clock</a>,</li>
-                                                                            <li><a href="#">comestic</a>,</li>
-                                                                            <li><a href="#">fashion</a>,</li>
-                                                                            <li><a href="#">furniture</a>,</li>
-                                                                            <li><a href="#">holder</a>,</li>
-                                                                            <li><a href="#">men</a>,</li>
-                                                                            <li><a href="#">oil</a></li>
-                                                                        </ul>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -153,12 +121,10 @@
                                         <div class="newest-product">
                                             <a href="#" id="dropdownnewest" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-sort-amount-desc"></i><span>Sort by <span class="sort-by">newest</span></span><i class="fa fa-angle-down"></i></a>
                                             <ul class="newest-product-option dropdown-menu-right dropdown-menu" aria-labelledby="dropdownnewest">
-                                                <li><a href="#">Default</a></li>
-                                                <li><a href="#">Popularity</a></li>
-                                                <li><a href="#">Rating</a></li>
-                                                <li><a href="#">Newest</a></li>
-                                                <li><a href="#">Price: Low to Hogh</a></li>
-                                                <li><a href="#">Price: High to Low</a></li>
+                                                <li><a href="#" id="defaultOption">Default</a></li>
+                                                <li><a href="#" id="newestOption">Newest</a></li>
+                                                <li><a href="#" id="lowToHighOption">Price: Low to High</a></li>
+                                                <li><a href="#" id="highToLowOption">Price: High to Low</a></li>
                                             </ul>
                                         </div>
                                         <!-- End of sort by newest -->

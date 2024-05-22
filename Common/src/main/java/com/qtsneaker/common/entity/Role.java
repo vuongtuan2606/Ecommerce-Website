@@ -12,10 +12,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 40, nullable = false, unique = true)
+    @Column(length = 64, nullable = false, unique = true)
     private String name;
 
-    @Column(length = 150, nullable = false)
+    @Column(length = 164, nullable = false)
     private String description;
 
     public Role(){}
@@ -31,6 +31,10 @@ public class Role {
     @Override
     public String toString() {
         return this.name;
+    }
+    @Transient
+    public String getShortName() {
+        {return this.name;}
     }
     @ManyToMany(
             mappedBy = "roles")

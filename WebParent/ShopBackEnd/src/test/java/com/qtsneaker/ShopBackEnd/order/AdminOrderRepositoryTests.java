@@ -13,6 +13,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +41,6 @@ public class AdminOrderRepositoryTests {
         mainOrder.setCustomer(customer);
         mainOrder.copyAddressFromCustomer();
 
-        mainOrder.setShippingCost(10);
-        mainOrder.setSubtotal(product.getPrice());
         mainOrder.setTotal(product.getPrice() + 10);
 
         mainOrder.setPaymentMethod(PaymentMethod.CREDIT_CARD);
@@ -48,7 +49,6 @@ public class AdminOrderRepositoryTests {
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setProduct(product);
         orderDetail.setOrder(mainOrder);
-        orderDetail.setShippingCost(10);
         orderDetail.setQuantity(1);
         orderDetail.setSubtotal(product.getPrice());
         orderDetail.setUnitPrice(product.getPrice());
@@ -74,7 +74,6 @@ public class AdminOrderRepositoryTests {
         OrderDetail orderDetail1 = new OrderDetail();
         orderDetail1.setProduct(product1);
         orderDetail1.setOrder(mainOrder);
-        orderDetail1.setShippingCost(10);
         orderDetail1.setQuantity(1);
         orderDetail1.setSubtotal(product1.getPrice());
         orderDetail1.setUnitPrice(product1.getPrice());
@@ -82,7 +81,6 @@ public class AdminOrderRepositoryTests {
         OrderDetail orderDetail2 = new OrderDetail();
         orderDetail2.setProduct(product2);
         orderDetail2.setOrder(mainOrder);
-        orderDetail2.setShippingCost(20);
         orderDetail2.setQuantity(2);
         orderDetail2.setSubtotal(product2.getPrice() * 2);
         orderDetail2.setUnitPrice(product2.getPrice());
@@ -90,9 +88,8 @@ public class AdminOrderRepositoryTests {
         mainOrder.getOrderDetails().add(orderDetail1);
         mainOrder.getOrderDetails().add(orderDetail2);
 
-        mainOrder.setShippingCost(30);
+
         float subtotal = product1.getPrice() + product2.getPrice() * 2;
-        mainOrder.setSubtotal(subtotal);
         mainOrder.setTotal(subtotal + 30);
 
         mainOrder.setPaymentMethod(PaymentMethod.CREDIT_CARD);
@@ -156,6 +153,23 @@ public class AdminOrderRepositoryTests {
         Order updatedOrder = repository.save(order);
 
         assertThat(updatedOrder.getOrderTracks()).hasSizeGreaterThan(1);
+    }
+
+    @Test
+    public void testFindByOrderTimeBetween() throws ParseException {
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date startTime = dateFormatter.parse("2024-04-01");
+        Date endTime = dateFormatter.parse("2024-05-31");
+
+        List<Order> listOrders = repository.findByOrderTimeBetween(startTime, endTime);
+
+        assertThat(listOrders.size()).isGreaterThan(0);
+
+        for (Order order : listOrders) {
+            System.out.printf("%s | %s | %.2f | %.2f | %.2f \n",
+                    order.getId(), order.getOrderTime(), order.getProductCost(),
+                     order.getTotal());
+        }
     }
 
 }

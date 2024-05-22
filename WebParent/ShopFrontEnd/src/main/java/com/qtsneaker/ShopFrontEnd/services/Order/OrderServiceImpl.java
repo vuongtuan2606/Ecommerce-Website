@@ -33,11 +33,10 @@ public class OrderServiceImpl implements OrderService {
 
         newOrder.setCustomer(customer);
         newOrder.copyAddressFromOrder(address);
-
         newOrder.setPaymentMethod(paymentMethod);
-
-        newOrder.setSubtotal(checkoutInfo.getProductTotal());
-        newOrder.setShippingCost(checkoutInfo.getShippingCostTotal());
+        // giá nhập
+        newOrder.setProductCost(checkoutInfo.getProductCost());
+        // tổng tiền
         newOrder.setTotal(checkoutInfo.getPaymentTotal());
 
         Set<OrderDetail> orderDetails = newOrder.getOrderDetails();
@@ -51,9 +50,12 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setProduct(product);
             orderDetail.setSize(cartItem.getProductSize());
             orderDetail.setQuantity(cartItem.getQuantity());
+            // giá bán đã giảm
             orderDetail.setUnitPrice(product.getDiscountPrice());
+            // tổng tiền
             orderDetail.setSubtotal(cartItem.getSubtotal());
-            orderDetail.setShippingCost(checkoutInfo.getShippingCostTotal());
+            // giá nhập
+            orderDetail.setProductCost(product.getCost() * cartItem.getQuantity());
             orderDetails.add(orderDetail);
         }
 
@@ -86,8 +88,6 @@ public class OrderServiceImpl implements OrderService {
     public Order getOrder(Integer id, Customer customer) {
         return repository.findByIdAndCustomer(id, customer);
     }
-
-
 
 
 }

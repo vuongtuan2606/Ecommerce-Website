@@ -17,7 +17,7 @@
     <h1>Quản lý nhân viên</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
         <li class="breadcrumb-item active"><a th:href="@{/admin/users}">[[${pageTitle}]]</a></li>
       </ol>
     </nav>
@@ -58,7 +58,7 @@
                 <tr>
                   <th th:replace="~{common/fragments :: column_link('id', 'ID')}"></th>
 
-                  <th scope="col">Ảnh</th>
+                  <th scope="col">Hình ảnh</th>
 
                   <th th:replace="~{common/fragments :: column_link('email', ' Email')}"></th>
 
@@ -75,26 +75,44 @@
                 </thead>
                 <tbody>
                 <tr  th:each="user : ${listUser}">
+                  <th:block th:if="${user.id == 3}">
+                    <td scope="row" th:text="${user.id}"></td>
 
-                  <td scope="row" th:text="${user.id}"></td>
+                    <td th:replace="~{common/fragments ::user_photos}"></td>
 
-                  <td th:replace="~{common/fragments ::user_photos}"></td>
+                    <td th:text="${user.email}"></td>
 
-                  <td th:text="${user.email}"></td>
+                    <td th:text="${user.firstName}"></td>
 
-                  <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
 
-                  <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.roles}"></td>
+                    <td></td>
+                    <td></td>
 
-                  <td th:text="${user.roles}"></td>
+                  </th:block>
+                  <th:block th:unless="${user.id == 3}">
+                    <td scope="row" th:text="${user.id}"></td>
 
-                  <td th:replace="~{common/fragments :: status(${user.enabled},  '/admin/users/' + ${user.id})}" ></td>
+                    <td th:replace="~{common/fragments ::user_photos}"></td>
 
-                  <td class="table-td-center">
-                    <a th:replace="~{common/fragments :: delete(${user.getFullName()},'nhân viên', '/admin/users/delete/' + ${user.id})}" ></a>
+                    <td th:text="${user.email}"></td>
 
-                    <a th:replace="~{common/fragments :: edit('/admin/users/edit/' + ${user.id}) }"></a>
-                  </td>
+                    <td th:text="${user.firstName}"></td>
+
+                    <td th:text="${user.lastName}"></td>
+
+                    <td th:text="${user.roles}"></td>
+
+                    <td th:replace="~{common/fragments :: status(${user.enabled},  '/admin/users/' + ${user.id})}" ></td>
+
+                    <td class="table-td-center">
+                      <a th:replace="~{common/fragments :: delete(${user.getFullName()},'nhân viên', '/admin/users/delete/' + ${user.id})}" ></a>
+
+                      <a th:replace="~{common/fragments :: edit('/admin/users/edit/' + ${user.id}) }"></a>
+                    </td>
+                  </th:block>
+
 
                 </tr>
                 </tbody>
@@ -102,7 +120,7 @@
             </div>
 
             <div class="text-center m-1" th:if="${totalItem > 0}">
-              <span>Tìm thấy  [[${startCount}]] to [[${endCount}]] of [[${totalItem}]]</span>
+              <span>Tìm thấy  [[${startCount}]] tới [[${endCount}]] trên tổng:  [[${totalItem}]] </span>
             </div>
 
             <div class="text-center m-1" th:unless="${totalItem > 0}">
@@ -133,7 +151,7 @@
 
                   <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
                     <a class="page-link" th:href="@{'/admin/users/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
-                      Last
+                      Cuối
                     </a>
                   </li>
 

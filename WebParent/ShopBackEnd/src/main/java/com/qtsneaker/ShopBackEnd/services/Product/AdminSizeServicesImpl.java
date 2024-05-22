@@ -16,10 +16,6 @@ public class AdminSizeServicesImpl implements AdminSizeServices {
     @Autowired private AdminSizeRepository sizeRepository;
     @Override
     public List<Size> getListAll() {
-        List<Size> allSizes = sizeRepository.findAll();
-        List<Size> sortedSizes = allSizes.stream()
-                .sorted(Comparator.comparingInt(Size::getId))
-                .collect(Collectors.toList());
-        return sortedSizes;
+        return  sizeRepository.findAll();
     }
 }

@@ -33,10 +33,9 @@ public class CustomerRepositoryTests {
 	public void testCreateCustomer1() {
 		Customer customer = new Customer();
 		customer.setFirstName("nguyen");
-		customer.setLastName("van a");
-		customer.setPassword("nguyenvana");
-		customer.setEmail("nguyenvana@gmail.com");
-		customer.setPhoneNumber("0899275363");
+		customer.setLastName("van khanh");
+		customer.setPassword("nguyenvankhanh");
+		customer.setEmail("nguyenvankhanh@gmail.com");
 		customer.setCreatedTime(new Date());
 		Customer savedCustomer = customerRepository.save(customer);
 		assertThat(savedCustomer).isNotNull();

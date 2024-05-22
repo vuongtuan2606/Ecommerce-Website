@@ -40,6 +40,9 @@
         </div>
         <div class="row">
             <div
+                    th:replace="~{order/order_status_fragment :: content(${order.cancelled}, 'CANCELLED', 'fa-retweet')}">
+            </div>
+            <div
                     th:replace="~{order/order_status_fragment :: content(${order.processing}, 'PROCESSING', 'fa-retweet')}">
             </div>
             <div

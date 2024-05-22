@@ -19,9 +19,7 @@ public class Order  extends AbstractAddress {
 
     private Date orderTime;
 
-    private float shippingCost;
-
-    private float subtotal;
+    private float productCost;
 
     private float total;
 
@@ -45,7 +43,12 @@ public class Order  extends AbstractAddress {
 
     public Order() {
     }
-
+    public Order(Integer id, Date orderTime, float productCost, float total) {
+        this.id = id;
+        this.orderTime = orderTime;
+        this.productCost = productCost;
+        this.total = total;
+    }
     public String getProvince() {
         return province;
     }
@@ -62,21 +65,6 @@ public class Order  extends AbstractAddress {
         this.orderTime = orderTime;
     }
 
-    public float getShippingCost() {
-        return shippingCost;
-    }
-
-    public void setShippingCost(float shippingCost) {
-        this.shippingCost = shippingCost;
-    }
-
-    public float getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(float subtotal) {
-        this.subtotal = subtotal;
-    }
 
     public float getTotal() {
         return total;
@@ -111,10 +99,17 @@ public class Order  extends AbstractAddress {
         this.customer = customer;
     }
 
+    public float getProductCost() {
+        return productCost;
+    }
+
+    public void setProductCost(float productCost) {
+        this.productCost = productCost;
+    }
+
     public Set<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
-
     public void setOrderDetails(Set<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
@@ -129,7 +124,7 @@ public class Order  extends AbstractAddress {
 
     @Override
     public String toString() {
-        return "Order [id=" + id + ", subtotal=" + subtotal + ", paymentMethod=" + paymentMethod + ", status=" + status
+        return "Order [id=" + id + ", paymentMethod=" + paymentMethod + ", status=" + status
                 + ", customer=" + customer.getFullName() + "]";
     }
 
@@ -137,9 +132,6 @@ public class Order  extends AbstractAddress {
         setFirstName(customer.getFirstName());
         setLastName(customer.getLastName());
         setPhoneNumber(customer.getPhoneNumber());
-        setAddressLine1(customer.getAddressLine1());
-        setDistrict(customer.getDistrict());
-        setProvince(customer.getProvince().getName());
     }
     public void copyAddressFromOrder(Address address) {
         setFirstName(address.getFirstName());
@@ -158,7 +150,6 @@ public class Order  extends AbstractAddress {
 
         return destination;
     }
-
 
 
     @Transient

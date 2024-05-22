@@ -74,7 +74,7 @@
 
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-bell"></i>
-                    <span class="badge bg-primary badge-number">4</span>
+                    <span class="badge bg-primary badge-number"></span>
                 </a><!-- End Notification Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
@@ -149,7 +149,7 @@
 
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-chat-left-text"></i>
-                    <span class="badge bg-success badge-number">3</span>
+                    <span class="badge bg-success badge-number"></span>
                 </a><!-- End Messages Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
@@ -369,10 +369,24 @@
                 </ul>
             </li><!-- End product Nav -->
         </th:block>
+        <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#report-nav" data-bs-toggle="collapse" href="javascript:void(0)">
+                    <i class="bi  bi-graph-up"></i><span>Báo cáo thống kê</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="report-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a th:href="@{/admin/reports}">
+                            <i class="bi bi-circle"></i><span>Tổng quan</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Setting Nav -->
+        </th:block>
         <th:block sec:authorize="hasAuthority('Admin')">
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#setting-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                    <i class="bi bi-gear"></i><span>Cài đặt hệ thống</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-gear"></i><span>Quản lý hệ thống</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="setting-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -383,36 +397,6 @@
                 </ul>
             </li><!-- End Setting Nav -->
         </th:block>
-        <li class="nav-heading">Pages</li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed"  th:href="@{/admin/account}">
-                <i class="bi bi-person"></i>
-                <span>Profile</span>
-            </a>
-        </li><!-- End Profile Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="">
-                <i class="bi bi-envelope"></i>
-                <span>Contact</span>
-            </a>
-        </li><!-- End Contact Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="">
-                <i class="bi bi-card-list"></i>
-                <span>Register</span>
-            </a>
-        </li><!-- End Register Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="">
-                <i class="bi bi-dash-circle"></i>
-                <span>Error 404</span>
-            </a>
-        </li><!-- End Error 404 Page Nav -->
-
     </ul>
 
 </aside><!-- End Sidebar-->

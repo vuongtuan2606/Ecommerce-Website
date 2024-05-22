@@ -1,6 +1,7 @@
 package com.qtsneaker.common.entity.order;
 
 
+import com.qtsneaker.common.entity.Category;
 import com.qtsneaker.common.entity.IdBasedEntity;
 import com.qtsneaker.common.entity.Product;
 import jakarta.persistence.Entity;
@@ -12,7 +13,7 @@ import jakarta.persistence.Table;
 @Table(name = "tbl_order_details")
 public class OrderDetail extends IdBasedEntity {
 	private int quantity;
-	private float shippingCost;
+	private float productCost;
 	private float unitPrice;
 	private float subtotal;
 	private  int size;
@@ -24,6 +25,30 @@ public class OrderDetail extends IdBasedEntity {
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private Order order;
+	public OrderDetail() {
+	}
+	public OrderDetail(String categoryName, int quantity, float productCost, float subtotal) {
+		this.product = new Product();
+		this.product.setCategory(new Category(categoryName));
+		this.quantity = quantity;
+		this.productCost = productCost * quantity;
+		this.subtotal = subtotal;
+	}
+
+	public OrderDetail(int quantity, String productName, float productCost,  float subtotal) {
+		this.product = new Product(productName);
+		this.quantity = quantity;
+		this.productCost = productCost * quantity;
+		this.subtotal = subtotal;
+	}
+
+	public float getProductCost() {
+		return productCost;
+	}
+
+	public void setProductCost(float productCost) {
+		this.productCost = productCost;
+	}
 
 	public int getQuantity() {
 		return quantity;
@@ -33,13 +58,6 @@ public class OrderDetail extends IdBasedEntity {
 		this.quantity = quantity;
 	}
 
-	public float getShippingCost() {
-		return shippingCost;
-	}
-
-	public void setShippingCost(float shippingCost) {
-		this.shippingCost = shippingCost;
-	}
 
 	public float getUnitPrice() {
 		return unitPrice;

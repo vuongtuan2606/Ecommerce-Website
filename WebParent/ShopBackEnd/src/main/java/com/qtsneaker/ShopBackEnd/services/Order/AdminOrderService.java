@@ -9,11 +9,15 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface AdminOrderService {
-    public  static final int ORDERS_PER_PAGE = 2;
+    public  static final int ORDERS_PER_PAGE = 10;
     List<Order> ListProductAll();
     Page<Order> listByPage(int pageNum, String sortField, String sortDir, String keyword);
 
     Order get(Integer id) throws OrderNotFoundException;
 
     void updateStatus(Integer orderId, String status);
+
+    Long getTotalToday();
+    Long getTotalLast7Days();
+    Long getTotalLastMonth();
 }

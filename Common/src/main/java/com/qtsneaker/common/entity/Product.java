@@ -32,6 +32,7 @@ public class Product extends IdBasedEntity {
     @Column(name = "in_stock")
     private boolean inStock;
 
+    private float cost;
     private float price;
 
     @Column(name = "discount_percent")
@@ -73,9 +74,10 @@ public class Product extends IdBasedEntity {
     }
 
     public Product() {}
-
     public Product(Integer id) {
         this.id = id;
+    }	public Product(String name) {
+        this.name = name;
     }
     public String getName() {
         return name;
@@ -141,6 +143,13 @@ public class Product extends IdBasedEntity {
         this.inStock = inStock;
     }
 
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
+    }
 
     public float getPrice() {
         return price;

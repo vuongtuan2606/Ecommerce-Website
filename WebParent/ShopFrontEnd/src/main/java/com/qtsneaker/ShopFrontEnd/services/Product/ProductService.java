@@ -13,12 +13,11 @@ public interface ProductService {
     public Page<Product> listByCategory(int pageNum, Integer categoryId);
     public Product getProduct(String alias) throws ProductNotFoundException;
     public Page<Product> listAllProduct(int pageNum);
-
     Page<Product> search(String keyword, int pageNum);
     List<Product> findTop4SimilarProducts(Integer categoryId, String alias);
-
     List<Product> productNewHomePage();
-
     Page<Product> listProductSaleOf(int pageNum);
+
+
 
 }

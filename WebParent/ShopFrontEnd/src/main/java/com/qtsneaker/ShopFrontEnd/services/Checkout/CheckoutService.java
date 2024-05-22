@@ -9,5 +9,5 @@ public interface CheckoutService {
     CheckoutInfo prepareCheckout(List<Cart> cartItems);
 
     float calculateProductTotal(List<Cart> cartItems);
-
+    float calculateProductCost(List<Cart> cartItems);
 }

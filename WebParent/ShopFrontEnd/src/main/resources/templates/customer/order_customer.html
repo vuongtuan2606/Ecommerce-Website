@@ -59,6 +59,7 @@
                                             <th th:replace="~{common/fragment :: column_link('total', 'Tổng tiền')}">
                                             <th th:replace="~{common/fragment :: column_link('status', 'Trạng thái')}">
                                             <th></th>
+                                            <th></th>
                                         </tr>
                                         <th:block  th:each="order : ${listOrders}">
                                             <tr >
@@ -75,24 +76,22 @@
                                                     [[${order.status.vietnameseName}]]
                                                 </span>
                                                 </td>
-                                                <td> <a th:href="@{'/orders/detail/' + ${order.id}}" >Chi tiết đơn hàng</a></td>
-
-                                            </tr>
+                                                <td>
+                                                    <a th:href="@{'/orders/detail/' + ${order.id}}" >Chi tiết đơn hàng</a>
+                                                </td>
                                         </th:block>
-
                                     </tbody>
                                 </table>
-                                <!--End of dashboard order table -->
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 
-   <!-- footer area -->
+
+<!-- footer area -->
    <div th:replace="~{common/common :: footer}"></div>
 
     <!-- back to top -->
@@ -109,6 +108,8 @@
     <script type="text/javascript">
         moduleURL = "[[@{/orders}]]";
         contextPath = "[[@{/}]]";
+
+
         document.addEventListener("DOMContentLoaded", function() {
 
             const form = document.querySelector('.search-form');
@@ -126,7 +127,7 @@
                 }
             });
         });
-
     </script>
+
     </body>
 </html>

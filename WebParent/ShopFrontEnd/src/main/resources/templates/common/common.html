@@ -14,6 +14,8 @@
     <link rel="shortcut icon" type="image/png" href="favicon.png">
 
     <!-- CSS Files -->
+
+
     <!--==== Google Fonts ====-->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900%7CRoboto+Condensed:300,400,700" rel="stylesheet">
 
@@ -85,14 +87,14 @@
                                         <div id="menu-button">
                                         </div>
                                         <ul>
-                                            <li ><a th:href="@{/}">Home</a>
+                                            <li ><a th:href="@{/}">Trang chủ</a>
                                             </li>
                                             <li>
-                                                <a th:href="@{/shop}">Shop</a>
+                                                <a th:href="@{/shop}">Cửa hàng</a>
                                             </li>
 
                                             <li>
-                                                <a href="#">Categories</a>
+                                                <a href="#">Danh mục</a>
                                                 <ul >
                                                     <th:block th:each="category : ${session.listNoChildrenCategories}">
                                                         <li >
@@ -152,14 +154,6 @@
                                                 <a th:href="@{/register}" class="dropdown-item">Đăng ký</a>
                                             </div>
                                         </th:block>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="menu-btn" title="Category menu">
-                                        <a href="#">
-                                            <img th:src="@{/assets/img/icons/manu-button.svg}" alt="" class="svg">
-                                        </a>
                                     </div>
                                 </li>
                             </ul>

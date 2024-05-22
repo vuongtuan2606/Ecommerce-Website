@@ -101,21 +101,8 @@
                                     <!-- checkout-review-order -->
                                     <!-- check Shipping warp -->
                                     <div class="check-shipping-wrap">
-                                        <div class="check-shipping-heading">
-                                            <h5>Phí vận chuyển</h5>
-                                        </div>
                                         <table class="check-shipping-table">
                                             <tbody>
-                                            <tr>
-                                            <tr>
-                                                <td>
-                                                    <label>
-                                                        Phí vận chuyển:<div th:replace="~{product/fragment :: format_currency(${checkoutInfo.shippingCostTotal})}"></div>
-                                                    </label>
-                                                </td>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            </tr>
                                             <tr>
                                                 <td>Tổng tiền</td>
                                                 <td> <div th:replace="~{product/fragment :: format_currency(${checkoutInfo.paymentTotal})}"></div></td>

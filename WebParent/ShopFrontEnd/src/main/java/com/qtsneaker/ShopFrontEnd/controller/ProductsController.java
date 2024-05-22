@@ -1,6 +1,7 @@
 package com.qtsneaker.ShopFrontEnd.controller;
 
 
+import com.qtsneaker.ShopFrontEnd.dao.ProductRepository;
 import com.qtsneaker.ShopFrontEnd.services.Cart.CartService;
 import com.qtsneaker.ShopFrontEnd.services.Category.CategoryService;
 import com.qtsneaker.ShopFrontEnd.services.Product.ProductService;
@@ -34,6 +35,8 @@ public class ProductsController {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired private ProductRepository repository;
     @GetMapping("/categories/{category_alias}")
     public String viewCategoryFirstPage(@PathVariable("category_alias") String alias,
                                         Model model) {
@@ -104,6 +107,7 @@ public class ProductsController {
             if (endCount > pageProducts.getTotalElements()) {
                 endCount = pageProducts.getTotalElements();
             }
+
 
             model.addAttribute("currentPage", pageNum);
             model.addAttribute("totalPages", pageProducts.getTotalPages());

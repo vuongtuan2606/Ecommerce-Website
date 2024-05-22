@@ -20,7 +20,7 @@
         <div class="slider-inner-wrap">
             <div class="owl-carousel banner-carousel1">
                 <!-- single slider wrap -->
-                <div class="single-slider-wrap" th:data-bg-img='@{images/slider_nike.jpg}'>
+                <div class="single-slider-wrap" th:data-bg-img='@{assets/image/banner1.jpg}'>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
@@ -43,12 +43,12 @@
                 <!-- single slider wrap -->
 
                 <!-- single slider wrap -->
-                <div class="single-slider-wrap" th:data-bg-img='@{images/slider_2.webp}'>
+                <div class="single-slider-wrap" th:data-bg-img='@{assets/image/banner2.jpg}'>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="banner-image" data-trigger="parallax_layers">
-                                    <img th:src="@{images/slider_on_2.jpg}" alt="" data-depth="0.5">
+                                    <img th:src="@{assets/image/}" alt="" data-depth="0.5">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -66,7 +66,7 @@
                 <!-- single slider wrap -->
 
                 <!-- single slider wrap -->
-                <div class="single-slider-wrap" th:data-bg-img='@{images/slider_3.webp}'>
+                <div class="single-slider-wrap" th:data-bg-img='@{assets/image/banner3.jpg}'>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
@@ -100,11 +100,11 @@
                         <!-- single Collection -->
                         <div class="single-colection-inner overlay2 type2">
                             <div class="single-colection-img">
-                                <img th:src="@{assets/img/add/collection-1.jpg}" alt="">
+                                <img th:src="@{assets/image/start1.webp}" alt="" style="width: 350px; height: 190px">
                             </div>
                             <div class="single-colection">
-                                <h3>Trendy Items</h3>
-                                <a href="#" class="btn">Shop Now</a>
+                                <h3>Sản phẩm hot trendy</h3>
+                                <a href="#" class="btn">Xem ngay</a>
                             </div>
                         </div>
                         <!-- End of single Collection -->
@@ -114,11 +114,11 @@
                         <!-- single Collection -->
                         <div class="single-colection-inner overlay3 type2">
                             <div class="single-colection-img">
-                                <img th:src="@{assets/img/add/collection-2.jpg}" alt="">
+                                <img th:src="@{assets/image/banneraaaa.jpg}" alt="" style="width: 350px; height: 190px">
                             </div>
                             <div class="single-colection">
-                                <h3>Top Sellers</h3>
-                                <a href="#" class="btn">Shop Now</a>
+                                <h3>Sản phẩm bán chạy</h3>
+                                <a href="#" class="btn">Xem ngay</a>
                             </div>
                         </div>
                         <!-- End of single Collection -->
@@ -128,11 +128,11 @@
                         <!-- single Collection -->
                         <div class="single-colection-inner overlay4 type2">
                             <div class="single-colection-img">
-                                <img th:src="@{assets/img/add/collection-3.jpg}" alt="">
+                                <img th:src="@{assets/image/banner3.jpg}" alt="" style="width: 350px; height: 190px">
                             </div>
                             <div class="single-colection">
-                                <h3>Hot Deals</h3>
-                                <a href="#" class="btn">Shop Now</a>
+                                <h3>Ưu đãi lớn</h3>
+                                <a href="#" class="btn">Xemn ngay</a>
                             </div>
                         </div>
                         <!-- End of single Collection -->
@@ -164,67 +164,86 @@
             </div>
         </div>
     </section>
-    
-    <!-- offer -->
-    <section>
-        <div class="offer parallax-window" data-parallax="scroll" th:data-image-src="@{images/slider_1.webp}">
+
+    <!-- quick service  -->
+    <section class="pt-70 pb-40 pattern bdr-top bdr-btm">
+        <div class="quick-service-wrap">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <!-- offer inner area -->
-                        <div class="offer-inner-area">
-                            <h4 class="get-upto">Get Up To</h4>
-                            <h2><span class="spacial great-vibes">75%</span>OFF</h2>
-                            <h4>For this <span>#summer</span> only</h4>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of page at its layout.</p>
-                            <a href="#" class="btn">Shop Now</a>
+                <div class="row">
+                    <!-- single quick service -->
+                    <div class="col-md-4">
+                        <div class="single-quick-service d-flex align-items-center">
+                            <img src="assets/img/icons/car.svg" class="svg" alt="">
+                            <div class="single-quick-text">
+                                <h5>Giao hàng toàn quốc</h5>
+                                <p>Miễn phí vận chuyển với đơn hàng trên 1.000.000 Đ</p>
+                            </div>
                         </div>
-                        <!-- End of offer inner area -->
                     </div>
+                    <!-- enn of quick service -->
+
+                    <!-- single quick service -->
+                    <div class="col-md-4">
+                        <div class="single-quick-service d-flex align-items-center">
+                            <img src="assets/img/icons/retry.svg" class="svg" alt="">
+                            <div class="single-quick-text">
+                                <h5>Đổi hàng dễ dàng</h5>
+                                <p>Đổi hàng online ,trực tiếp.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- enn of quick service -->
+
+                    <!-- single quick service -->
+                    <div class="col-md-4">
+                        <div class="single-quick-service d-flex align-items-center">
+                            <img src="assets/img/icons/phone-volume.svg" class="" alt="" style="width: 60px;height: 50px;">
+                            <div class="single-quick-text">
+                                <h5>Hỗ trợ online</h5>
+                                <p>Đội ngũ hỗ trợ hoạt động tất cả các ngày trong tuần, từ 9am -> 9pm.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- enn of quick service -->
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Subscribe area -->
-    <section class="pt-100 pb-100">
+    <!-- End of quick service  -->
+
+
+    <!-- About area -->
+    <section class="pt-100 pb-70">
         <div class="container">
             <div class="row">
-                <div class="col">
-                    <!-- section title -->
-                    <div class="section-title-wrap">
-                        <div class="section-title">
-                            <h2>Subscribe Now <span>Get Update</span></h2>
-                            
+                <div class="col-md-6">
+                    <!-- about area -->
+                    <div class="about-area-inner">
+                        <!-- about header -->
+                        <div class="about-header">
+                            <span>Về chúng tôi</span>
+                            <h3>Thương hiệu tốt nhất Chất lượng tốt nhất</h3>
+                        </div>
+                        <!--End of about header -->
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form words.</p>
+                        <p>
+                            If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Inter net. It uses a dictionary of over 200 Latin words.</p>
+                        <a href="#">More About Us <span><i class="fa fa-angle-right"></i></span></a>
+                    </div>
+                    <!--End of about area -->
+                </div>
+                <div class="col-md-6">
+                    <div class="about-image-inner">
+                        <div class="about-image">
+                            <img src="assets/img/featuerd/about1.jpg" alt="" class="about-image1">
+                            <img src="assets/img/featuerd/about2.jpg" alt="" class="about-image2">
+                            <img src="assets/img/featuerd/about3.jpg" alt="" class="about-image3">
                         </div>
                     </div>
-                <!-- End of section title -->
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <!-- subscribe text -->
-                    <div class="subscribe-text">
-                        <h5>25% Discount On Subscribtion</h5>
-                        <p>Get updates by subscribe our weekly newsletter</p>
-                    </div>
-                    <!-- End of subscribe text -->
-                </div>
-                <div class="col-md-6">
-                    <!-- subscribe form -->
-                    <div class="primary-form parsley-validate subscribe-form">
-                        <form action="https://themelooks.us13.list-manage.com/subscribe/post?u=79f0b132ec25ee223bb41835f&id=f4e0e93d1d" method='post' target="_blank" novalidate>
-                            <input type="email" name="email" class="theme-input-style" placeholder="Enter Email Address" required>
-                            <button type="submit" class="subscribe-btn">Subscribe</button>
-                        </form>
-                    </div>
-                    <!-- End of subscribe form -->
                 </div>
             </div>
         </div>
     </section>
-
-
 
     <!-- footer  -->
     <div th:replace="~{common/common :: footer}"></div>

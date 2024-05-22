@@ -42,7 +42,7 @@ public class AdminSettingControler {
         List<Currency> listCurrencies = adminCurrencyRepository.findAllByOrderByNameAsc();
 
         model.addAttribute("listCurrencies", listCurrencies);
-        model.addAttribute("pageTitle", "setting");
+        model.addAttribute("pageTitle", "Quản lý hệ thống");
 
         for (Setting setting : listSettings) {
             //thêm các cặp key-value từ danh sách listSettings vào model.

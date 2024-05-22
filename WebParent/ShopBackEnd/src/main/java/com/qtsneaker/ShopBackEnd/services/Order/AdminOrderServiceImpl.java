@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
 import java.util.NoSuchElementException;
 
 @Service
@@ -82,5 +83,28 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
             repo.save(orderInDB);
         }
+    }
+    @Override
+    public Long getTotalToday() {
+        Date today = new Date();
+        return repo.sumTotalToday(today);
+    }
+
+    @Override
+    public Long getTotalLast7Days() {
+        Calendar calendar = Calendar.getInstance();
+        Date endDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_YEAR, -7);
+        Date startDate = calendar.getTime();
+        return repo.sumTotalLast7Days(startDate, endDate);
+    }
+
+    @Override
+    public Long getTotalLastMonth() {
+        Calendar calendar = Calendar.getInstance();
+        Date endDate = calendar.getTime();
+        calendar.add(Calendar.MONTH, -1);
+        Date startDate = calendar.getTime();
+        return repo.sumTotalLastMonth(startDate, endDate);
     }
 }

@@ -11,13 +11,13 @@ public class AbstractAddress extends IdBasedEntity {
     @Column(name = "last_name", nullable = false, length = 45)
     protected String lastName;
 
-    @Column(name = "phone_number", nullable = false, length = 15)
+    @Column(name = "phone_number", length = 15)
     protected String phoneNumber;
 
-    @Column(name = "address_line_1", nullable = false, length = 64)
+    @Column(name = "address_line_1", length = 64)
     protected String addressLine1;
 
-    @Column(name = "district",nullable = false, length = 64)
+    @Column(name = "district", length = 64)
     protected String district;
 
     public String getFirstName() {

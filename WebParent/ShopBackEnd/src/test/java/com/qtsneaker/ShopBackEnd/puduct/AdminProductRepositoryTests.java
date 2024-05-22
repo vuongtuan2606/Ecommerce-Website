@@ -19,8 +19,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = {ShopBackEndApplication.class})
-@DataJpaTest(showSql = false)
-@Rollback(false)
+@DataJpaTest(showSql = true)
+@Rollback(value = true)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class AdminProductRepositoryTests {
     @Autowired

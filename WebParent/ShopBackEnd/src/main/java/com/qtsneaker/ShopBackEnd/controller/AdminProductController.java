@@ -105,14 +105,16 @@ public class AdminProductController {
     @GetMapping("/products/create")
     public String createProduct(Model model) {
         List<Brand> listBrand = adminBrandService.listAll();
-        List<Size> listSize =adminSizeServices.getListAll();
         Product product = new Product();
         product.setEnabled(true);
         product.setInStock(true);
 
         model.addAttribute("product", product);
         model.addAttribute("listBrand", listBrand);
+
+        List<Size> listSize =adminSizeServices.getListAll();
         model.addAttribute("listSize", listSize);
+
         model.addAttribute("pageTitle", "Thêm mới");
         model.addAttribute("numberOfExistingExtraImages", 0);
 

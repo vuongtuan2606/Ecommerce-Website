@@ -11,12 +11,15 @@ public class CheckoutServiceImpl implements CheckoutService {
     public CheckoutInfo prepareCheckout(List<Cart> cartItems) {
         CheckoutInfo checkoutInfo = new CheckoutInfo();
 
+        // giá giảm * số lượng
         float productTotal = calculateProductTotal(cartItems);
-        float shippingCostTotal = 30.0f;
-        float paymentTotal = productTotal + shippingCostTotal;
+        // giá nhập
+        float productCost = calculateProductCost(cartItems);
+        // tổng tiền
+        float paymentTotal = productTotal ;
 
+        checkoutInfo.setProductCost(productCost);
         checkoutInfo.setProductTotal(productTotal);
-        checkoutInfo.setShippingCostTotal(shippingCostTotal);
         checkoutInfo.setPaymentTotal(paymentTotal);
 
         return checkoutInfo;
@@ -30,5 +33,15 @@ public class CheckoutServiceImpl implements CheckoutService {
             total += item.getSubtotal();
         }
         return total;
+    }
+    @Override
+    public float calculateProductCost(List<Cart> cartItems) {
+        float cost = 0.0f;
+
+        for (Cart item : cartItems) {
+            cost += item.getQuantity() * item.getProduct().getCost();
+        }
+
+        return cost;
     }
 }

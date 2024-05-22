@@ -36,4 +36,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, Pagi
 	@Query("SELECT p FROM Product p WHERE p.enabled =true and p.discountPercent != 0")
 	public Page<Product> listProductSaleOf(Pageable pageable);
 
+
+
 }

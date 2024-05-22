@@ -15,11 +15,11 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Profile</h1>
+    <h1>Hồ sơ</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-        <li class="breadcrumb-item active">Profile</li>
+        <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Thông tin cá nhân</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -88,7 +88,7 @@
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                 <!-- account Form -->
-                <form th:action="@{/admin/update}" method="post"
+                <form th:action="@{/admin/account/update}" method="post"
                       enctype="multipart/form-data"
                       th:object="${user}"
                       onsubmit="return checkEmailUnique(this);">

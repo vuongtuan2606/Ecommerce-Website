@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AdminProductService {
 
-    public static final int PRODUCTS_PER_PAGE = 3;
+    public static final int PRODUCTS_PER_PAGE = 5;
 
     List<Product> ListProductAll();
     Page<Product> listByPage(int pageNum, String sortField, String sortDir, String keyword, Integer categoryId);

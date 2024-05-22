@@ -22,7 +22,7 @@ public class SecurityConfig  {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/admin/users/**","/admin/setting/**").hasAuthority("Admin")
 
-                .requestMatchers("/admin/customers/**","/admin/order/**").hasAnyAuthority("Admin","Salesperson")
+                .requestMatchers("/admin/customers/**","/admin/order/**","/admin/reports/**").hasAnyAuthority("Admin","Salesperson")
 
                 .requestMatchers("/admin/categories/**", "/admin/brands/**").hasAnyAuthority("Admin","Editor")
 

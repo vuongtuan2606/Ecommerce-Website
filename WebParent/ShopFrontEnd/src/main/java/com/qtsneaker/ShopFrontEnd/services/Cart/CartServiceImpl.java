@@ -66,6 +66,7 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findByCustomer(customer);
     }
 
+
    /* Cập nhật số lượng của một sản phẩm trong giỏ hàng*/
     @Override
     public float updateQuantity(Integer productId, Integer quantity, Customer customer, Integer sizeId) {

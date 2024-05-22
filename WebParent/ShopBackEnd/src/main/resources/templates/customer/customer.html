@@ -17,7 +17,7 @@
     <h1>Quản lý khánh hàng</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
         <li class="breadcrumb-item active"><a th:href="@{/admin/customers}">[[${pageTitle}]]</a></li>
       </ol>
     </nav>
@@ -52,9 +52,9 @@
                 <tr>
                   <th th:replace="~{common/fragments :: column_link('id', 'ID')}"></th>
 
-                  <th th:replace="~{common/fragments :: column_link('firstName', ' Tên đầu')}"></th>
+                  <th th:replace="~{common/fragments :: column_link('firstName', ' Họ')}"></th>
 
-                  <th th:replace="~{common/fragments :: column_link('lastName', ' Tên cuối')}"></th>
+                  <th th:replace="~{common/fragments :: column_link('lastName', ' Tên')}"></th>
 
                   <th th:replace="~{common/fragments :: column_link('email', ' E-mail')}"></th>
 
@@ -88,7 +88,7 @@
             </div>
 
             <div class="text-center m-1" th:if="${totalItem > 0}">
-              <span>Tìm thấy  [[${startCount}]] to [[${endCount}]] of [[${totalItem}]]</span>
+              <span>Tìm thấy  [[${startCount}]] tới [[${endCount}]] trên tổng: [[${totalItem}]] </span>
             </div>
 
             <div class="text-center m-1" th:unless="${totalItem > 0}">
@@ -119,7 +119,7 @@
 
                   <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
                     <a class="page-link" th:href="@{'/admin/customers/page/'+ ${totalPages}+'?sortField='+${sortField} +'&sortDir=' +${sortDir}}" aria-label="Next">
-                      Last
+                      Cuối
                     </a>
                   </li>
 

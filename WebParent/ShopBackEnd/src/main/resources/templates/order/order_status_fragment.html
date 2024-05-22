@@ -10,7 +10,6 @@
 		<th:block th:unless="${statusVar}">
 
 			<a
-
 				th:class="'fas ' + ${iconName} + ' fa-2x icon-dark linkUpdateStatus'"
 				th:id="'link' + ${statusName} + ${order.id}"
 				th:orderId="${order.id}" th:status="${statusName}"
