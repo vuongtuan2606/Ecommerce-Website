@@ -65,11 +65,25 @@ function showUpdateConfirmModal(link) {
 	var orderId = link.attr("orderId");
 	var status = link.attr("status");
 	var requestURL = link.attr("href");
+	var statusName = getStatusName(status); // Lấy tên trạng thái
 
-	confirmText.text("Xác nhận cập nhật trạng thái đơn hàng có ID #" + orderId +"?");
-
+	confirmText.text("Xác nhận cập nhật trạng thái đơn hàng có ID #" + orderId + " sang trạng thái: " + statusName + "?");
 	confirmSuccessButton.attr("href", requestURL);
 	confirmModalDialog.modal('show');
+}
+function getStatusName(status) {
+	switch (status) {
+		case 'PROCESSING':
+			return 'Đang xử lý';
+		case 'PACKAGED':
+			return 'Đã đóng gói';
+		case 'SHIPPING':
+			return 'Đang vận chuyển';
+		case 'DELIVERED':
+			return 'Đã giao hàng';
+		default:
+			return status;
+	}
 }
 
 function showMessageModal(message) {

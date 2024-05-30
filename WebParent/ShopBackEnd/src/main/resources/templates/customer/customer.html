@@ -58,6 +58,8 @@
 
                   <th th:replace="~{common/fragments :: column_link('email', ' E-mail')}"></th>
 
+                  <th th:replace="~{common/fragments :: column_link('authenticationType', ' Kiểu đăng nhập ')}"></th>
+
                   <th th:replace="~{common/fragments :: column_link('enabled', ' Trạng thái')}"></th>
 
                   <th scope="col">Khác</th>
@@ -73,6 +75,8 @@
                   <td th:text="${customer.lastName}"></td>
 
                   <td th:text="${customer.email}"></td>
+
+                  <td th:text="${customer.authenticationType}"></td>
 
                   <td th:replace="~{common/fragments :: status(${customer.enabled},  '/admin/customers/' + ${customer.id})}" ></td>
 

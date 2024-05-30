@@ -16,19 +16,18 @@
        </div>
    </th:block>
 
-   <th:block th:fragment="quantity_control_cart(quantityValue, productId)">
+   <th:block th:fragment="quantity_control_cart(quantityValue, productId, sizeId)">
        <div class="product-quantity">
-            <span class="minus" th:pid="${productId}">
+            <span class="minus" th:pid="${productId}" th:data-size-id="${sizeId}">
                 <img th:src="@{/assets/img/icons/minus.svg}" class="svg" alt="">
             </span>
 
-           <input type="text" th:value="${quantityValue}" th:id="'quantity' + ${productId}"  >
+           <input type="text" th:value="${quantityValue}" th:id="'quantity' + ${productId} + '_' + ${sizeId}" class="product-quantity-list">
 
-           <span class="plus" th:pid="${productId}">
+            <span class="plus" th:pid="${productId}" th:data-size-id="${sizeId}">
                 <img th:src="@{/assets/img/icons/plus.svg}" class="svg" alt="">
             </span>
-
-       </div>
+           </div>
    </th:block>
 </body>
 </html>

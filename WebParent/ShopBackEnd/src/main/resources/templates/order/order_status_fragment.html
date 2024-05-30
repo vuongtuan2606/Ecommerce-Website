@@ -4,16 +4,15 @@
 <body>
 
 	<div th:fragment="content(statusVar, statusName, iconName)" class="col-2">
-		<th:block th:if="${statusVar}">
+		<th:block th:if="${statusVar == false}">
+			<a th:class="'fas ' + ${iconName} + ' fa-2x icon-dark linkUpdateStatus'"
+			   th:id="'link' + ${statusName} + ${order.id}"
+			   th:orderId="${order.id}" th:status="${statusName}"
+			   th:href="@{'/orders/updateStatus/' + ${order.id} + '/' + ${statusName}}"></a>
+		</th:block>
+		<th:block th:if="${statusVar == true}">
 			<i th:class="'fas ' + ${iconName} + ' fa-2x icon-green'"></i>
 		</th:block>
-		<th:block th:unless="${statusVar}">
-
-			<a
-				th:class="'fas ' + ${iconName} + ' fa-2x icon-dark linkUpdateStatus'"
-				th:id="'link' + ${statusName} + ${order.id}"
-				th:orderId="${order.id}" th:status="${statusName}"
-				th:href="@{'/orders/updateStatus/' + ${order.id} + '/' + ${statusName}}"></a>
-		</th:block>
 	</div>
+
 </body>

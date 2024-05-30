@@ -64,11 +64,7 @@
                     <div class="product-details-inner">
                         <!-- product info -->
                         <div class="product-info">
-                            <div class="product-rating">
-                                <div class="star-rating">
-                                    <span></span>
-                                </div>
-                            </div>
+
 
                             <!-- product title -->
                             <div class="product-title">
@@ -92,22 +88,23 @@
                                     <li class="size-group group">
                                         <span class="list-heading">size:</span>
                                         <ul class="size-list mb-0 list-unstyled" >
-                                            <th:block th:each="temp : ${product.sizes}">
+                                            <th:block th:each="temp : ${sortedSizes}">
                                                 <li><a href="#" class="product-size"  th:data-size-id="${temp.id}"><span>[[${temp.name}]]</span></a></li>
                                             </th:block>
+
+
                                         </ul>
                                     </li>
                                     <li class="available-group group">
-                                        <span class="list-heading " th:if="${product.inStock}">Còn hàng</span>
-                                        <span class="list-heading" th:unless="${product.inStock}">Hết hàng</span>
+                                        <th:block th:if="${product.productQuantity> 0}">
+                                            <span class="list-heading ">Số lượng còn :[[${product.productQuantity}]]</span>
+                                        </th:block>
                                     </li>
-                                    <th:block th:if="${product.inStock}">
-                                    <!--  quantity -->
+                                     <th:block th:if="${product.productQuantity> 0}">
                                     <li class="quantity-group group">
-                                        <span class="list-heading">quantity:</span>
+                                        <span class="list-heading">Số lượng:</span>
                                         <th:block th:replace="~{/cart/quantity_controller :: quantity_control(1, ${product.id})}"></th:block>
                                     </li>
-                                    <!-- product details btns -->
                                     <div class="product-details-btns">
                                         <div class="addto-bag-btn">
                                             <a href="#" class="btn btn-fill-type" id="buttonAdd2Cart">
@@ -116,7 +113,7 @@
                                         </div>
                                     </div>
                                     </th:block>
-                                    <th:block th:unless="${product.inStock}">
+                                    <th:block th:if="${product.productQuantity < 0}">
                                         <div class="product-out-stock">
                                             <h5>Sản phầm này hiện đang hết hàng</h5>
                                         </div>

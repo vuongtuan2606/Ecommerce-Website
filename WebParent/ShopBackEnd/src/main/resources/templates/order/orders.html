@@ -25,23 +25,23 @@
 
     <section class="section admin-user">
         <div class="row">
-            <!-- columns element-button -->
-            <div class="col-lg-12 ol-sm-12 element-button ">
-                <div class="row">
-                    <div class="col-xl-12 element_container ">
-                        <div class="search-bar" >
-                            <form th:action="@{/admin/orders/page/1}" class="search-form d-flex align-items-center" id="searchForm" >
-                                <input type="hidden" name="sortField" th:value="${sortField}"/>
-                                <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+<!--            &lt;!&ndash; columns element-button &ndash;&gt;-->
+<!--            <div class="col-lg-12 ol-sm-12 element-button ">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-xl-12 element_container ">-->
+<!--                        <div class="search-bar" >-->
+<!--                            <form th:action="@{/admin/orders/page/1}" class="search-form d-flex align-items-center" id="searchForm" >-->
+<!--                                <input type="hidden" name="sortField" th:value="${sortField}"/>-->
+<!--                                <input type="hidden" name="sortDir" th:value="${sortDir}"/>-->
 
-                                <input type="text" name="keyword" th:value="${keyword}" placeholder="Search" title="Enter search keyword" >
-                                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+<!--                                <input type="text" name="keyword" th:value="${keyword}" placeholder="Search" title="Enter search keyword" >-->
+<!--                                <button type="submit" title="Search"><i class="bi bi-search"></i></button>-->
 
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- End columns element-button -->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>&lt;!&ndash; End columns element-button &ndash;&gt;-->
 
             <div th:if="${message != null}" class=" alert alert-success text-center">
                 [[${message}]]

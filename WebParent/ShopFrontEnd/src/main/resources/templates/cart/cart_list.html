@@ -88,14 +88,14 @@
                                                 <!-- Product size -->
                                                 <td>
                                                     <div class="product-size">
-                                                        <input type="text" th:value="${item.productSize}"  class="product-size-list">
+                                                        <input type="text" th:value="${item.productSize}" class="product-size-list" th:data-size-id="${item.productSize}">
                                                     </div>
                                                 </td>
                                                 <!--End of Product Size -->
 
                                                 <!-- product quantity -->
                                                 <td>
-                                                    <th:block th:replace="~{/cart/quantity_controller :: quantity_control_cart(${item.quantity}, ${product.id})}"></th:block>
+                                                    <th:block th:replace="~{/cart/quantity_controller :: quantity_control_cart(${item.quantity}, ${product.id}, ${item.productSize})}"></th:block>
                                                 </td>
 
                                                 <!-- product price -->
@@ -110,7 +110,7 @@
                                                     <span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" style="color: darkred">
                                                         [[${CURRENCY_SYMBOL}]]
                                                     </span>
-                                                    <span class="totalprice subtotal"  th:id="'subtotal' + ${product.id}" style="color: darkred">
+                                                    <span class="totalprice subtotal"  th:id="'subtotal' + ${product.id} + '_' + ${item.productSize}" style="color: darkred">
                                                         [[${#numbers.formatDecimal(item.subtotal,1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
                                                     </span>
                                                     <span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" style="color: darkred">

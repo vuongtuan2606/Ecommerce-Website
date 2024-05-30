@@ -7,26 +7,27 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tbl_size")
 public class Size extends IdBasedEntity {
-    @Column(nullable = false, length = 45, unique = true)
-    private String name;
+    @Column(name = "name", nullable = false, unique = true)
+    private Integer name ;
 
     public Size(){}
-    public Size(String name) {
-        this.name = name;
-    }
 
-    public String getName() {
+    public Integer getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Integer name) {
+        this.name = name;
+    }
+
+    public Size(Integer name) {
         this.name = name;
     }
 
     @Override
     public String toString() {
         return "Size{" +
-                "name='" + name + '\'' +
+                "name=" + name +
                 ", id=" + id +
                 '}';
     }

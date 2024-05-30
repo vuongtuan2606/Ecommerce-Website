@@ -91,16 +91,6 @@
                                                         </div>
 
                                                         <div class="col-12 pb-3">
-                                                            <label class="form-label">Tổng phụ: </label>
-                                                            <span th:replace="~{common/fragment :: format_currency(${order.subtotal})}"></span>
-                                                        </div>
-
-                                                        <div class="col-12 pb-3">
-                                                            <label class="form-label">Phí vận chuyển: </label>
-                                                            <span th:replace="~{common/fragment :: format_currency(${order.shippingCost})}"></span>
-                                                        </div>
-
-                                                        <div class="col-12 pb-3">
                                                             <label class="form-label">Tổng tiền: </label>
                                                             <span th:replace="~{common/fragment :: format_currency(${order.total})}"></span>
                                                         </div>

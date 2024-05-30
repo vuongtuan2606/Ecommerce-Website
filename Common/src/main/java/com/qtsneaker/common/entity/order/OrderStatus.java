@@ -2,7 +2,7 @@ package com.qtsneaker.common.entity.order;
 
 public enum OrderStatus {
 
-	NEW("Mới") {
+	NEW("Chờ xác nhận ") {
 		@Override
 		public String defaultDescription() {
 			return "Đơn hàng đã được khách hàng đặt";

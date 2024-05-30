@@ -12,8 +12,12 @@ $(document).ready(function() {
 
     $("#buttonAdd2Cart").on("click", function(evt) {
         evt.preventDefault();
-        addToCart(selectedSizeId);
-
+        if (typeof selectedSizeId === 'undefined') {
+            showErrorModal("Vui lòng chọn kích thước trước khi thêm vào giỏ hàng.");
+        }
+        else {
+            addToCart(selectedSizeId);
+        }
     });
 });
 

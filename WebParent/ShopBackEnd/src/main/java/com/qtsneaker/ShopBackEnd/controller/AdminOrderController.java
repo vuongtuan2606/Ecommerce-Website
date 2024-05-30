@@ -45,7 +45,7 @@ public class AdminOrderController {
                              @Param("keyword") String keyword,
                              @PathVariable(name = "pageNum") int pageNum,
                              Model model
-                            ) {
+    ) {
 
         Page<Order> page = service.listByPage(pageNum, sortField, sortDir, keyword);
         List<Order> listOrder = page.getContent();
@@ -118,10 +118,10 @@ public class AdminOrderController {
     }
     @GetMapping("/orders/status/{id}")
     public String viewOrderStatus(@PathVariable("id") Integer id,
-                                   Model model,
-                                   RedirectAttributes ra,
-                                   HttpServletRequest request,
-                                   @AuthenticationPrincipal AdminUserDetails loggedUse) {
+                                  Model model,
+                                  RedirectAttributes ra,
+                                  HttpServletRequest request,
+                                  @AuthenticationPrincipal AdminUserDetails loggedUse) {
         try {
             Order order = service.get(id);
 

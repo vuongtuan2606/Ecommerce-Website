@@ -15,7 +15,7 @@ public interface CartService {
     List<Cart> listCartItems(Customer customer);
 
     /* Cập nhật số lượng của một sản phẩm trong giỏ hàng*/
-    float updateQuantity(Integer productId, Integer quantity, Customer customer,Integer sizeId);
+    float updateQuantity(Integer productId, Integer quantity, Customer customer,Integer sizeId) throws CartException;
 
     /* Xóa một sản phẩm khỏi giỏ hàng*/
     void removeProduct(Integer productId, Customer customer);

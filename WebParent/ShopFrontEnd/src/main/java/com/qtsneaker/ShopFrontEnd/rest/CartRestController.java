@@ -1,14 +1,18 @@
 package com.qtsneaker.ShopFrontEnd.rest;
 
 import com.qtsneaker.ShopFrontEnd.controller.ControllerHelper;
+import com.qtsneaker.ShopFrontEnd.dao.ProductRepository;
+import com.qtsneaker.ShopFrontEnd.dao.ProvinceRepository;
 import com.qtsneaker.ShopFrontEnd.exception.CartException;
 import com.qtsneaker.ShopFrontEnd.services.Cart.CartService;
 import com.qtsneaker.ShopFrontEnd.services.Customer.CustomerService;
 import com.qtsneaker.ShopFrontEnd.util.Utility;
 import com.qtsneaker.common.entity.Customer;
+import com.qtsneaker.common.entity.Product;
 import com.qtsneaker.common.exception.CustomerNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +21,8 @@ public class CartRestController {
 	@Autowired private CartService cartService;
 
 	@Autowired private CustomerService customerService;
+
+	@Autowired private ProductRepository productRepository;
 
 
 	@Autowired private ControllerHelper controllerHelper;
@@ -72,7 +78,7 @@ public class CartRestController {
 	public String updateQuantity(@PathVariable("productId") Integer productId,
 								 @PathVariable("quantity") Integer quantity,
 								 @RequestParam("sizeId") Integer sizeId,
-								 HttpServletRequest request) {
+								 HttpServletRequest request) throws CartException {
 		try {
 			// Lấy thông tin khách hàng đã xác thực từ request
 			Customer customer = getAuthenticatedCustomer(request);
@@ -84,10 +90,27 @@ public class CartRestController {
 			return String.valueOf(subtotal);
 
 		} catch (CustomerNotFoundException ex) {
-
 			// Trả về thông báo lỗi nếu không tìm thấy thông tin khách hàng đã xác thực
 			return "Bạn phải đăng nhập để thay đổi số lượng sản phẩm.";
 		}
+	}
+
+	@GetMapping("/cart/checkStock/{productId}/{quantity}")
+	public ResponseEntity<String> checkStock(@PathVariable("productId") Integer productId,
+											 @PathVariable("quantity") Integer quantity,
+											 @RequestParam("sizeId") Integer sizeId) {
+		Product product = productRepository.findById(productId).orElse(null);
+		if (product == null) {
+			return ResponseEntity.badRequest().body("Sản phẩm không tồn tại.");
+		}
+
+		int availableStock = product.getProductQuantity();
+
+		if (quantity > availableStock) {
+			return ResponseEntity.badRequest().body("Số lượng yêu cầu lớn hơn số lượng hiện có trong kho.");
+		}
+
+		return ResponseEntity.ok("Sản phẩm có sẵn.");
 	}
 
 	/* Xóa sản phẩm khỏi giỏ hàng*/

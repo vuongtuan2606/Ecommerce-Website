@@ -2,11 +2,13 @@ package com.qtsneaker.ShopFrontEnd.dao;
 
 
 import com.qtsneaker.common.entity.Product;
+import com.qtsneaker.common.entity.Size;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, Pagi
 
 	public Product findByAlias(String alias);
 
-	@Query("SELECT p FROM Product p WHERE p.enabled = true ORDER BY p.name ASC")
+	@Query("SELECT p FROM Product p WHERE p.enabled = true ")
 	public Page<Product> findAllProductByEnabled(Pageable pageable);
 
 	@Query("SELECT p FROM Product p WHERE p.enabled = true AND p.category.id = :categoryId AND p.alias != :alias ORDER BY p.name ASC")

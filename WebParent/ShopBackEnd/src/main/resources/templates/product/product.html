@@ -82,13 +82,15 @@
 
                                     <th scope="col">Image</th>
 
-                                    <th th:replace="~{common/fragments :: column_link('name', ' Tên sả phẩm')}"></th>
+                                    <th th:replace="~{common/fragments :: column_link('name', ' Tên sản phẩm')}"></th>
 
                                     <th th:replace="~{common/fragments :: column_link('brand', ' Thương hiệu')}"></th>
 
                                     <th th:replace="~{common/fragments :: column_link('category', ' Danh mục')}"></th>
 
-                                    <th sec:authorize="hasAnyAuthority('Admin', 'Editor')" scope="col">Trạng thái</th>
+                                    <th th:replace="~{common/fragments :: column_link('productQuantity', ' Số lượng')}"></th>
+
+                                    <th scope="col">Trạng thái</th>
 
                                     <th scope="col">Khác</th>
                                 </tr>
@@ -113,7 +115,9 @@
 
                                     <td th:text="${product.category.name}">
 
-                                    <td sec:authorize="hasAnyAuthority('Admin', 'Editor')"
+                                    <td th:text="${product.productQuantity}">
+
+                                    <td
                                         th:replace="~{common/fragments :: status(${product.enabled}, '/admin/products/' + ${product.id})}" >
                                     </td>
 
@@ -124,9 +128,7 @@
                                             <a th:replace="~{common/fragments :: delete(${product.name},'sản phẩm', '/admin/products/delete/' + ${product.id})}" ></a>
                                         </th:block>
 
-                                        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson')">
-                                            <a th:replace="~{common/fragments :: edit('/admin/products/edit/' + ${product.id}) }"></a>
-                                        </th:block>
+                                        <a th:replace="~{common/fragments :: edit('/admin/products/edit/' + ${product.id}) }"></a>
 
                                     </td>
 

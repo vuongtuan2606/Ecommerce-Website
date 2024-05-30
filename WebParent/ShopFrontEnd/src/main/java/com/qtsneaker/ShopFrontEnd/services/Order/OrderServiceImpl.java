@@ -64,9 +64,7 @@ public class OrderServiceImpl implements OrderService {
         track.setStatus(OrderStatus.NEW);
         track.setNotes(OrderStatus.NEW.defaultDescription());
         track.setUpdatedTime(new Date());
-
         newOrder.getOrderTracks().add(track);
-
         return repository.save(newOrder);
     }
 

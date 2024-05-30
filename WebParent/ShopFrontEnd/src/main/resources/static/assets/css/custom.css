@@ -7,6 +7,10 @@
 .product-info {
 
 }
+.product-image{
+    width: 255px;
+    height: 255px;
+}
 .catagory-menu-wrap ul > li {
     list-style: none;
     display: inline-flex;

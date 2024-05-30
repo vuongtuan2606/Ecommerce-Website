@@ -5,6 +5,7 @@ import com.qtsneaker.ShopFrontEnd.services.Cart.CartService;
 import com.qtsneaker.ShopFrontEnd.services.Checkout.CheckoutInfo;
 import com.qtsneaker.ShopFrontEnd.services.Checkout.CheckoutService;
 import com.qtsneaker.ShopFrontEnd.services.Order.OrderService;
+import com.qtsneaker.ShopFrontEnd.services.Product.ProductService;
 import com.qtsneaker.ShopFrontEnd.services.Setting.SettingService;
 import com.qtsneaker.ShopFrontEnd.setting.CurrencySettingBag;
 import com.qtsneaker.ShopFrontEnd.setting.EmailSettingBag;
@@ -12,6 +13,7 @@ import com.qtsneaker.ShopFrontEnd.util.Utility;
 import com.qtsneaker.common.entity.Address;
 import com.qtsneaker.common.entity.Cart;
 import com.qtsneaker.common.entity.Customer;
+import com.qtsneaker.common.entity.Product;
 import com.qtsneaker.common.entity.order.Order;
 import com.qtsneaker.common.entity.order.OrderDetail;
 import com.qtsneaker.common.entity.order.PaymentMethod;
@@ -45,6 +47,8 @@ public class CheckoutController {
 
     @Autowired private SettingService settingService;
 
+    @Autowired private ProductService productService;
+
     @GetMapping("/checkout")
     public String showCheckoutPage(Model model, HttpServletRequest request) {
 
@@ -67,23 +71,28 @@ public class CheckoutController {
             throws UnsupportedEncodingException, MessagingException {
 
         String paymentType = request.getParameter("paymentMethod");
+
         PaymentMethod paymentMethod = PaymentMethod.valueOf(paymentType);
 
         Customer customer = helper.getAuthenticatedCustomer(request);
 
         Address defaultAddress = addressService.getDefaultAddress(customer);
 
-
         List<Cart> cartItems = cartService.listCartItems(customer);
+
         CheckoutInfo checkoutInfo = checkoutService.prepareCheckout(cartItems);
 
         Order createdOrder = orderService.createOrder(customer, defaultAddress, cartItems, paymentMethod, checkoutInfo);
 
-        // xóa thông tin khách hàng khỏi giỏ hàng
+        // Trừ số lượng sản phẩm đã đặt hàng từ cơ sở dữ liệu
+        for (Cart cartItem : cartItems) {
+            Product product = cartItem.getProduct();
+            Integer quantityOrdered = cartItem.getQuantity();
+            productService.decreaseProductQuantity(product.getId(), quantityOrdered);
+        }
+
         cartService.deleteByCustomer(customer);
-
         sendOrderConfirmationEmail(request, createdOrder);
-
         return "checkout/order_completed";
     }
 

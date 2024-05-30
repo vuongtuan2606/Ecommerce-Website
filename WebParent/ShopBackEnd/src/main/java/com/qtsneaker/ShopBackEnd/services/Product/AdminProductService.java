@@ -22,5 +22,5 @@ public interface AdminProductService {
 
     void updateCategoryEnabledStatus(Integer id, boolean enabled);
 
-    void saveProductPrice(Product productInForm);
+    void saveProductForSalesperson(Product productInForm);
 }

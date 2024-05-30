@@ -63,71 +63,17 @@
                                             <span>Không tìm thấy sản phẩm  </span>
                                         </div>
 
-                                        <!-- product filter -->
-                                        <div class="product-filter catalog-filter">
-                                            <div class="product-filter-mobile">
-                                                <a href="#" class="d-lg-none d-block"><i class="fa fa-sliders"></i></a>
-                                            </div>
-                                            <a href="#" class="d-none d-lg-block product-filter-btn"><i class="fa fa-filter"></i><span>Filter</span><i class="fa fa-angle-down"></i></a>
-                                            
-                                            <!-- product filter menu -->
-                                            <div class="product-filter-menu">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="woocommerce-products-header">
-                                                            <div class="shope-filter-item">
-                                                                <ul>
-                                                                    <li>
-                                                                        <a href="#">Category by</a>
-                                                                        <ul class="category-list">
-                                                                            <li><a href="#" class="active">Prints (5)</a></li>
-                                                                            <li><a href="#">Illustrations (4)</a></li>
-                                                                            <li><a href="#">Type (8)</a></li>
-                                                                            <li><a href="#">Decoration (9)</a></li>
-                                                                            <li><a href="#">Graphics (6)</a></li>
-                                                                            <li><a href="#">Posters (5)</a></li>
-                                                                        </ul>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#">By Price</a>
-                                                                        <ul class="price-list">
-                                                                            <li><a href="#" class="active">$0.00 - $50.00</a></li>
-                                                                            <li><a href="#">$51.00 - $100.00</a></li>
-                                                                            <li><a href="#">$101.00 - $300.00</a></li>
-                                                                            <li><a href="#">$301.00 - $800.00</a></li>
-                                                                            <li><a href="#">$801.00 - $1500.00</a></li>
-                                                                            <li><a href="#">$1501.00 - $3000.00</a></li>
-                                                                            <li><a href="#">$3001.00 +</a></li>
-                                                                        </ul>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#">By Size</a>
-                                                                        <ul class="size-list">
-                                                                            <li><a href="#" class="active"><span class="product-size">L</span></a></li>
-                                                                            <li><a href="#"><span class="product-size">40</span></a></li>
-                                                                        </ul> 
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End of product filter menu -->
-                                        </div>
-                                        <!--End of product filter -->
-
                                         <!-- sort by newest -->
                                         <div class="newest-product">
-                                            <a href="#" id="dropdownnewest" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-sort-amount-desc"></i><span>Sort by <span class="sort-by">newest</span></span><i class="fa fa-angle-down"></i></a>
+                                            <a href="#" id="dropdownnewest" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-sort-amount-desc"></i><span>Sort by <span class="sort-by"></span></span><i class="fa fa-angle-down"></i>
+                                            </a>
                                             <ul class="newest-product-option dropdown-menu-right dropdown-menu" aria-labelledby="dropdownnewest">
-                                                <li><a href="#" id="defaultOption">Default</a></li>
-                                                <li><a href="#" id="newestOption">Newest</a></li>
-                                                <li><a href="#" id="lowToHighOption">Price: Low to High</a></li>
-                                                <li><a href="#" id="highToLowOption">Price: High to Low</a></li>
+                                                <li><a href="#" onclick="sortProducts('createdTime', 'desc')">mới nhất</a></li>
+                                                <li><a href="#" onclick="sortProducts('price', 'asc')">Giá: thấp tới cao</a></li>
+                                                <li><a href="#" onclick="sortProducts('price', 'desc')">Giá: cao tới thấp</a></li>
                                             </ul>
                                         </div>
-                                        <!-- End of sort by newest -->
 
                                         <!-- End of product grid view -->
                                     </div>
@@ -205,13 +151,20 @@
     
     <!-- back to top -->
     <div class="back-to-top">
-            <a href="#">
-                <div class="back-toop-tooltip"><span>Back To Top</span></div>
-                <div class="top-array"></div>
-                <div class="top-line"></div>
-            </a>
-        </div>
-
+        <a href="#">
+            <div class="back-toop-tooltip"><span>Back To Top</span></div>
+            <div class="top-array"></div>
+            <div class="top-line"></div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        function sortProducts(sortField, sortDir) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('sortField', sortField);
+            urlParams.set('sortDir', sortDir);
+            window.location.search = urlParams.toString();
+        }
+    </script>
     <!-- JS Files -->
     <th:block th:replace="~{common/common :: script}"></th:block>
     </body>

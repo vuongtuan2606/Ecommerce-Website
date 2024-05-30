@@ -46,7 +46,7 @@ public class AdminProductController {
     private AdminSizeServices adminSizeServices;
     @GetMapping("/products")
     public String listFirstPage(Model model) {
-        return listByPage( "name", "asc", null,1, model,0);
+        return listByPage( "createdTime", "desc", null,1, model,0);
     }
 
     @GetMapping("/products/page/{pageNum}")
@@ -107,17 +107,12 @@ public class AdminProductController {
         List<Brand> listBrand = adminBrandService.listAll();
         Product product = new Product();
         product.setEnabled(true);
-        product.setInStock(true);
-
         model.addAttribute("product", product);
         model.addAttribute("listBrand", listBrand);
-
         List<Size> listSize =adminSizeServices.getListAll();
         model.addAttribute("listSize", listSize);
-
         model.addAttribute("pageTitle", "Thêm mới");
         model.addAttribute("numberOfExistingExtraImages", 0);
-
         return "/product/product_form";
     }
 
@@ -131,30 +126,23 @@ public class AdminProductController {
                               @AuthenticationPrincipal AdminUserDetails loggedUser)
             throws IOException {
 
-
         // kiểm tra xem người dùng hiện tại có vai trò "Salesperson" khôn
         if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Editor")) {
             if (loggedUser.hasRole("Salesperson")) {
                 // nếu có thì saveProductPrice
-                adminProductService.saveProductPrice(product);
+                adminProductService.saveProductForSalesperson(product);
                 redirectAttributes.addFlashAttribute("message", "Sản phảm đã được lưu thành công");
                 return "redirect:/admin/products";
             }
         }
-
         AdminProductSaveHelper.setMainImageName(mainImageMultipart, product);
         AdminProductSaveHelper.setExistingExtraImageNames(imageIDs, imageNames, product);
         AdminProductSaveHelper.setNewExtraImageNames(extraImageMultipart, product);
-
         Product savedProduct = adminProductService.save(product);
-
         AdminProductSaveHelper.saveUploadedImages(mainImageMultipart, extraImageMultipart, savedProduct);
-
         // Xóa ExtraImages đã bị xóa trên form
         AdminProductSaveHelper.deleteExtraImagesWereRemovedOnForm(product);
-
         redirectAttributes.addFlashAttribute("message", "Sản phảm đã được lưu thành công");
-
         return "redirect:/admin/products";
     }
     @GetMapping("/products/delete/{id}")

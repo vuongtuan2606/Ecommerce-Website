@@ -31,6 +31,7 @@ public class CartServiceImpl implements CartService {
         // Tìm kiếm cartItem tương ứng trong cơ sở dữ liệu dựa trên customer, product và sizeId
         Cart cartItem = cartRepository.findByCustomerAndProductAndProductSize(customer, product, sizeId);
 
+
         // Nếu mục cartItem đã tồn tại
         if (cartItem != null) {
             // Cập nhật số lượng mới bằng tổng của số lượng hiện tại và số lượng được thêm vào
@@ -69,12 +70,21 @@ public class CartServiceImpl implements CartService {
 
    /* Cập nhật số lượng của một sản phẩm trong giỏ hàng*/
     @Override
-    public float updateQuantity(Integer productId, Integer quantity, Customer customer, Integer sizeId) {
-        // Cập nhật số lượng của sản phẩm trong giỏ hàng
-        cartRepository.updateQuantity(quantity, customer.getId(), productId,sizeId);
+    public float updateQuantity(Integer productId, Integer quantity, Customer customer, Integer sizeId) throws CartException {
 
         // Lấy thông tin sản phẩm từ productRepository dựa trên productId
         Product product = productRepository.findById(productId).get();
+
+        // Lấy số lượng sản phẩm hiện có trong kho
+        Integer availableStock = product.getProductQuantity();
+
+        // Kiểm tra nếu số lượng yêu cầu lớn hơn số lượng hiện có trong kho
+        if (quantity > availableStock) {
+            throw new CartException("Số lượng yêu cầu lớn hơn số lượng hiện có trong kho.");
+        }
+
+        // Cập nhật số lượng của sản phẩm trong giỏ hàng
+        cartRepository.updateQuantity(quantity, customer.getId(), productId,sizeId);
 
         // Tính tổng cộng giá trị của sản phẩm sau khi cập nhật số lượng
         float subtotal = product.getDiscountPrice() * quantity;

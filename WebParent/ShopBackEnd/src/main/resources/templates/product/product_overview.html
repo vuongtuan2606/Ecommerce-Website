@@ -30,7 +30,6 @@
     <div class="col-12 pb-3">
         <label class="form-label">Thương hiệu</label>
 
-
         <th:block th:unless="${isReadOnlyForSalesperson}">
             <select th:field="*{brand}" class="form-control" required>
                 <option th:each="temp : ${listBrand}" th:value="${temp.id}" th:text="${temp.name}"   />
@@ -65,16 +64,9 @@
 
     <div class="col-12 pb-3">
         <label class="form-label">Chọn một hoặc nhiều size</label>
-
-        <th:block th:if="${isReadOnlyForSalesperson}">
-            <input type="text" class="form-control" th:value="${selectedSizesAsString}" readonly />
-        </th:block>
-
-        <th:block th:unless="${isReadOnlyForSalesperson}">
-            <select th:field="*{sizes}" class="form-control" multiple required>
-                <option th:each="temp : ${listSize}" th:value="${temp.id}" th:text="${temp.name}" />
-            </select>
-        </th:block>
+        <select th:field="*{sizes}" class="form-control" multiple required>
+            <option th:each="temp : ${listSize}" th:value="${temp.id}" th:text="${temp.name}" />
+        </select>
     </div>
 
     <div class="col-12">
@@ -84,29 +76,9 @@
         </div>
     </div>
 
-
     <div class="col-12 pb-3">
-        <label class="form-label">Trạng thái</label>
-
-        <th:block th:if="${isReadOnlyForSalesperson}">
-            <input type="checkbox" th:field="*{enabled}" disabled="disabled"  class="form-check-input" style="margin-left: 5px" >
-        </th:block>
-
-        <th:block th:unless="${isReadOnlyForSalesperson}">
-            <input type="checkbox" th:field="*{enabled}" class="form-check-input" style="margin-left: 5px" />
-        </th:block>
-    </div>
-
-    <div class="col-12 pb-3">
-        <label class="form-label">Còn hàng</label>
-
-        <th:block th:if="${isReadOnlyForSalesperson}">
-            <input type="checkbox" th:field="*{inStock}" disabled="disabled" class="form-check-input" style="margin-left: 5px" />
-        </th:block>
-
-        <th:block th:unless="${isReadOnlyForSalesperson}">
-            <input type="checkbox" th:field="*{inStock}"  class="form-check-input" style="margin-left: 5px"/>
-        </th:block>
+        <label class="form-label">Số lượng</label>
+        <input type="number" class="form-control" th:field="*{productQuantity}"  >
     </div>
 
     <div class="col-12 pb-3 ">
@@ -124,6 +96,10 @@
         <input type="number" class="form-control"  th:field="*{discountPercent}"  >
     </div>
 
+    <div class="col-12 pb-3">
+        <label class="form-label">Trạng thái</label>
+        <input type="checkbox" th:field="*{enabled}" class="form-check-input" style="margin-left: 5px" />
+    </div>
 </div>
 </body>
 </html>

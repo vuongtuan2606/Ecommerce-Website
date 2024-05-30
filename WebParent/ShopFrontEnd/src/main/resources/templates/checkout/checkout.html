@@ -53,12 +53,12 @@
                                         <h3>Chi tiết thanh toán</h3>
                                     </div>
                                     <div class="address-header">
-                                        <h3 >Địa chỉ</h3>
+                                        <h3>Địa chỉ</h3>
                                         <div class="address-content">
-                                            <p>[[${defaultAddress.toString()}]]</p>
+                                            <p th:text="${defaultAddress != null ? defaultAddress : 'Bạn chưa thêm địa chỉ mua hàng'}"></p>
                                         </div>
                                         <div class="address-footer">
-                                           <a th:href="@{/account_details}">Thay đổi địa chỉ khác</a>
+                                            <a th:href="@{/account_details}">Thay đổi địa chỉ khác</a>
                                         </div>
                                     </div>
                                 </div>

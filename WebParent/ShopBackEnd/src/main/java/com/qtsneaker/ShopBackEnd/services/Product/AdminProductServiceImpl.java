@@ -124,12 +124,13 @@ public class AdminProductServiceImpl implements AdminProductService {
             adminProductRepository.updateEnabledStatus(id, enabled);
     }
     @Override
-    public void saveProductPrice(Product productInForm) {
+    public void saveProductForSalesperson(Product productInForm) {
         Product productInDB = adminProductRepository.findById(productInForm.getId()).get();
-
+        productInDB.setSizes(productInForm.getSizes());
+        productInDB.setProductQuantity(productInForm.getProductQuantity());
+        productInDB.setCost(productInForm.getCost());
         productInDB.setPrice(productInForm.getPrice());
         productInDB.setDiscountPercent(productInForm.getDiscountPercent());
-
         adminProductRepository.save(productInDB);
     }
 

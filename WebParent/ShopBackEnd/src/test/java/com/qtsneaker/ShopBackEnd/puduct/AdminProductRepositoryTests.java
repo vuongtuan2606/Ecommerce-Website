@@ -52,7 +52,6 @@ public class AdminProductRepositoryTests {
 
         product.setPrice(200);
         product.setEnabled(true);
-        product.setInStock(true);
 
         product.setCreatedTime(new Date());
         product.setUpdatedTime(new Date());

@@ -4,15 +4,13 @@ package com.qtsneaker.common.entity.order;
 import com.qtsneaker.common.entity.Category;
 import com.qtsneaker.common.entity.IdBasedEntity;
 import com.qtsneaker.common.entity.Product;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tbl_order_details")
 public class OrderDetail extends IdBasedEntity {
 	private int quantity;
+	@Column(name = "product_cost")
 	private float productCost;
 	private float unitPrice;
 	private float subtotal;
@@ -31,14 +29,14 @@ public class OrderDetail extends IdBasedEntity {
 		this.product = new Product();
 		this.product.setCategory(new Category(categoryName));
 		this.quantity = quantity;
-		this.productCost = productCost * quantity;
+		this.productCost = productCost ;
 		this.subtotal = subtotal;
 	}
 
 	public OrderDetail(int quantity, String productName, float productCost,  float subtotal) {
 		this.product = new Product(productName);
 		this.quantity = quantity;
-		this.productCost = productCost * quantity;
+		this.productCost = productCost;
 		this.subtotal = subtotal;
 	}
 
